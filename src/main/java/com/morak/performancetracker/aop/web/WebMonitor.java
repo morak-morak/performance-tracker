@@ -9,7 +9,7 @@ public class WebMonitor {
     private String uri;
     private String method;
     private long requestTime;
-    private double elapsed;
+    private long elapsed;
 
     public void start(HttpServletRequest request) {
         uri = request.getRequestURI();
@@ -18,7 +18,7 @@ public class WebMonitor {
     }
 
     public void end() {
-        this.elapsed += System.nanoTime() - requestTime;
+        this.elapsed = System.nanoTime() - requestTime;
     }
 
     public String getUri() {

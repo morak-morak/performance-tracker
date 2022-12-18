@@ -1,5 +1,6 @@
 package com.morak.performancetracker.aop.persistence;
 
+import com.morak.performancetracker.utils.TimeUnits;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,16 +22,12 @@ public class PerformanceMonitor {
         queryCount++;
     }
 
-    private double convertNanoToMilli(double nano) {
-        return nano / 1_000_000.0;
-    }
-
     @Override
     public String toString() {
         return String.format(
                 "쿼리 개수: %d, 쿼리 시간: %f ms",
                 queryCount,
-                convertNanoToMilli(queryTime)
+                TimeUnits.convertNanoToMilli(queryTime)
         );
     }
 }

@@ -1,5 +1,6 @@
 package com.morak.performancetracker.aop.web;
 
+import com.morak.performancetracker.utils.TimeUnits;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +38,7 @@ public class WebMonitor {
         return "WebMonitor{" +
                 "uri='" + uri + '\'' +
                 ", method='" + method + '\'' +
-                ", elapsed=" + elapsed +
+                ", elapsed=" + TimeUnits.convertNanoToMilli(elapsed) +
                 '}';
     }
 }

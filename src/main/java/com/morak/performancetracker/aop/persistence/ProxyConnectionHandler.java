@@ -1,4 +1,4 @@
-package com.morak.performancetracker.aop;
+package com.morak.performancetracker.aop.persistence;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

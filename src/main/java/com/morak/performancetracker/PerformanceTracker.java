@@ -1,6 +1,6 @@
 package com.morak.performancetracker;
 
-import com.morak.performancetracker.aop.PerformanceConfiguration;
+import com.morak.performancetracker.aop.configuration.PerformanceConfiguration;
 import com.morak.performancetracker.junit.PerformanceTrackerSetupExtension;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

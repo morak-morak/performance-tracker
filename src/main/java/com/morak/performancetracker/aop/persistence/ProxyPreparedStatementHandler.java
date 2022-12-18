@@ -1,4 +1,4 @@
-package com.morak.performancetracker.aop;
+package com.morak.performancetracker.aop.persistence;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -16,21 +16,20 @@ public class ProxyPreparedStatementHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        if (isExecute(method)) {
-            return measureQueryPerformance(method, args);
+        if (!isExecution(method)) {
+            return method.invoke(preparedStatement, args);
         }
-        return method.invoke(preparedStatement, args);
+        return measureQueryPerformance(method, args);
     }
 
-    private boolean isExecute(Method method) {
+    private boolean isExecution(Method method) {
         return method.getName().contains(EXECUTION_PREFIX);
     }
 
     private Object measureQueryPerformance(Method method, Object[] args) throws Throwable {
-        long startTime = System.nanoTime();
+        performanceMonitor.start();
         Object returnValue = method.invoke(preparedStatement, args);
-        performanceMonitor.addQueryTime(System.nanoTime() - startTime);
-        performanceMonitor.increaseQueryCount();
+        performanceMonitor.end();
         return returnValue;
     }
 }

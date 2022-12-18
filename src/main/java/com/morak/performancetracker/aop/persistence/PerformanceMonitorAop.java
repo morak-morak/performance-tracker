@@ -1,4 +1,4 @@
-package com.morak.performancetracker.aop;
+package com.morak.performancetracker.aop.persistence;
 
 import java.lang.reflect.Proxy;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -36,5 +36,9 @@ public class PerformanceMonitorAop {
 
     private boolean isFlagOn() {
         return this.flag;
+    }
+
+    public PerformanceMonitor getPerformanceMonitor() {
+        return performanceMonitor;
     }
 }

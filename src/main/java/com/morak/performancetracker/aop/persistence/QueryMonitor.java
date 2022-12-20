@@ -22,6 +22,12 @@ public class QueryMonitor {
         queryCount++;
     }
 
+    public void clear() {
+        this.startTime = 0;
+        this.queryTime = 0;
+        this.queryCount = 0;
+    }
+
     @Override
     public String toString() {
         return String.format(

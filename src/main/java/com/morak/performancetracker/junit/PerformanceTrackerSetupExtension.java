@@ -1,5 +1,6 @@
 package com.morak.performancetracker.junit;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.morak.performancetracker.aop.persistence.QueryMonitor;
 import com.morak.performancetracker.aop.persistence.PerformanceMonitorAop;
 import com.morak.performancetracker.aop.web.WebMonitor;
@@ -19,7 +20,6 @@ public class PerformanceTrackerSetupExtension implements BeforeEachCallback, Aft
     public void beforeEach(ExtensionContext context) {
         ApplicationContext applicationContext = SpringExtension.getApplicationContext(context);
         PerformanceMonitorAop aop = applicationContext.getBean(PerformanceMonitorAop.class);
-        aop.setFlag();
     }
 
     @Override
@@ -30,5 +30,8 @@ public class PerformanceTrackerSetupExtension implements BeforeEachCallback, Aft
 
         log.info(monitor.toString());
         log.info(webMonitor.toString());
+
+        monitor.clear();
+        webMonitor.clear();
     }
 }

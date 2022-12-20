@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 public class PerformanceMonitorAop {
 
     private final QueryMonitor queryMonitor;
-    private boolean flag;
 
     public PerformanceMonitorAop(QueryMonitor queryMonitor) {
         this.queryMonitor = queryMonitor;
@@ -20,22 +19,11 @@ public class PerformanceMonitorAop {
     @Around("execution(* javax.sql.DataSource.getConnection())")
     public Object datasource(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object returnValue = proceedingJoinPoint.proceed();
-        if (isFlagOn()) {
-            return Proxy.newProxyInstance(
-                    returnValue.getClass().getClassLoader(),
-                    returnValue.getClass().getInterfaces(),
-                    new ProxyConnectionHandler(returnValue, queryMonitor)
-            );
-        }
-        return returnValue;
-    }
-
-    public void setFlag() {
-        this.flag = true;
-    }
-
-    private boolean isFlagOn() {
-        return this.flag;
+        return Proxy.newProxyInstance(
+                returnValue.getClass().getClassLoader(),
+                returnValue.getClass().getInterfaces(),
+                new ProxyConnectionHandler(returnValue, queryMonitor)
+        );
     }
 
     public QueryMonitor getPerformanceMonitor() {

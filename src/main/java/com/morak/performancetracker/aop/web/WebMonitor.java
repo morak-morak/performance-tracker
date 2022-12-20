@@ -21,6 +21,13 @@ public class WebMonitor {
         this.elapsed = System.nanoTime() - requestTime;
     }
 
+    public void clear() {
+        uri = null;
+        method = null;
+        requestTime = 0;
+        elapsed = 0;
+    }
+
     public String getUri() {
         return uri;
     }

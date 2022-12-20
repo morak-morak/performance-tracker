@@ -13,6 +13,5 @@ import org.springframework.context.annotation.Import;
 @Target(ElementType.TYPE)
 @ExtendWith(PerformanceTrackerSetupExtension.class)
 @Import({PerformanceConfiguration.class})
-
 public @interface PerformanceTracker {
 }

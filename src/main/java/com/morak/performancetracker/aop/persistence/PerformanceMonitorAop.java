@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class PerformanceMonitorAop {
 
-    private final PerformanceMonitor performanceMonitor;
+    private final QueryMonitor queryMonitor;
     private boolean flag;
 
-    public PerformanceMonitorAop(PerformanceMonitor performanceMonitor) {
-        this.performanceMonitor = performanceMonitor;
+    public PerformanceMonitorAop(QueryMonitor queryMonitor) {
+        this.queryMonitor = queryMonitor;
     }
 
     @Around("execution(* javax.sql.DataSource.getConnection())")
@@ -24,7 +24,7 @@ public class PerformanceMonitorAop {
             return Proxy.newProxyInstance(
                     returnValue.getClass().getClassLoader(),
                     returnValue.getClass().getInterfaces(),
-                    new ProxyConnectionHandler(returnValue, performanceMonitor)
+                    new ProxyConnectionHandler(returnValue, queryMonitor)
             );
         }
         return returnValue;
@@ -38,7 +38,7 @@ public class PerformanceMonitorAop {
         return this.flag;
     }
 
-    public PerformanceMonitor getPerformanceMonitor() {
-        return performanceMonitor;
+    public QueryMonitor getPerformanceMonitor() {
+        return queryMonitor;
     }
 }

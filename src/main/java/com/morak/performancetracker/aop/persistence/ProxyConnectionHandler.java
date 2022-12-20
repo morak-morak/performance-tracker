@@ -9,11 +9,11 @@ public class ProxyConnectionHandler implements InvocationHandler {
     private static final String METHOD_SUFFIX = "Statement";
 
     private final Object connection;
-    private final PerformanceMonitor performanceMonitor;
+    private final QueryMonitor queryMonitor;
 
-    public ProxyConnectionHandler(Object connection, PerformanceMonitor performanceMonitor) {
+    public ProxyConnectionHandler(Object connection, QueryMonitor queryMonitor) {
         this.connection = connection;
-        this.performanceMonitor = performanceMonitor;
+        this.queryMonitor = queryMonitor;
     }
 
     @Override
@@ -23,7 +23,7 @@ public class ProxyConnectionHandler implements InvocationHandler {
             return Proxy.newProxyInstance(
                     returnValue.getClass().getClassLoader(),
                     returnValue.getClass().getInterfaces(),
-                    new ProxyPreparedStatementHandler(returnValue, performanceMonitor)
+                    new ProxyPreparedStatementHandler(returnValue, queryMonitor)
             );
         }
         return returnValue;

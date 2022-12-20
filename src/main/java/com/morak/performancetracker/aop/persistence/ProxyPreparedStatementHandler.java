@@ -7,11 +7,11 @@ public class ProxyPreparedStatementHandler implements InvocationHandler {
 
     private static final String EXECUTION_PREFIX = "execute";
     private final Object preparedStatement;
-    private final PerformanceMonitor performanceMonitor;
+    private final QueryMonitor queryMonitor;
 
-    public ProxyPreparedStatementHandler(Object preparedStatement, PerformanceMonitor performanceMonitor) {
+    public ProxyPreparedStatementHandler(Object preparedStatement, QueryMonitor queryMonitor) {
         this.preparedStatement = preparedStatement;
-        this.performanceMonitor = performanceMonitor;
+        this.queryMonitor = queryMonitor;
     }
 
     @Override
@@ -27,9 +27,9 @@ public class ProxyPreparedStatementHandler implements InvocationHandler {
     }
 
     private Object measureQueryPerformance(Method method, Object[] args) throws Throwable {
-        performanceMonitor.start();
+        queryMonitor.start();
         Object returnValue = method.invoke(preparedStatement, args);
-        performanceMonitor.end();
+        queryMonitor.end();
         return returnValue;
     }
 }

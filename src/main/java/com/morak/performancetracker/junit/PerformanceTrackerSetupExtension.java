@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.morak.performancetracker.aop.persistence.QueryMonitor;
 import com.morak.performancetracker.aop.persistence.PerformanceMonitorAop;
 import com.morak.performancetracker.aop.web.WebMonitor;
+import java.util.Optional;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -25,6 +26,11 @@ public class PerformanceTrackerSetupExtension implements BeforeEachCallback, Aft
     @Override
     public void afterEach(ExtensionContext context) {
         ApplicationContext applicationContext = SpringExtension.getApplicationContext(context);
+        Optional<Throwable> executionException = context.getExecutionException();
+        if (executionException.isPresent()) {
+            System.out.println("fails on test execution");
+            return;
+        }
         QueryMonitor monitor = applicationContext.getBean(QueryMonitor.class);
         WebMonitor webMonitor = applicationContext.getBean(WebMonitor.class);
 

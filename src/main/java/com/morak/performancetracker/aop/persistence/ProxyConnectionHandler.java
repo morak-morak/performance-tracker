@@ -19,7 +19,7 @@ public class ProxyConnectionHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object returnValue = method.invoke(connection, args);
-        if (isPrepareStatement(method)) {
+        if (isStatement(method)) {
             return Proxy.newProxyInstance(
                     returnValue.getClass().getClassLoader(),
                     returnValue.getClass().getInterfaces(),
@@ -29,7 +29,7 @@ public class ProxyConnectionHandler implements InvocationHandler {
         return returnValue;
     }
 
-    private boolean isPrepareStatement(Method method) {
+    private boolean isStatement(Method method) {
         return method.getName().endsWith(METHOD_SUFFIX);
     }
 }

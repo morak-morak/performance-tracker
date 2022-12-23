@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Aspect
-public class PerformanceMonitorAop {
+public class QueryMonitorAop {
 
     private final QueryMonitor queryMonitor;
 
-    public PerformanceMonitorAop(QueryMonitor queryMonitor) {
+    public QueryMonitorAop(QueryMonitor queryMonitor) {
         this.queryMonitor = queryMonitor;
     }
 
@@ -24,9 +24,5 @@ public class PerformanceMonitorAop {
                 returnValue.getClass().getInterfaces(),
                 new ProxyConnectionHandler(returnValue, queryMonitor)
         );
-    }
-
-    public QueryMonitor getPerformanceMonitor() {
-        return queryMonitor;
     }
 }

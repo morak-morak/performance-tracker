@@ -2,9 +2,11 @@ package com.morak.performancetracker.aop.web;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+@Component
 public class PerformanceInterceptor implements HandlerInterceptor {
 
     private final WebMonitor webMonitor;
@@ -15,10 +17,9 @@ public class PerformanceInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if (isPreflight(request)) {
-            return true;
+        if (!isPreflight(request)) {
+            webMonitor.start(request);
         }
-        webMonitor.start(request);
         return true;
     }
 

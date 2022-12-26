@@ -7,14 +7,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
 
-    private final WebMonitor webMonitor;
+    private final PerformanceInterceptor interceptor;
 
-    public WebConfiguration(WebMonitor webMonitor) {
-        this.webMonitor = webMonitor;
+    public WebConfiguration(PerformanceInterceptor interceptor) {
+        this.interceptor = interceptor;
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new PerformanceInterceptor(webMonitor));
+        registry.addInterceptor(interceptor);
     }
 }

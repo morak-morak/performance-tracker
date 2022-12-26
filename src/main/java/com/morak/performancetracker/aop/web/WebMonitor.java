@@ -41,6 +41,10 @@ public class WebMonitor implements Monitor {
         return requestTime;
     }
 
+    public long getElapsed() {
+        return elapsed;
+    }
+
     @Override
     public String toString() {
         return "WebMonitor{" +

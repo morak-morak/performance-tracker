@@ -3,7 +3,7 @@ package com.morak.performancetracker;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatNoException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import com.morak.performancetracker.aop.configuration.PerformanceConfiguration;
+import com.morak.performancetracker.configuration.PerformanceConfiguration;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;

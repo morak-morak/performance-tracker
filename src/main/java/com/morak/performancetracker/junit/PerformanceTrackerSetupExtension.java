@@ -1,8 +1,7 @@
 package com.morak.performancetracker.junit;
 
 import com.morak.performancetracker.Monitor;
-import com.morak.performancetracker.aop.persistence.QueryMonitor;
-import com.morak.performancetracker.aop.web.WebMonitor;
+import com.morak.performancetracker.description.Descriptor;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -20,20 +19,15 @@ public class PerformanceTrackerSetupExtension implements AfterEachCallback {
     @Override
     public void afterEach(ExtensionContext context) {
         ApplicationContext applicationContext = SpringExtension.getApplicationContext(context);
-        Optional<Throwable> executionException = context.getExecutionException();
-        if (executionException.isPresent()) {
+        if (context.getExecutionException().isPresent()) {
             log.warn("fails on test execution");
             return;
         }
-        QueryMonitor monitor = applicationContext.getBean(QueryMonitor.class);
-        WebMonitor webMonitor = applicationContext.getBean(WebMonitor.class);
-
+        Descriptor descriptor = applicationContext.getBean(Descriptor.class);
         Map<String, Monitor> beansOfType = applicationContext.getBeansOfType(Monitor.class);
-        for (Entry<String, Monitor> entry : beansOfType.entrySet()) {
-            log.info(entry.getValue().getResult());
+        for (Monitor monitor : beansOfType.values()) {
+            descriptor.describe(monitor.getResult());
+            monitor.clear();
         }
-
-        monitor.clear();
-        webMonitor.clear();
     }
 }

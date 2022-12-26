@@ -1,11 +1,12 @@
 package com.morak.performancetracker.aop.web;
 
+import com.morak.performancetracker.Monitor;
 import com.morak.performancetracker.utils.TimeUnits;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WebMonitor {
+public class WebMonitor implements Monitor {
     private String uri;
     private String method;
     private long requestTime;
@@ -42,6 +43,15 @@ public class WebMonitor {
 
     @Override
     public String toString() {
+        return "WebMonitor{" +
+                "uri='" + uri + '\'' +
+                ", method='" + method + '\'' +
+                ", elapsed=" + TimeUnits.convertNanoToMilli(elapsed) +
+                '}';
+    }
+
+    @Override
+    public String getResult() {
         return "WebMonitor{" +
                 "uri='" + uri + '\'' +
                 ", method='" + method + '\'' +

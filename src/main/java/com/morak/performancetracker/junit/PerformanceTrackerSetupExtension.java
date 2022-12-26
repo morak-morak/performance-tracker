@@ -3,8 +3,6 @@ package com.morak.performancetracker.junit;
 import com.morak.performancetracker.Monitor;
 import com.morak.performancetracker.description.Descriptor;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
@@ -26,6 +24,9 @@ public class PerformanceTrackerSetupExtension implements AfterEachCallback {
         Descriptor descriptor = applicationContext.getBean(Descriptor.class);
         Map<String, Monitor> beansOfType = applicationContext.getBeansOfType(Monitor.class);
         for (Monitor monitor : beansOfType.values()) {
+            if (monitor.getResult() == null) {
+                continue;
+            }
             descriptor.describe(monitor.getResult());
             monitor.clear();
         }

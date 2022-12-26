@@ -33,6 +33,18 @@ public class QueryMonitor implements Monitor {
         this.queryCount = 0;
     }
 
+    @Override
+    public String getResult() {
+        if (queryCount == 0) {
+            return null;
+        }
+        return String.format(
+                "쿼리 개수: %d, 쿼리 시간: %f ms",
+                queryCount,
+                TimeUnits.convertNanoToMilli(queryTime)
+        );
+    }
+
     public long getStartTime() {
         return startTime;
     }
@@ -47,15 +59,6 @@ public class QueryMonitor implements Monitor {
 
     @Override
     public String toString() {
-        return String.format(
-                "쿼리 개수: %d, 쿼리 시간: %f ms",
-                queryCount,
-                TimeUnits.convertNanoToMilli(queryTime)
-        );
-    }
-
-    @Override
-    public String getResult() {
         return String.format(
                 "쿼리 개수: %d, 쿼리 시간: %f ms",
                 queryCount,

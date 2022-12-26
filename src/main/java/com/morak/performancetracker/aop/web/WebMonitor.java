@@ -57,6 +57,9 @@ public class WebMonitor implements Monitor {
 
     @Override
     public String getResult() {
+        if (uri == null) {
+            return null;
+        }
         return "WebMonitor{" +
                 "uri='" + uri + '\'' +
                 ", method='" + method + '\'' +

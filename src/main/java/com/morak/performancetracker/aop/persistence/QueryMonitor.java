@@ -26,6 +26,7 @@ public class QueryMonitor implements Monitor {
         queryCount++;
     }
 
+    @Override
     public void clear() {
         this.startTime = 0;
         this.queryTime = 0;

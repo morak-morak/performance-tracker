@@ -22,6 +22,7 @@ public class WebMonitor implements Monitor {
         this.elapsed = System.nanoTime() - requestTime;
     }
 
+    @Override
     public void clear() {
         uri = null;
         method = null;

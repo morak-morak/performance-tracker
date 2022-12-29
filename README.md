@@ -2,7 +2,21 @@
 Track your application's performance based on Spring.
 
 ## How to use
-Just annotate `@PerformanceTracker` on your test class. Below is an example.
+Add dependency on your `build.gradle`
+
+```groovy
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+...
+
+dependencies {
+    testImplementation 'com.github.morak-morak:performance-tracker:master-SNAPSHOT'
+}
+```
+
+And just annotate `@PerformanceTracker` on your test class. Below is an example.
 
 ```java
 @PerformanceTracker

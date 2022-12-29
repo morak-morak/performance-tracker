@@ -19,7 +19,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop:2.7.6'
     implementation 'org.springframework.boot:spring-boot-starter-test:2.7.6'
 
-    testRuntimeOnly 'com.h2database:h2'
+    testRuntimeOnly 'com.h2database:h2:1.4.200'
 }
 
 tasks.named('test') {

@@ -6,7 +6,7 @@ import java.lang.reflect.Proxy;
 
 public class ProxyConnectionHandler implements InvocationHandler {
 
-    private static final String METHOD_SUFFIX = "Statement";
+    private static final String METHOD_SUFFIX = "prepareStatement";
 
     private final Object connection;
     private final QueryMonitor queryMonitor;

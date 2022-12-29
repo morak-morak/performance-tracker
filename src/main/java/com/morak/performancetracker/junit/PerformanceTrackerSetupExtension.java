@@ -1,8 +1,7 @@
 package com.morak.performancetracker.junit;
 
 import com.morak.performancetracker.Monitor;
-import com.morak.performancetracker.description.Descriptor;
-import java.util.Map;
+import com.morak.performancetracker.context.ContextManager;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
@@ -18,17 +17,10 @@ public class PerformanceTrackerSetupExtension implements AfterEachCallback {
     public void afterEach(ExtensionContext context) {
         ApplicationContext applicationContext = SpringExtension.getApplicationContext(context);
         if (context.getExecutionException().isPresent()) {
-            log.warn("fails on test execution");
+            log.warn("fails on test execution" + context.getDisplayName());
             return;
         }
-        Descriptor descriptor = applicationContext.getBean(Descriptor.class);
-        Map<String, Monitor> beansOfType = applicationContext.getBeansOfType(Monitor.class);
-        for (Monitor monitor : beansOfType.values()) {
-            if (monitor.getResult() == null) {
-                continue;
-            }
-            descriptor.describe(monitor.getResult());
-            monitor.clear();
-        }
+        ContextManager manager = applicationContext.getBean(ContextManager.class);
+        manager.manage(applicationContext.getBeansOfType(Monitor.class).values());
     }
 }

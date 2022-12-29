@@ -56,13 +56,4 @@ public class QueryMonitor implements Monitor {
     public double getQueryTime() {
         return queryTime;
     }
-
-    @Override
-    public String toString() {
-        return String.format(
-                "쿼리 개수: %d, 쿼리 시간: %f ms",
-                queryCount,
-                TimeUnits.convertNanoToMilli(queryTime)
-        );
-    }
 }

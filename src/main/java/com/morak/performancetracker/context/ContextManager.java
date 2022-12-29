@@ -2,6 +2,7 @@ package com.morak.performancetracker.context;
 
 import com.morak.performancetracker.Monitor;
 import com.morak.performancetracker.description.Descriptor;
+import com.morak.performancetracker.result.Result;
 import java.util.Collection;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +17,8 @@ public class ContextManager {
 
     public void manage(Collection<Monitor> monitors) {
         for (Monitor monitor : monitors) {
-            if (monitor.getResult() == null) {
-                continue;
-            }
-            descriptor.describe(monitor.getResult());
-            monitor.clear();
+            Result result = Result.of(monitor);
+            descriptor.describe(result);
         }
     }
 }

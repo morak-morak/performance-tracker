@@ -19,6 +19,7 @@ public class ContextManager {
         for (Monitor monitor : monitors) {
             Result result = Result.of(monitor);
             descriptor.describe(result);
+            monitor.clear();
         }
     }
 }

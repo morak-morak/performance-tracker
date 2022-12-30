@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="LOGS_ABSOLUTE_PATH" value="./logs"/>
+    <springProperty name="USER_PATH" source="performance.path"/>
+    <property name="LOGS_ABSOLUTE_PATH" value="./logs/"/>
+    <if condition='!"${USER_PATH}".equals("USER_PATH_IS_UNDEFINED")'>
+        <then>
+            <property name="LOGS_ABSOLUTE_PATH" value='${USER_PATH}'/>
+        </then>
+    </if>
+
     <property name="LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] %-5level %logger{36} - %msg%n"/>
     <property name="MAX_HISTORY" value="30"/>
     <property name="PERFORMANCE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} %-5level %msg%n"/>

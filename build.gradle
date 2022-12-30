@@ -18,6 +18,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.7.6'
     implementation 'org.springframework.boot:spring-boot-starter-aop:2.7.6'
     implementation 'org.springframework.boot:spring-boot-starter-test:2.7.6'
+    implementation 'org.codehaus.janino:janino:3.1.6'
+
 
     testRuntimeOnly 'com.h2database:h2:1.4.200'
 }

@@ -1,25 +1,11 @@
 package com.morak.performancetracker.context;
 
 import com.morak.performancetracker.Monitor;
-import com.morak.performancetracker.description.Descriptor;
-import com.morak.performancetracker.result.Result;
 import java.util.Collection;
-import org.springframework.stereotype.Component;
 
-@Component
-public class ContextManager {
+public interface ContextManager {
 
-    private final Descriptor descriptor;
+    void afterEach(Collection<Monitor> monitors);
 
-    public ContextManager(Descriptor descriptor) {
-        this.descriptor = descriptor;
-    }
-
-    public void manage(Collection<Monitor> monitors) {
-        for (Monitor monitor : monitors) {
-            Result result = Result.of(monitor);
-            descriptor.describe(result);
-            monitor.clear();
-        }
-    }
+    void afterAll(Collection<Monitor> monitors);
 }

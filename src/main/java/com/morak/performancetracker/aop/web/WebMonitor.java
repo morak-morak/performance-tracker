@@ -54,16 +54,4 @@ public class WebMonitor implements Monitor {
                 ", elapsed=" + TimeUnits.convertNanoToMilli(elapsed) +
                 '}';
     }
-
-    @Override
-    public String getResult() {
-        if (uri == null) {
-            return null;
-        }
-        return "WebMonitor{" +
-                "uri='" + uri + '\'' +
-                ", method='" + method + '\'' +
-                ", elapsed=" + TimeUnits.convertNanoToMilli(elapsed) +
-                '}';
-    }
 }

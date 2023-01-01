@@ -1,20 +1,12 @@
 package com.morak.performancetracker.result;
 
-import com.morak.performancetracker.Monitor;
-
 public class Result {
 
-    private final String result;
+    private final String name;
+    private final double elapsed;
 
-    public Result(String result) {
-        this.result = result;
-    }
-
-    public static Result of(Monitor monitor) {
-        return new Result(monitor.getResult());
-    }
-
-    public String getResult() {
-        return result;
+    public Result(String name, double elapsed) {
+        this.name = name;
+        this.elapsed = elapsed;
     }
 }

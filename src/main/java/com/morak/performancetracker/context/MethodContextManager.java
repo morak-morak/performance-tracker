@@ -9,16 +9,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class MethodContextManager implements ContextManager {
 
+    private final ResultMapper resultMapper;
     private final Descriptor descriptor;
 
-    public MethodContextManager(Descriptor descriptor) {
+    public MethodContextManager(ResultMapper resultMapper, Descriptor descriptor) {
+        this.resultMapper = resultMapper;
         this.descriptor = descriptor;
     }
 
     public void afterEach(Collection<Monitor> monitors) {
         for (Monitor monitor : monitors) {
-            Result result = Result.of(monitor);
-            descriptor.describe(result);
+            Result result = resultMapper.mapMonitor(monitor);
             monitor.clear();
         }
     }

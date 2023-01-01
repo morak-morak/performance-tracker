@@ -6,8 +6,7 @@ import com.morak.performancetracker.context.MethodContextManager;
 
 public enum ContextType {
     METHOD(MethodContextManager.class),
-    ENDPOINT(EndpointContextManager.class)
-    ;
+    ENDPOINT(EndpointContextManager.class);
 
     private final Class<? extends ContextManager> contextManagerClass;
 

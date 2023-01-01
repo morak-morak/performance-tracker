@@ -1,9 +1,7 @@
 package com.morak.performancetracker.junit;
 
 import com.morak.performancetracker.context.Accumulator;
-import com.morak.performancetracker.context.ContextManager;
 import com.morak.performancetracker.context.EndpointContextManager;
-import com.morak.performancetracker.context.MethodContextManager;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
@@ -17,7 +15,7 @@ public class PerformanceTrackerAllTestsExtension implements BeforeAllCallback, C
     private static ApplicationContext applicationContext;
 
     @Override
-    public void beforeAll(ExtensionContext context) throws Exception {
+    public void beforeAll(ExtensionContext context) {
         synchronized (this) {
             if (!started) {
                 started = true;
@@ -28,7 +26,7 @@ public class PerformanceTrackerAllTestsExtension implements BeforeAllCallback, C
     }
 
     @Override
-    public void close() throws Throwable {
+    public void close() {
         EndpointContextManager manager = applicationContext.getBean(EndpointContextManager.class);
         manager.afterAll(applicationContext.getBean(Accumulator.class));
     }

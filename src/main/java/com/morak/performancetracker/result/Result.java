@@ -10,6 +10,14 @@ public class Result {
         this.elapsed = elapsed;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public double getElapsed() {
+        return elapsed;
+    }
+
     public String getResult() {
         return toString();
     }

@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <springProperty name="USER_PATH" source="performance.path"/>
-    <property name="LOGS_ABSOLUTE_PATH" value="./logs/"/>
-    <if condition='!"${USER_PATH}".equals("USER_PATH_IS_UNDEFINED")'>
-        <then>
-            <property name="LOGS_ABSOLUTE_PATH" value='${USER_PATH}'/>
-        </then>
-    </if>
+    <springProperty name="LOGS_PATH" source="com.morak.performance-tracker.logs.path" defaultValue="./logs/"/>
+    <springProperty name="LOGS_FILE" source="com.morak.performance-tracker.logs.file" defaultValue="performance.log"/>
 
     <property name="LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] %-5level %logger{36} - %msg%n"/>
     <property name="MAX_HISTORY" value="30"/>
@@ -20,9 +15,9 @@
     </appender>
 
     <appender name="PERFORMANCE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOGS_ABSOLUTE_PATH}/performance.log</file>
+        <file>${LOGS_PATH}/${LOGS_FILE}</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOGS_ABSOLUTE_PATH}/performance.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${LOGS_PATH}/performance.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>15MB</maxFileSize>

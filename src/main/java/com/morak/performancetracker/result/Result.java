@@ -9,4 +9,16 @@ public class Result {
         this.name = name;
         this.elapsed = elapsed;
     }
+
+    public String getResult() {
+        return toString();
+    }
+
+    @Override
+    public String toString() {
+        return "Result{" +
+                "name='" + name + '\'' +
+                ", elapsed=" + elapsed +
+                '}';
+    }
 }

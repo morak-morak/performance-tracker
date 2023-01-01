@@ -10,6 +10,12 @@ import org.springframework.stereotype.Component;
 public class ResultMapper {
 
     public Result mapMonitor(Monitor monitor) {
+        Result result = mapToResult(monitor);
+        monitor.clear();
+        return result;
+    }
+
+    private Result mapToResult(Monitor monitor) {
         if (monitor instanceof QueryMonitor) {
             QueryMonitor qm = (QueryMonitor) monitor;
             return new Result(qm.getQuery(), qm.getQueryTime());

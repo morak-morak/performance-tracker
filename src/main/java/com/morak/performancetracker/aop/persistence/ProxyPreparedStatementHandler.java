@@ -1,16 +1,20 @@
 package com.morak.performancetracker.aop.persistence;
 
+import com.morak.performancetracker.context.Accumulator;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
 public class ProxyPreparedStatementHandler implements InvocationHandler {
 
     private static final String EXECUTION_PREFIX = "execute";
+
     private final Object preparedStatement;
+    private final Accumulator accumulator;
     private final QueryMonitor queryMonitor;
 
-    public ProxyPreparedStatementHandler(Object preparedStatement, QueryMonitor queryMonitor) {
+    public ProxyPreparedStatementHandler(Object preparedStatement, Accumulator accumulator, QueryMonitor queryMonitor) {
         this.preparedStatement = preparedStatement;
+        this.accumulator = accumulator;
         this.queryMonitor = queryMonitor;
     }
 
@@ -30,6 +34,7 @@ public class ProxyPreparedStatementHandler implements InvocationHandler {
         queryMonitor.start();
         Object returnValue = method.invoke(preparedStatement, args);
         queryMonitor.end();
+        accumulator.add(queryMonitor);
         return returnValue;
     }
 }

@@ -4,6 +4,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+import com.morak.performancetracker.context.Accumulator;
+import com.morak.performancetracker.context.ResultMapper;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,8 +27,9 @@ class ProxyConnectionHandlerTest {
     void Proxy_Statement를_반환한다() throws Throwable {
         // given
         given(connection.prepareStatement(any())).willReturn(statement);
+        Accumulator accumulator = new Accumulator(new ResultMapper());
         QueryMonitor monitor = new QueryMonitor();
-        ProxyConnectionHandler handler = new ProxyConnectionHandler(connection, monitor);
+        ProxyConnectionHandler handler = new ProxyConnectionHandler(connection, accumulator, monitor);
         // when
         Object result = handler.invoke(
                 connection,
@@ -41,8 +44,9 @@ class ProxyConnectionHandlerTest {
     void Statment가_포함되지_않으면_일반_객체를_반환한다() throws Throwable {
         // given
         given(connection.getAutoCommit()).willReturn(true);
+        Accumulator accumulator = new Accumulator(new ResultMapper());
         QueryMonitor monitor = new QueryMonitor();
-        ProxyConnectionHandler handler = new ProxyConnectionHandler(connection, monitor);
+        ProxyConnectionHandler handler = new ProxyConnectionHandler(connection, accumulator, monitor);
         // when
         Object result = handler.invoke(
                 connection,

@@ -26,8 +26,14 @@ public class QueryMonitor implements Monitor {
 
     @Override
     public void clear() {
+        this.query = null;
         this.startTime = 0;
         this.queryTime = 0;
+    }
+
+    @Override
+    public String getSignature() {
+        return "Query";
     }
 
     public long getStartTime() {

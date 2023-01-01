@@ -1,6 +1,7 @@
 package com.morak.performancetracker.junit;
 
 import com.morak.performancetracker.Monitor;
+import com.morak.performancetracker.context.Accumulator;
 import com.morak.performancetracker.context.MethodContextManager;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
@@ -22,7 +23,7 @@ public class PerformanceTrackerSetupExtension implements AfterEachCallback, Afte
             return;
         }
         MethodContextManager manager = applicationContext.getBean(MethodContextManager.class);
-        manager.afterEach(applicationContext.getBeansOfType(Monitor.class).values());
+        manager.afterEach(applicationContext.getBean(Accumulator.class));
     }
 
     @Override
@@ -33,6 +34,6 @@ public class PerformanceTrackerSetupExtension implements AfterEachCallback, Afte
             return;
         }
         MethodContextManager manager = applicationContext.getBean(MethodContextManager.class);
-        manager.afterAll(applicationContext.getBeansOfType(Monitor.class).values());
+        manager.afterEach(applicationContext.getBean(Accumulator.class));
     }
 }

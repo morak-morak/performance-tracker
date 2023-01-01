@@ -30,6 +30,11 @@ public class WebMonitor implements Monitor {
         elapsed = 0;
     }
 
+    @Override
+    public String getSignature() {
+        return "Web";
+    }
+
     public String getUri() {
         return uri;
     }

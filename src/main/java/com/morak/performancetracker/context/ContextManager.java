@@ -1,11 +1,8 @@
 package com.morak.performancetracker.context;
 
-import com.morak.performancetracker.Monitor;
-import java.util.Collection;
-
 public interface ContextManager {
 
-    void afterEach(Collection<Monitor> monitors);
+    void afterEach(Accumulator accumulator);
 
-    void afterAll(Collection<Monitor> monitors);
+    void afterAll(Accumulator accumulator);
 }

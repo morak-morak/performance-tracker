@@ -22,6 +22,6 @@ public class DatabaseInitializationTest {
 
     @Test
     void SQL파일에_의한_쿼리는_측정하지_않는다() {
-        assertThat(queryMonitor.getQueryCount()).isZero();
+        assertThat(queryMonitor.getQuery()).isNull();
     }
 }

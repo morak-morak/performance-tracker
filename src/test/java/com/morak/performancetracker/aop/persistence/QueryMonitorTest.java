@@ -46,7 +46,6 @@ class QueryMonitorTest {
         // then
         Assertions.assertAll(
                 () -> assertThat(monitor.getQueryTime()).isZero(),
-                () -> assertThat(monitor.getQueryCount()).isZero(),
                 () -> assertThat(monitor.getStartTime()).isZero()
         );
     }

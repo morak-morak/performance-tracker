@@ -1,5 +1,6 @@
 package com.morak.performancetracker.aop.persistence;
 
+import com.morak.performancetracker.context.Accumulator;
 import java.lang.reflect.Proxy;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -11,9 +12,11 @@ import org.springframework.stereotype.Component;
 public class QueryMonitorAop {
 
     private final QueryMonitor queryMonitor;
+    private final Accumulator accumulator;
 
-    public QueryMonitorAop(QueryMonitor queryMonitor) {
+    public QueryMonitorAop(QueryMonitor queryMonitor, Accumulator accumulator) {
         this.queryMonitor = queryMonitor;
+        this.accumulator = accumulator;
     }
 
     @Around("execution(* javax.sql.DataSource.getConnection())")
@@ -22,7 +25,7 @@ public class QueryMonitorAop {
         return Proxy.newProxyInstance(
                 returnValue.getClass().getClassLoader(),
                 returnValue.getClass().getInterfaces(),
-                new ProxyConnectionHandler(returnValue, queryMonitor)
+                new ProxyConnectionHandler(returnValue, accumulator, queryMonitor)
         );
     }
 }

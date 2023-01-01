@@ -4,28 +4,32 @@ import com.morak.performancetracker.Monitor;
 import com.morak.performancetracker.description.Descriptor;
 import com.morak.performancetracker.result.Result;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MethodContextManager implements ContextManager {
 
-    private final ResultMapper resultMapper;
     private final Descriptor descriptor;
 
-    public MethodContextManager(ResultMapper resultMapper, Descriptor descriptor) {
-        this.resultMapper = resultMapper;
+    public MethodContextManager(Descriptor descriptor) {
         this.descriptor = descriptor;
     }
 
-    public void afterEach(Collection<Monitor> monitors) {
-        for (Monitor monitor : monitors) {
-            Result result = resultMapper.mapMonitor(monitor);
-            monitor.clear();
+    @Override
+    public void afterEach(Accumulator accumulator) {
+        Map<String, List<Result>> results = accumulator.getResults();
+        for (Entry<String, List<Result>> entry : results.entrySet()) {
+            for (Result result : entry.getValue()) {
+                descriptor.describe(result);
+            }
         }
     }
 
     @Override
-    public void afterAll(Collection<Monitor> monitors) {
+    public void afterAll(Accumulator accumulator) {
         // todo
     }
 }

@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
+import com.morak.performancetracker.context.Accumulator;
+import com.morak.performancetracker.context.ResultMapper;
 import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,7 +25,8 @@ class PerformanceInterceptorTest {
         // given
         given(request.getMethod()).willReturn(HttpMethod.GET.name());
         WebMonitor monitor = new WebMonitor();
-        PerformanceInterceptor interceptor = new PerformanceInterceptor(monitor);
+        Accumulator accumulator = new Accumulator(new ResultMapper());
+        PerformanceInterceptor interceptor = new PerformanceInterceptor(accumulator, monitor);
         // when
         interceptor.preHandle(request, null, null);
         // then
@@ -38,7 +41,8 @@ class PerformanceInterceptorTest {
         // given
         given(request.getMethod()).willReturn(HttpMethod.OPTIONS.name());
         WebMonitor monitor = new WebMonitor();
-        PerformanceInterceptor interceptor = new PerformanceInterceptor(monitor);
+        Accumulator accumulator = new Accumulator(new ResultMapper());
+        PerformanceInterceptor interceptor = new PerformanceInterceptor(accumulator, monitor);
         // when
         interceptor.preHandle(request, null, null);
         // then
@@ -50,7 +54,8 @@ class PerformanceInterceptorTest {
         // given
         given(request.getMethod()).willReturn(HttpMethod.GET.name());
         WebMonitor monitor = new WebMonitor();
-        PerformanceInterceptor interceptor = new PerformanceInterceptor(monitor);
+        Accumulator accumulator = new Accumulator(new ResultMapper());
+        PerformanceInterceptor interceptor = new PerformanceInterceptor(accumulator, monitor);
         interceptor.preHandle(request, null, null);
         // when
         interceptor.postHandle(request, null, null, null);
@@ -66,7 +71,8 @@ class PerformanceInterceptorTest {
         // given
         given(request.getMethod()).willReturn(HttpMethod.OPTIONS.name());
         WebMonitor monitor = new WebMonitor();
-        PerformanceInterceptor interceptor = new PerformanceInterceptor(monitor);
+        Accumulator accumulator = new Accumulator(new ResultMapper());
+        PerformanceInterceptor interceptor = new PerformanceInterceptor(accumulator, monitor);
         // when
         interceptor.postHandle(request, null, null, null);
         // then

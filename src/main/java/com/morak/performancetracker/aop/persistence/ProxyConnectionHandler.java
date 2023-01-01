@@ -19,6 +19,7 @@ public class ProxyConnectionHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object returnValue = method.invoke(connection, args);
+        queryMonitor.setQuery((String) args[0]);
         if (isStatement(method)) {
             return Proxy.newProxyInstance(
                     returnValue.getClass().getClassLoader(),

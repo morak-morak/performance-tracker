@@ -1,7 +1,8 @@
 package com.morak.performancetracker.junit;
 
+import com.morak.performancetracker.PerformanceTracker;
 import com.morak.performancetracker.context.Accumulator;
-import com.morak.performancetracker.context.EndpointContextManager;
+import com.morak.performancetracker.context.ContextManager;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
@@ -11,8 +12,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 public class PerformanceTrackerAllTestsExtension implements BeforeAllCallback, CloseableResource {
 
+    private static final String STORE_KEY = "performance-tracker";
+
     private static boolean started = false;
     private static ApplicationContext applicationContext;
+    private static ContextManager contextManager;
 
     @Override
     public void beforeAll(ExtensionContext context) {
@@ -20,14 +24,19 @@ public class PerformanceTrackerAllTestsExtension implements BeforeAllCallback, C
             if (!started) {
                 started = true;
                 applicationContext = SpringExtension.getApplicationContext(context);
-                context.getRoot().getStore(Namespace.GLOBAL).put("performance-tracker", this);
+                contextManager = applicationContext.getBean(determineContextManager(context));
+                context.getRoot().getStore(Namespace.GLOBAL).put(STORE_KEY, this);
             }
         }
     }
 
     @Override
     public void close() {
-        EndpointContextManager manager = applicationContext.getBean(EndpointContextManager.class);
-        manager.afterAll(applicationContext.getBean(Accumulator.class));
+        contextManager.afterAll(applicationContext.getBean(Accumulator.class));
+    }
+
+    private static Class<? extends ContextManager> determineContextManager(ExtensionContext context) {
+        PerformanceTracker annotation = context.getRequiredTestClass().getAnnotation(PerformanceTracker.class);
+        return annotation.context().getContextManagerClass();
     }
 }

@@ -15,5 +15,5 @@ import org.springframework.context.annotation.Import;
 @ExtendWith({PerformanceTrackerSetupExtension.class, PerformanceTrackerAllTestsExtension.class})
 @Import({PerformanceConfiguration.class})
 public @interface PerformanceTracker {
-    ContextType context() default ContextType.METHOD;
+    ContextType context() default ContextType.ENDPOINT;
 }

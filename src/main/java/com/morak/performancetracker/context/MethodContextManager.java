@@ -1,7 +1,6 @@
 package com.morak.performancetracker.context;
 
 import com.morak.performancetracker.description.Descriptor;
-import com.morak.performancetracker.result.Result;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;

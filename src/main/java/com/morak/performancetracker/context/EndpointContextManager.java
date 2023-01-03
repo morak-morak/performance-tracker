@@ -1,11 +1,9 @@
 package com.morak.performancetracker.context;
 
 import com.morak.performancetracker.description.Descriptor;
-import com.morak.performancetracker.result.Result;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
@@ -27,15 +25,17 @@ public class EndpointContextManager implements ContextManager {
 
     @Override
     public void afterAll(Accumulator accumulator) {
-        accumulator.getResults().forEach(this::describeSummary);
+        List<Scope> scope = accumulator.getResults().entrySet()
+                .stream()
+                .map(it -> summarizePerScope(it.getKey(), it.getValue()))
+                .collect(Collectors.toList());
+        descriptor.describe(new Context(scope));
     }
 
-    private void describeSummary(String scope, List<Result> results) {
+    private Scope summarizePerScope(String scopeName, List<Result> results) {
         Map<String, DoubleSummaryStatistics> summary = summarize(results);
-        for (Entry<String, DoubleSummaryStatistics> entry : summary.entrySet()) {
-            Result result = new Result(entry.getKey(), entry.getValue().getAverage());
-            descriptor.describe(result);
-        }
+        List<Result> summaries = toResult(summary);
+        return new Scope(scopeName, summaries);
     }
 
     private Map<String, DoubleSummaryStatistics> summarize(List<Result> results) {
@@ -44,5 +44,11 @@ public class EndpointContextManager implements ContextManager {
                         Result::getName,
                         Collectors.summarizingDouble(Result::getElapsed)
                 ));
+    }
+
+    private List<Result> toResult(Map<String, DoubleSummaryStatistics> summary) {
+        return summary.entrySet().stream()
+                .map(it -> new Result(it.getKey(), it.getValue().getAverage()))
+                .collect(Collectors.toList());
     }
 }

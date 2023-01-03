@@ -1,4 +1,4 @@
-package com.morak.performancetracker.result;
+package com.morak.performancetracker.context;
 
 public class Result {
 

@@ -27,7 +27,7 @@ public class LoggingDescriptor implements Descriptor {
     private void describeScope(Scope scope) {
         describeOnDepth(scope.getName(), 0);
         for (Result result : scope.getSummaries()) {
-            describeOnDepth(result.toString(), 1);
+            describeOnDepth(result.getResult(), 1);
         }
     }
 

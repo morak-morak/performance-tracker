@@ -25,11 +25,11 @@ public class EndpointContextManager implements ContextManager {
 
     @Override
     public void afterAll(Accumulator accumulator) {
-        List<Scope> scope = accumulator.getResults().entrySet()
+        List<Scope> scopes = accumulator.getResults().entrySet()
                 .stream()
                 .map(it -> summarizePerScope(it.getKey(), it.getValue()))
                 .collect(Collectors.toList());
-        descriptor.describe(new Context(scope));
+        descriptor.describe(new Context(scopes));
     }
 
     private Scope summarizePerScope(String scopeName, List<Result> results) {

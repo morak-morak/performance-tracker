@@ -1,39 +1,35 @@
 package com.morak.performancetracker.junit;
 
-import com.morak.performancetracker.Monitor;
+import com.morak.performancetracker.PerformanceTracker;
 import com.morak.performancetracker.context.Accumulator;
-import com.morak.performancetracker.context.MethodContextManager;
+import com.morak.performancetracker.context.ContextManager;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 public class PerformanceTrackerSetupExtension implements AfterEachCallback, AfterAllCallback {
 
-    private final Logger log = LoggerFactory.getLogger("PERFORMANCE");
-
     @Override
     public void afterEach(ExtensionContext context) {
         ApplicationContext applicationContext = SpringExtension.getApplicationContext(context);
         if (context.getExecutionException().isPresent()) {
-            log.warn("fails on test execution" + context.getDisplayName());
             return;
         }
-        MethodContextManager manager = applicationContext.getBean(MethodContextManager.class);
+        ContextManager manager = applicationContext.getBean(determineContextManager(context));
         manager.afterEach(applicationContext.getBean(Accumulator.class));
     }
 
     @Override
-    public void afterAll(ExtensionContext context) throws Exception {
+    public void afterAll(ExtensionContext context) {
         ApplicationContext applicationContext = SpringExtension.getApplicationContext(context);
-        if (context.getExecutionException().isPresent()) {
-            log.warn("fails on test execution" + context.getDisplayName());
-            return;
-        }
-        MethodContextManager manager = applicationContext.getBean(MethodContextManager.class);
+        ContextManager manager = applicationContext.getBean(determineContextManager(context));
         manager.afterEach(applicationContext.getBean(Accumulator.class));
+    }
+
+    private Class<? extends ContextManager> determineContextManager(ExtensionContext context) {
+        PerformanceTracker annotation = context.getRequiredTestClass().getAnnotation(PerformanceTracker.class);
+        return annotation.context().getContextManagerClass();
     }
 }

@@ -1,7 +1,6 @@
 package com.morak.performancetracker.aop.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 import com.morak.performancetracker.context.Accumulator;

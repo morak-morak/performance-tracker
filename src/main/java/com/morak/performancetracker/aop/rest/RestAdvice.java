@@ -17,7 +17,7 @@ public class RestAdvice implements MethodInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Object argument = invocation.getArguments()[0];
-        restMonitor.start((String) argument);
+        restMonitor.start(argument.toString());
         Object returnValue = invocation.proceed();
         restMonitor.end();
         accumulator.add(restMonitor);

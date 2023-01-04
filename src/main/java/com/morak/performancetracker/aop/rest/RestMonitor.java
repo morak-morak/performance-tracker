@@ -16,7 +16,7 @@ public class RestMonitor implements Monitor {
     }
 
     public void end() {
-        this.elapsedTime = this.startTime - elapsedTime;
+        this.elapsedTime = System.nanoTime() - this.startTime;
     }
 
     @Override

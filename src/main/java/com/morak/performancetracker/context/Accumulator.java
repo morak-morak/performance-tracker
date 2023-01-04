@@ -1,7 +1,6 @@
 package com.morak.performancetracker.context;
 
 import com.morak.performancetracker.Monitor;
-import com.morak.performancetracker.result.Result;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

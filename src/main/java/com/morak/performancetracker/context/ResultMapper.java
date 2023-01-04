@@ -3,7 +3,6 @@ package com.morak.performancetracker.context;
 import com.morak.performancetracker.Monitor;
 import com.morak.performancetracker.aop.persistence.QueryMonitor;
 import com.morak.performancetracker.aop.web.WebMonitor;
-import com.morak.performancetracker.result.Result;
 import org.springframework.stereotype.Component;
 
 @Component

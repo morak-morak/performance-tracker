@@ -1,4 +1,4 @@
-package com.morak.performancetracker.result;
+package com.morak.performancetracker.context;
 
 public class Result {
 
@@ -8,6 +8,14 @@ public class Result {
     public Result(String name, double elapsed) {
         this.name = name;
         this.elapsed = elapsed;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getElapsed() {
+        return elapsed;
     }
 
     public String getResult() {

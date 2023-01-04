@@ -10,16 +10,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class EndpointContextManager implements ContextManager {
 
-    private final Accumulator accumulator;
     private final Descriptor descriptor;
 
-    public EndpointContextManager(Accumulator accumulator, Descriptor descriptor) {
-        this.accumulator = accumulator;
+    public EndpointContextManager(Descriptor descriptor) {
         this.descriptor = descriptor;
     }
 
     @Override
     public void afterEach(Accumulator accumulator) {
+        // todo
+    }
+
+    @Override
+    public void afterClass(final String testClassName) {
         // todo
     }
 

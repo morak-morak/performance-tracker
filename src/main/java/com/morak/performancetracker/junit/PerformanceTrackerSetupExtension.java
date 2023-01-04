@@ -3,7 +3,6 @@ package com.morak.performancetracker.junit;
 import com.morak.performancetracker.PerformanceTracker;
 import com.morak.performancetracker.context.Accumulator;
 import com.morak.performancetracker.context.ContextManager;
-import java.lang.reflect.Method;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
@@ -15,10 +14,9 @@ public class PerformanceTrackerSetupExtension implements BeforeEachCallback, Aft
 
     @Override
     public void beforeEach(final ExtensionContext context) {
-        Method method = context.getTestMethod().orElseThrow(IllegalStateException::new);
         ApplicationContext applicationContext = getApplicationContext(context);
         Accumulator accumulator = applicationContext.getBean(Accumulator.class);
-        accumulator.setMethodName(method.getName());
+        accumulator.setMethodName(context.getRequiredTestMethod().getName());
     }
 
     @Override
@@ -35,7 +33,7 @@ public class PerformanceTrackerSetupExtension implements BeforeEachCallback, Aft
     public void afterAll(ExtensionContext context) {
         ApplicationContext applicationContext = SpringExtension.getApplicationContext(context);
         ContextManager manager = applicationContext.getBean(determineContextManager(context));
-        manager.afterEach(applicationContext.getBean(Accumulator.class));
+        manager.afterClass(context.getRequiredTestClass().getName());
     }
 
     private Class<? extends ContextManager> determineContextManager(ExtensionContext context) {

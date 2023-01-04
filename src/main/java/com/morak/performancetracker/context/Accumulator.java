@@ -12,7 +12,7 @@ public class Accumulator {
 
     private final ResultMapper resultMapper;
     private String methodName;
-    private final Map<String, List<Result>> results;
+    private Map<String, List<Result>> results;
 
     public Accumulator(ResultMapper resultMapper) {
         this.resultMapper = resultMapper;
@@ -35,5 +35,10 @@ public class Accumulator {
 
     public String getMethodName() {
         return this.methodName;
+    }
+
+    public void clear() {
+        this.methodName = null;
+        this.results = new HashMap<>();
     }
 }

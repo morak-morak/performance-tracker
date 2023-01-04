@@ -1,14 +1,18 @@
 package com.morak.performancetracker.context;
 
 import com.morak.performancetracker.description.Descriptor;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MethodContextManager implements ContextManager {
 
+    private final List<Context> contexts = new ArrayList<>();
+    private List<Scope> scopes = new ArrayList<>();
     private final Descriptor descriptor;
 
     public MethodContextManager(Descriptor descriptor) {
@@ -18,16 +22,26 @@ public class MethodContextManager implements ContextManager {
     @Override
     public void afterEach(Accumulator accumulator) {
         Map<String, List<Result>> results = accumulator.getResults();
-        for (Entry<String, List<Result>> entry : results.entrySet()) {
-            descriptor.describe(accumulator.getMethodName());
-            for (Result result : entry.getValue()) {
-                descriptor.describe(result);
-            }
-        }
+        scopes.add(new Scope(accumulator.getMethodName(), flatResults(results)));
+        accumulator.clear();
+    }
+
+    private List<Result> flatResults(final Map<String, List<Result>> results) {
+        return results.values().stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void afterClass(final String testClassName) {
+        contexts.add(new Context(testClassName, this.scopes));
+        this.scopes = new ArrayList<>();
     }
 
     @Override
     public void afterAll(Accumulator accumulator) {
-        // do nothing
+        for (final Context context : contexts) {
+            descriptor.describe(context);
+        }
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class Accumulator {
 
     private final ResultMapper resultMapper;
+    private String methodName;
     private final Map<String, List<Result>> results;
 
     public Accumulator(ResultMapper resultMapper) {
@@ -27,5 +28,13 @@ public class Accumulator {
 
     public Map<String, List<Result>> getResults() {
         return results;
+    }
+
+    public void setMethodName(final String name) {
+        this.methodName = name;
+    }
+
+    public String getMethodName() {
+        return this.methodName;
     }
 }

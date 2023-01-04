@@ -22,6 +22,7 @@ public class MethodContextManager implements ContextManager {
     public void afterEach(Accumulator accumulator) {
         Map<String, List<Result>> results = accumulator.getResults();
         for (Entry<String, List<Result>> entry : results.entrySet()) {
+            descriptor.describe(accumulator.getMethodName());
             for (Result result : entry.getValue()) {
                 descriptor.describe(result);
             }
@@ -30,6 +31,6 @@ public class MethodContextManager implements ContextManager {
 
     @Override
     public void afterAll(Accumulator accumulator) {
-        // todo
+        // do nothing
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.aop.support.StaticMethodMatcherPointcut;
 public class RestPointcut extends StaticMethodMatcherPointcut {
 
     @Override
-    public boolean matches(Method method, Class<?> targetClass) {
+    public boolean matches(Method method, Class<?> ignored) {
         return method.getName().contains("execute");
     }
 }

@@ -13,16 +13,6 @@ public class LoggingDescriptor implements Descriptor {
     private final Logger log = LoggerFactory.getLogger("PERFORMANCE");
 
     @Override
-    public void describe(final String methodName) {
-        log.info(methodName);
-    }
-
-    @Override
-    public void describe(Result result) {
-        log.info(result.getResult());
-    }
-
-    @Override
     public void describe(Context context) {
         for (Scope scope : context.getScopes()) {
             if (context.getName() == null) {

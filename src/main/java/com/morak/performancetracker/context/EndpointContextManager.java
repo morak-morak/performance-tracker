@@ -17,16 +17,6 @@ public class EndpointContextManager implements ContextManager {
     }
 
     @Override
-    public void afterEach(Accumulator accumulator) {
-        // todo
-    }
-
-    @Override
-    public void afterClass(final String testClassName) {
-        // todo
-    }
-
-    @Override
     public void afterAll(Accumulator accumulator) {
         List<Scope> scopes = accumulator.getResults().entrySet()
                 .stream()

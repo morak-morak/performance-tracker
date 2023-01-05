@@ -20,9 +20,9 @@ public class MethodContextManager implements ContextManager {
     }
 
     @Override
-    public void afterEach(Accumulator accumulator) {
+    public void afterEach(Accumulator accumulator, String testMethodName) {
         Map<String, List<Result>> results = accumulator.getResults();
-        scopes.add(new Scope(accumulator.getMethodName(), flatResults(results)));
+        scopes.add(new Scope(testMethodName, flatResults(results)));
         accumulator.clear();
     }
 
@@ -33,7 +33,7 @@ public class MethodContextManager implements ContextManager {
     }
 
     @Override
-    public void afterClass(final String testClassName) {
+    public void afterClass(final Accumulator accumulator, final String testClassName) {
         contexts.add(new Context(testClassName, this.scopes));
         this.scopes = new ArrayList<>();
     }

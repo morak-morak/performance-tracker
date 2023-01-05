@@ -1,5 +1,7 @@
 package com.morak.performancetracker.aop.rest;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.aop.support.AopUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,8 @@ class RestMonitorAopTest {
         // given
         RestTemplate restTemplate = builder.build();
         // when
-        boolean aopProxy = AopUtils.isAopProxy(restTemplate);
+        boolean isProxy = AopUtils.isAopProxy(restTemplate);
         // then
-        System.out.println("aopProxy = " + aopProxy);
+        assertThat(isProxy).isTrue();
     }
 }

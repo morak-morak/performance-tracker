@@ -26,8 +26,6 @@ public class Result {
 
     @Override
     public String toString() {
-        System.out.println(elapsed);
-        System.out.println((long) elapsed);
         return "Result{" +
                 "name='" + name + '\'' +
                 ", elapsed=" + TimeUnit.MILLISECONDS.convert((long) elapsed, TimeUnit.NANOSECONDS) + "ms" +

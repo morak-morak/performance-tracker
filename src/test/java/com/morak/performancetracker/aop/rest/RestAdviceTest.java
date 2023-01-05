@@ -24,15 +24,13 @@ class RestAdviceTest {
         given(methodInvocation.getArguments()).willReturn(new Object[]{"https://example.com"});
         given(methodInvocation.proceed()).willReturn(new Object());
 
-        RestMonitor monitor = new RestMonitor();
         Accumulator accumulator = new Accumulator(new ResultMapper());
-        RestAdvice advice = new RestAdvice(monitor, accumulator);
+        RestAdvice advice = new RestAdvice(new RestMonitor(), accumulator);
 
         // when
         Object result = advice.invoke(methodInvocation);
         // then
         Assertions.assertAll(
-//                () -> assertThat(monitor.getElapsedTime()).isNotZero(),
                 () -> assertThat(accumulator.getResults().size()).isOne(),
                 () -> assertThat(result).isNotNull()
         );

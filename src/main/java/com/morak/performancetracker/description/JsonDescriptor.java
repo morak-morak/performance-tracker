@@ -28,8 +28,8 @@ public class JsonDescriptor implements Descriptor {
     private ObjectMapper objectMapper;
 
     @Override
-    public void describe(final Context context) {
-        final File file = new File(filePath + fileName + JSON_FORMAT);
+    public void describe(Context context) {
+        File file = new File(filePath + fileName + JSON_FORMAT);
         try (FileWriter fileWriter = new FileWriter(file, true);
              SequenceWriter seqWriter = objectMapper.writer().writeValuesAsArray(fileWriter)) {
             writeToFile(context, seqWriter);

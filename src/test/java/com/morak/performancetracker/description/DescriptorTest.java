@@ -37,7 +37,7 @@ class DescriptorTest {
         @Test
         void JsonDescriptor로_빈이_생성된다() {
             Descriptor bean = context.getBean(Descriptor.class);
-            
+
             assertThat(bean.getClass())
                     .isEqualTo(JsonDescriptor.class);
         }

@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
@@ -15,14 +16,20 @@ import org.springframework.stereotype.Component;
 @ConditionalOnProperty(value = "format", havingValue = "json")
 public class JsonDescriptor implements Descriptor {
 
-    private static final String JSON_PATH = "./logs/performance.json";
+    private static final String JSON_FORMAT = ".json";
+
+    @Value("${com.morak.performance-tracker.logs.path:./logs/}")
+    private String filePath;
+
+    @Value("${com.morak.performance-tracker.logs.file:performance}")
+    private String fileName;
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Override
     public void describe(final Context context) {
-        final File file = new File(JSON_PATH);
+        final File file = new File(filePath + fileName + JSON_FORMAT);
         try (FileWriter fileWriter = new FileWriter(file, true);
              SequenceWriter seqWriter = objectMapper.writer().writeValuesAsArray(fileWriter)) {
             writeToFile(context, seqWriter);

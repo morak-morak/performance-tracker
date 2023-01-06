@@ -13,21 +13,21 @@ public class LoggingDescriptor implements Descriptor {
     private final Logger log = LoggerFactory.getLogger("PERFORMANCE");
 
     @Override
-    public void describe(Result result) {
-        log.info(result.getResult());
-    }
-
-    @Override
     public void describe(Context context) {
         for (Scope scope : context.getScopes()) {
-            describeScope(scope);
+            if (context.getName() == null) {
+                describeScope(scope, -1);
+                continue;
+            }
+            describeOnDepth(context.getName(), 0);
+            describeScope(scope, 0);
         }
     }
 
-    private void describeScope(Scope scope) {
-        describeOnDepth(scope.getName(), 0);
+    private void describeScope(Scope scope, int depth) {
+        describeOnDepth(scope.getName(), depth + 1);
         for (Result result : scope.getSummaries()) {
-            describeOnDepth(result.getResult(), 1);
+            describeOnDepth(result.getResult(), depth + 2);
         }
     }
 

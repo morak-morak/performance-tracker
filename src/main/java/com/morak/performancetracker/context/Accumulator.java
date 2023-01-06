@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class Accumulator {
 
     private final ResultMapper resultMapper;
-    private final Map<String, List<Result>> results;
+    private Map<String, List<Result>> results;
 
     public Accumulator(ResultMapper resultMapper) {
         this.resultMapper = resultMapper;
@@ -26,5 +26,9 @@ public class Accumulator {
 
     public Map<String, List<Result>> getResults() {
         return results;
+    }
+
+    public void clear() {
+        this.results = new HashMap<>();
     }
 }

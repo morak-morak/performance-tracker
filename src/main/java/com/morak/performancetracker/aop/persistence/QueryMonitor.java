@@ -6,9 +6,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class QueryMonitor implements Monitor {
 
-    private static final double WARNING_QUERY_COUNT = 5;
-    private static final double WARNING_QUERY_TIME = 100 * 1_000_000.0;
-
     private String query;
     private long startTime;
     private double queryTime;

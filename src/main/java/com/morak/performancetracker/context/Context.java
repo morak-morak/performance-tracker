@@ -4,13 +4,24 @@ import java.util.List;
 
 public class Context {
 
-    private List<Scope> scopes;
+    private final String name;
+    private final List<Scope> scopes;
 
     public Context(List<Scope> scopes) {
+        this.name = null;
+        this.scopes = scopes;
+    }
+
+    public Context(String name, List<Scope> scopes) {
+        this.name = name;
         this.scopes = scopes;
     }
 
     public List<Scope> getScopes() {
         return scopes;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }

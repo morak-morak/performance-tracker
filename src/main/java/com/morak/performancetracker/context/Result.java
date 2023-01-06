@@ -1,5 +1,7 @@
 package com.morak.performancetracker.context;
 
+import java.util.concurrent.TimeUnit;
+
 public class Result {
 
     private final String name;
@@ -26,7 +28,7 @@ public class Result {
     public String toString() {
         return "Result{" +
                 "name='" + name + '\'' +
-                ", elapsed=" + elapsed +
+                ", elapsed=" + TimeUnit.MILLISECONDS.convert((long) elapsed, TimeUnit.NANOSECONDS) + "ms" +
                 '}';
     }
 }

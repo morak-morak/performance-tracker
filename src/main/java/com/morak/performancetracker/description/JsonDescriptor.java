@@ -8,9 +8,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConditionalOnProperty(value = "format", havingValue = "json")
 public class JsonDescriptor implements Descriptor {
 
     private static final String JSON_PATH = "./logs/performance.json";

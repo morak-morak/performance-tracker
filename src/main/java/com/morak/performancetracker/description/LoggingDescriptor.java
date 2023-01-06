@@ -5,9 +5,11 @@ import com.morak.performancetracker.context.Result;
 import com.morak.performancetracker.context.Scope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConditionalOnProperty(value = "format", havingValue = "log", matchIfMissing = true)
 public class LoggingDescriptor implements Descriptor {
 
     private final Logger log = LoggerFactory.getLogger("PERFORMANCE");

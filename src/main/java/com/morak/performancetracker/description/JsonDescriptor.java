@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnProperty(value = "format", havingValue = "json")
+@ConditionalOnProperty(value = "com.morak.performance-tracker.format", havingValue = "json")
 public class JsonDescriptor implements Descriptor {
 
     private static final String JSON_FORMAT = ".json";

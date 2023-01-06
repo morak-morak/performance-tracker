@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnProperty(value = "format", havingValue = "log", matchIfMissing = true)
+@ConditionalOnProperty(value = "com.morak.performance-tracker.format", havingValue = "log", matchIfMissing = true)
 public class LoggingDescriptor implements Descriptor {
 
     private final Logger log = LoggerFactory.getLogger("PERFORMANCE");

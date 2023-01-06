@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class WebMonitor implements Monitor {
+
     private String uri;
     private String method;
     private long requestTime;
@@ -49,14 +50,5 @@ public class WebMonitor implements Monitor {
 
     public long getElapsed() {
         return elapsed;
-    }
-
-    @Override
-    public String toString() {
-        return "WebMonitor{" +
-                "uri='" + uri + '\'' +
-                ", method='" + method + '\'' +
-                ", elapsed=" + TimeUnit.MILLISECONDS.convert(elapsed, TimeUnit.NANOSECONDS) +
-                '}';
     }
 }

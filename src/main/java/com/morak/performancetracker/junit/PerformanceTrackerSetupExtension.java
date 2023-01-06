@@ -23,7 +23,7 @@ public class PerformanceTrackerSetupExtension implements AfterEachCallback, Afte
 
     @Override
     public void afterAll(ExtensionContext context) {
-        ApplicationContext applicationContext = SpringExtension.getApplicationContext(context);
+        ApplicationContext applicationContext = getApplicationContext(context);
         ContextManager manager = applicationContext.getBean(determineContextManager(context));
         manager.afterClass(applicationContext.getBean(Accumulator.class), context.getRequiredTestClass().getName());
     }
@@ -33,7 +33,7 @@ public class PerformanceTrackerSetupExtension implements AfterEachCallback, Afte
         return annotation.context().getContextManagerClass();
     }
 
-    private ApplicationContext getApplicationContext(final ExtensionContext context) {
+    private ApplicationContext getApplicationContext(ExtensionContext context) {
         return SpringExtension.getApplicationContext(context);
     }
 }

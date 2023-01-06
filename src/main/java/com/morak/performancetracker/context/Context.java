@@ -12,7 +12,7 @@ public class Context {
         this.scopes = scopes;
     }
 
-    public Context(final String name, final List<Scope> scopes) {
+    public Context(String name, List<Scope> scopes) {
         this.name = name;
         this.scopes = scopes;
     }

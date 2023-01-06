@@ -26,14 +26,14 @@ public class MethodContextManager implements ContextManager {
         accumulator.clear();
     }
 
-    private List<Result> flatResults(final Map<String, List<Result>> results) {
+    private List<Result> flatResults(Map<String, List<Result>> results) {
         return results.values().stream()
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void afterClass(final Accumulator accumulator, final String testClassName) {
+    public void afterClass(Accumulator accumulator, String testClassName) {
         contexts.add(new Context(testClassName, this.scopes));
         this.scopes = new ArrayList<>();
     }

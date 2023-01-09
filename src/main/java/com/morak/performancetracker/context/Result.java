@@ -1,5 +1,7 @@
 package com.morak.performancetracker.context;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Result {
 
     private final String name;
@@ -18,6 +20,7 @@ public class Result {
         return elapsed;
     }
 
+    @JsonIgnore
     public String getResult() {
         return toString();
     }

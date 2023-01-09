@@ -2,6 +2,7 @@ package com.morak.performancetracker.description;
 
 import com.morak.performancetracker.context.Context;
 import com.morak.performancetracker.context.Result;
+import com.morak.performancetracker.context.Root;
 import com.morak.performancetracker.context.Scope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,13 @@ public class LoggingDescriptor implements Descriptor {
     private final Logger log = LoggerFactory.getLogger("PERFORMANCE");
 
     @Override
-    public void describe(Context context) {
+    public void describe(Root root) {
+        for (Context context : root.getContexts()) {
+            describe(context);
+        }
+    }
+
+    private void describe(final Context context) {
         for (Scope scope : context.getScopes()) {
             if (context.getName() == null) {
                 describeScope(scope, -1);

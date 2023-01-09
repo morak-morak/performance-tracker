@@ -3,8 +3,7 @@ package com.morak.performancetracker.description;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SequenceWriter;
 import com.morak.performancetracker.configuration.DescriptorProperties;
-import com.morak.performancetracker.context.Context;
-import com.morak.performancetracker.context.Scope;
+import com.morak.performancetracker.context.Root;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -33,11 +32,11 @@ public class JsonDescriptor implements Descriptor {
     }
 
     @Override
-    public void describe(Context context) {
+    public void describe(Root root) {
         File jsonFile = new File(path + createFileName() + JSON_FORMAT);
         try (FileWriter fileWriter = new FileWriter(jsonFile, true);
              SequenceWriter seqWriter = objectMapper.writer().writeValuesAsArray(fileWriter)) {
-            writeToFile(context, seqWriter);
+            seqWriter.write(root);
         } catch (IOException e) {
             throw new RuntimeException("I/O error writing context");
         }
@@ -51,11 +50,5 @@ public class JsonDescriptor implements Descriptor {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
         Date date = new Date();
         return dateFormat.format(date);
-    }
-
-    private void writeToFile(Context context, SequenceWriter seqWriter) throws IOException {
-        for (Scope scope : context.getScopes()) {
-            seqWriter.write(scope);
-        }
     }
 }

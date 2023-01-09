@@ -8,6 +8,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
 import com.morak.performancetracker.context.Context;
 import com.morak.performancetracker.context.Result;
+import com.morak.performancetracker.context.Root;
 import com.morak.performancetracker.context.Scope;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
@@ -52,7 +53,7 @@ class DescriptorTest {
             Context context = new Context("firstClass",
                     List.of(new Scope("firstMethod", List.of(new Result("firstQuery", 2.0)))));
             //when
-            descriptor.describe(context);
+            descriptor.describe(new Root(List.of(context)));
             //then
             List<ILoggingEvent> loggingEvents = logWatcher.list;
             assertAll(

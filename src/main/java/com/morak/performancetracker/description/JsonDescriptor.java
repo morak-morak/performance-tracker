@@ -47,7 +47,7 @@ public class JsonDescriptor implements Descriptor {
     }
 
     private String getNowDate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("-yyyy-MM-dd-HH:mm:ss");
         Date date = new Date();
         return dateFormat.format(date);
     }

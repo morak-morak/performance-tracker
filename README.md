@@ -1,6 +1,8 @@
 # Performance Tracker
 Track your application's performance based on Spring.
 
+[한국어 버전](./README_KR.md)
+
 ## How to use
 Add dependency on your `build.gradle`
 
@@ -36,3 +38,30 @@ class MyTest {
 }
 ```
 And check your result on `~/logs/performance.log`
+
+## Features
+### Measurement of performance
+PerformanceTracker currently supports several features with beans spring registered.  
+In case of bug or inappropriate measurement, please report it on issues.
+
+- [x] Database Access(JPA, JdbcTemplate) (using DataSource)
+- [x] Application (using Spring interceptor)
+- [x] API Request (using RestTemplateBuilder)
+
+### Description
+You can see the result of PerformanceTracker(which is called description) with format you specified.
+
+- [x] logging
+- [x] json
+
+## Configuration
+
+You can adjust properties of PerformanceTracker with spring property configurations.
+
+```yml
+com.morak.performance-tracker:
+  path: {DIRECTORY_TO_WRITE_RESULT} # default is '{yourProject}/logs/'
+  file: {FILE_NAME_TO_WRITE_RESULT} # default is 'performance'
+  format: {DESCRIPTION_TYPE} # 'log' or 'json', default is 'log'
+```
+

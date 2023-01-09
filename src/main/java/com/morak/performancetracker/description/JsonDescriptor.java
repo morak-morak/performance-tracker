@@ -2,6 +2,7 @@ package com.morak.performancetracker.description;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SequenceWriter;
+import com.morak.performancetracker.configuration.DescriptorProperties;
 import com.morak.performancetracker.context.Context;
 import com.morak.performancetracker.context.Scope;
 import java.io.File;
@@ -9,29 +10,32 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
+@EnableConfigurationProperties(value = DescriptorProperties.class)
 @ConditionalOnProperty(value = "com.morak.performance-tracker.format", havingValue = "json")
 public class JsonDescriptor implements Descriptor {
 
     private static final String JSON_FORMAT = ".json";
 
-    private final String filePath;
+    private final String path;
+    private final String file;
     private final ObjectMapper objectMapper;
 
-    public JsonDescriptor(@Value("${com.morak.performance-tracker.logs.path:./logs/}") String filePath,
+    public JsonDescriptor(DescriptorProperties descriptorProperties,
                           ObjectMapper objectMapper) {
-        this.filePath = filePath;
+        this.path = descriptorProperties.getPath();
+        this.file = descriptorProperties.getFile();
         this.objectMapper = objectMapper;
     }
 
     @Override
     public void describe(Context context) {
-        File file = new File(filePath + createFileName(context) + JSON_FORMAT);
-        try (FileWriter fileWriter = new FileWriter(file, true);
+        File jsonFile = new File(path + createFileName() + JSON_FORMAT);
+        try (FileWriter fileWriter = new FileWriter(jsonFile, true);
              SequenceWriter seqWriter = objectMapper.writer().writeValuesAsArray(fileWriter)) {
             writeToFile(context, seqWriter);
         } catch (IOException e) {
@@ -39,16 +43,8 @@ public class JsonDescriptor implements Descriptor {
         }
     }
 
-    private String createFileName(Context context) {
-        System.out.println(getTargetClassName(context) + getNowDate());
-        return getTargetClassName(context) + getNowDate();
-    }
-
-    private String getTargetClassName(Context context) {
-        String[] filePaths = context.getName()
-                .split("\\.");
-        int length = filePaths.length;
-        return filePaths[length - 1];
+    private String createFileName() {
+        return file + getNowDate();
     }
 
     private String getNowDate() {

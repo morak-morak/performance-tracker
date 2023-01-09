@@ -37,22 +37,30 @@ class MyTest {
     }
 }
 ```
-And check your result on `~/logs/performance.log`
+And check your result on `~/logs/performance.log`.
+
+If you wanna know further examples, see [this](./docs/EXAMPLE.md)
 
 ## Features
 ### Measurement of performance
 PerformanceTracker currently supports several features with beans spring registered.  
 In case of bug or inappropriate measurement, please report it on issues.
 
-- [x] Database Access(JPA, JdbcTemplate) (using DataSource)
-- [x] Application (using Spring interceptor)
-- [x] API Request (using RestTemplateBuilder)
+- [x] Database Access(JPA, JdbcTemplate) (using `DataSource`)
+- [x] Application (using `Spring interceptor`)
+- [x] API Request (using `RestTemplateBuilder`)
 
-### Description
+### [Description](./docs/Descriptions.md)
 You can see the result of PerformanceTracker(which is called description) with format you specified.
 
 - [x] logging
 - [x] json
+
+### [Context](./docs/Contexts.md)
+`Context` represents the way of aggregation measured through your tests.
+
+- [x] Method : per test method.
+- [x] Endpoint : per request endpoint (e.g. URI, SQL) 
 
 ## Configuration
 

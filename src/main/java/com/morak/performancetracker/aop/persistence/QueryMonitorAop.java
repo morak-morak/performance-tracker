@@ -1,10 +1,10 @@
 package com.morak.performancetracker.aop.persistence;
 
+import com.morak.performancetracker.aop.util.ProxyFactoryBeanUtils;
 import com.morak.performancetracker.context.Accumulator;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,11 +22,8 @@ public class QueryMonitorAop {
     @Around("execution(* javax.sql.DataSource.getConnection())")
     public Object datasource(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         Object returnValue = proceedingJoinPoint.proceed();
-        ProxyFactoryBean proxyFactoryBean = new ProxyFactoryBean();
-        proxyFactoryBean.setTarget(returnValue);
-        proxyFactoryBean.setProxyTargetClass(false);
-        proxyFactoryBean.addAdvisor(
-                new ConnectionAdvisor(new ConnectionPointcut(), new ConnectionAdvice(queryMonitor, accumulator)));
-        return proxyFactoryBean.getObject();
+        ConnectionAdvisor advisor = new ConnectionAdvisor(new ConnectionPointcut(),
+                new ConnectionAdvice(queryMonitor, accumulator));
+        return ProxyFactoryBeanUtils.createObject(returnValue, false, advisor);
     }
 }

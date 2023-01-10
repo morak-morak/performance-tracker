@@ -1,10 +1,10 @@
 package com.morak.performancetracker.aop.rest;
 
+import com.morak.performancetracker.aop.util.ProxyFactoryBeanUtils;
 import com.morak.performancetracker.context.Accumulator;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,10 +22,7 @@ public class RestMonitorAop {
     @Around("execution(* org.springframework.boot.web.client.RestTemplateBuilder.build())")
     public Object intercept(ProceedingJoinPoint joinPoint) throws Throwable {
         Object returnValue = joinPoint.proceed();
-        ProxyFactoryBean proxyFactoryBean = new ProxyFactoryBean();
-        proxyFactoryBean.setTarget(returnValue);
-        proxyFactoryBean.setProxyTargetClass(true);
-        proxyFactoryBean.addAdvisor(new RestAdvisor(new RestPointcut(), new RestAdvice(restMonitor, accumulator)));
-        return proxyFactoryBean.getObject();
+        RestAdvisor advisor = new RestAdvisor(new RestPointcut(), new RestAdvice(restMonitor, accumulator));
+        return ProxyFactoryBeanUtils.createObject(returnValue, true, advisor);
     }
 }

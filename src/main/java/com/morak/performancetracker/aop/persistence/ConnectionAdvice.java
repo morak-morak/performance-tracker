@@ -1,9 +1,9 @@
 package com.morak.performancetracker.aop.persistence;
 
+import com.morak.performancetracker.aop.util.ProxyFactoryBeanUtils;
 import com.morak.performancetracker.context.Accumulator;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.springframework.aop.framework.ProxyFactoryBean;
 
 public class ConnectionAdvice implements MethodInterceptor {
 
@@ -18,11 +18,9 @@ public class ConnectionAdvice implements MethodInterceptor {
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
         Object returnValue = invocation.proceed();
-        ProxyFactoryBean proxyFactoryBean = new ProxyFactoryBean();
-        proxyFactoryBean.setTarget(returnValue);
-        proxyFactoryBean.setProxyTargetClass(false);
         queryMonitor.setQuery((String) invocation.getArguments()[0]);
-        proxyFactoryBean.addAdvisor(new StatementAdvisor(new StatementPointcut(), new StatementAdvice(queryMonitor, accumulator)));
-        return proxyFactoryBean.getObject();
+        StatementAdvisor advisor = new StatementAdvisor(new StatementPointcut(),
+                new StatementAdvice(queryMonitor, accumulator));
+        return ProxyFactoryBeanUtils.createObject(returnValue, false, advisor);
     }
 }

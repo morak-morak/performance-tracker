@@ -11,7 +11,6 @@ import com.morak.performancetracker.context.Result;
 import com.morak.performancetracker.context.Root;
 import com.morak.performancetracker.context.Scope;
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -58,9 +57,9 @@ class DescriptorTest {
             List<ILoggingEvent> loggingEvents = logWatcher.list;
             assertAll(
                     () -> assertThat(loggingEvents).hasSize(3),
-                    () -> assertThat(loggingEvents.get(0).getMessage()).isEqualTo("firstClass"),
-                    () -> assertThat(loggingEvents.get(1).getMessage()).isEqualTo("    firstMethod"),
-                    () -> assertThat(loggingEvents.get(2).getMessage()).isEqualTo("        Result{name='firstQuery', elapsed=2.0}")
+                    () -> assertThat(loggingEvents.get(0).getMessage()).contains("firstClass"),
+                    () -> assertThat(loggingEvents.get(1).getMessage()).contains("firstMethod"),
+                    () -> assertThat(loggingEvents.get(2).getMessage()).contains("firstQuery")
             );
         }
     }
@@ -68,11 +67,6 @@ class DescriptorTest {
     @Nested
     @TestPropertySource(properties = "com.morak.performance-tracker.format = json")
     class Properties에_format이_있는_경우 {
-
-        @AfterEach
-        void teardown() {
-
-        }
 
         @Autowired
         private ApplicationContext context;

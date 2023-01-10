@@ -10,11 +10,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@EnableConfigurationProperties(value = DescriptorProperties.class)
 @ConditionalOnProperty(value = "com.morak.performance-tracker.format", havingValue = "json")
 public class JsonDescriptor implements Descriptor {
 

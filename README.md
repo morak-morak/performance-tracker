@@ -39,7 +39,7 @@ class MyTest {
 ```
 And check your result on `~/logs/performance.log`.
 
-If you wanna know further examples, see [this](./docs/EXAMPLE.md)
+If you wanna know further examples, see [this](./docs/Monitors.md)
 
 ## Features
 ### Measurement of performance

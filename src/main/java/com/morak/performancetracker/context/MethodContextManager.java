@@ -11,11 +11,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class MethodContextManager implements ContextManager {
 
-    private final List<Context> contexts = new ArrayList<>();
+    private final Root contexts;
     private List<Scope> scopes = new ArrayList<>();
     private final Descriptor descriptor;
 
     public MethodContextManager(Descriptor descriptor) {
+        this.contexts = new Root(new ArrayList<>());
         this.descriptor = descriptor;
     }
 
@@ -40,8 +41,6 @@ public class MethodContextManager implements ContextManager {
 
     @Override
     public void afterAll(Accumulator accumulator) {
-        for (final Context context : contexts) {
-            descriptor.describe(context);
-        }
+        descriptor.describe(contexts);
     }
 }

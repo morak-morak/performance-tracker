@@ -22,7 +22,7 @@ public class EndpointContextManager implements ContextManager {
                 .stream()
                 .map(it -> summarizePerScope(it.getKey(), it.getValue()))
                 .collect(Collectors.toList());
-        descriptor.describe(new Context(scopes));
+        descriptor.describe(new Root(List.of(new Context(scopes))));
     }
 
     private Scope summarizePerScope(String scopeName, List<Result> results) {

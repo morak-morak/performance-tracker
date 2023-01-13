@@ -1,5 +1,6 @@
 package com.morak.performancetracker.context;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.concurrent.TimeUnit;
 
 public class Result {
@@ -20,6 +21,7 @@ public class Result {
         return elapsed;
     }
 
+    @JsonIgnore
     public String getResult() {
         return toString();
     }

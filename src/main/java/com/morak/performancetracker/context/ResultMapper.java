@@ -2,7 +2,6 @@ package com.morak.performancetracker.context;
 
 import com.morak.performancetracker.Monitor;
 import com.morak.performancetracker.aop.persistence.QueryMonitor;
-import com.morak.performancetracker.aop.rest.RestMonitor;
 import com.morak.performancetracker.aop.web.WebMonitor;
 import org.springframework.stereotype.Component;
 
@@ -23,10 +22,6 @@ public class ResultMapper {
         if (monitor instanceof WebMonitor) {
             WebMonitor wm = (WebMonitor) monitor;
             return new Result(wm.getMethod() + " " + wm.getUri(), wm.getElapsed());
-        }
-        if (monitor instanceof RestMonitor) {
-            RestMonitor rm = (RestMonitor) monitor;
-            return new Result(rm.getUri(), rm.getElapsedTime());
         }
         throw new IllegalArgumentException("Couldn't find proper monitor");
     }

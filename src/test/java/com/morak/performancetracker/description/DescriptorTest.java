@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
@@ -27,14 +26,12 @@ class DescriptorTest {
     class Properties에_format이_없는_경우 {
 
         @Autowired
-        private ApplicationContext context;
-
-        private ListAppender<ILoggingEvent> logWatcher;
         private Descriptor descriptor;
+        
+        private ListAppender<ILoggingEvent> logWatcher;
 
         @BeforeEach
         void setUp() {
-            descriptor = context.getBean(Descriptor.class);
             logWatcher = new ListAppender<>();
             ((Logger) LoggerFactory.getLogger("PERFORMANCE")).addAppender(logWatcher);
             logWatcher.start();
@@ -69,13 +66,11 @@ class DescriptorTest {
     class Properties에_format이_있는_경우 {
 
         @Autowired
-        private ApplicationContext context;
+        private Descriptor descriptor;
 
         @Test
         void JsonDescriptor로_빈이_생성된다() {
-            Descriptor bean = context.getBean(Descriptor.class);
-
-            assertThat(bean.getClass())
+            assertThat(descriptor.getClass())
                     .isEqualTo(JsonDescriptor.class);
         }
     }

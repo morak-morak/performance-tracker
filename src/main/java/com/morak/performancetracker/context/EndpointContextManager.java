@@ -1,6 +1,7 @@
 package com.morak.performancetracker.context;
 
 import com.morak.performancetracker.description.Descriptor;
+import com.morak.performancetracker.utils.ConditionalOnPropertyContains;
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConditionalOnPropertyContains(value = "com.morak.performance-tracker.context.type", containsValue = "endpoint", matchIfEmpty = true)
 public class EndpointContextManager implements ContextManager {
 
     private final Descriptor descriptor;

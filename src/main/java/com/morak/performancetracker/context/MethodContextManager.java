@@ -1,6 +1,7 @@
 package com.morak.performancetracker.context;
 
 import com.morak.performancetracker.description.Descriptor;
+import com.morak.performancetracker.utils.ConditionalOnPropertyContains;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConditionalOnPropertyContains(value = "com.morak.performance-tracker.context.type", containsValue = "method", matchIfEmpty = true)
 public class MethodContextManager implements ContextManager {
 
     private final Root contexts;

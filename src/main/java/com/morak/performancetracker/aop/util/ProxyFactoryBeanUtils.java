@@ -1,6 +1,5 @@
 package com.morak.performancetracker.aop.util;
 
-import java.lang.reflect.Proxy;
 import org.springframework.aop.PointcutAdvisor;
 import org.springframework.aop.framework.ProxyFactoryBean;
 

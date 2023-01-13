@@ -3,6 +3,8 @@ package com.morak.performancetracker.junit;
 import com.morak.performancetracker.PerformanceTracker;
 import com.morak.performancetracker.context.Accumulator;
 import com.morak.performancetracker.context.ContextManager;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ExtensionContext.Namespace;
@@ -16,7 +18,7 @@ public class PerformanceTrackerAllTestsExtension implements BeforeAllCallback, C
 
     private static boolean started = false;
     private static ApplicationContext applicationContext;
-    private static ContextManager contextManager;
+    private static List<ContextManager> contextManagers;
 
     @Override
     public void beforeAll(ExtensionContext context) {
@@ -24,7 +26,7 @@ public class PerformanceTrackerAllTestsExtension implements BeforeAllCallback, C
             if (!started) {
                 started = true;
                 applicationContext = SpringExtension.getApplicationContext(context);
-                contextManager = applicationContext.getBean(determineContextManager(context));
+                contextManagers = new ArrayList<>(applicationContext.getBeansOfType(ContextManager.class).values());
                 context.getRoot().getStore(Namespace.GLOBAL).put(STORE_KEY, this);
             }
         }
@@ -32,11 +34,7 @@ public class PerformanceTrackerAllTestsExtension implements BeforeAllCallback, C
 
     @Override
     public void close() {
-        contextManager.afterAll(applicationContext.getBean(Accumulator.class));
-    }
-
-    private static Class<? extends ContextManager> determineContextManager(ExtensionContext context) {
-        PerformanceTracker annotation = context.getRequiredTestClass().getAnnotation(PerformanceTracker.class);
-        return annotation.context().getContextManagerClass();
+        contextManagers
+                .forEach(manager -> manager.afterAll(applicationContext.getBean(Accumulator.class)));
     }
 }

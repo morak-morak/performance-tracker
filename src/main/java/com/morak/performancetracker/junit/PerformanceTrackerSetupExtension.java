@@ -1,6 +1,5 @@
 package com.morak.performancetracker.junit;
 
-import com.morak.performancetracker.PerformanceTracker;
 import com.morak.performancetracker.context.Accumulator;
 import com.morak.performancetracker.context.ContextManager;
 import org.junit.jupiter.api.extension.AfterAllCallback;
@@ -13,24 +12,27 @@ public class PerformanceTrackerSetupExtension implements AfterEachCallback, Afte
 
     @Override
     public void afterEach(ExtensionContext context) {
-        ApplicationContext applicationContext = getApplicationContext(context);
         if (context.getExecutionException().isPresent()) {
             return;
         }
-        ContextManager manager = applicationContext.getBean(determineContextManager(context));
-        manager.afterEach(applicationContext.getBean(Accumulator.class), context.getRequiredTestMethod().getName());
+        ApplicationContext applicationContext = getApplicationContext(context);
+        applicationContext.getBeansOfType(ContextManager.class)
+                .values()
+                .forEach(manager -> manager.afterEach(
+                        applicationContext.getBean(Accumulator.class),
+                        context.getRequiredTestClass().getName()
+                ));
     }
 
     @Override
     public void afterAll(ExtensionContext context) {
         ApplicationContext applicationContext = getApplicationContext(context);
-        ContextManager manager = applicationContext.getBean(determineContextManager(context));
-        manager.afterClass(applicationContext.getBean(Accumulator.class), context.getRequiredTestClass().getName());
-    }
-
-    private Class<? extends ContextManager> determineContextManager(ExtensionContext context) {
-        PerformanceTracker annotation = context.getRequiredTestClass().getAnnotation(PerformanceTracker.class);
-        return annotation.context().getContextManagerClass();
+        applicationContext.getBeansOfType(ContextManager.class)
+                .values()
+                .forEach(manager -> manager.afterClass(
+                        applicationContext.getBean(Accumulator.class),
+                        context.getRequiredTestClass().getName()
+                ));
     }
 
     private ApplicationContext getApplicationContext(ExtensionContext context) {

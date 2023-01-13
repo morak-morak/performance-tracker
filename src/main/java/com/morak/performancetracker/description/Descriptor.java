@@ -1,9 +1,8 @@
 package com.morak.performancetracker.description;
 
-import com.morak.performancetracker.context.Context;
-import com.morak.performancetracker.context.Result;
+import com.morak.performancetracker.context.Root;
 
 public interface Descriptor {
 
-    void describe(Context context);
+    void describe(Root root);
 }

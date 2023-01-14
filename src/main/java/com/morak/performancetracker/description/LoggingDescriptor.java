@@ -1,5 +1,6 @@
 package com.morak.performancetracker.description;
 
+import com.morak.performancetracker.ContextType;
 import com.morak.performancetracker.context.Context;
 import com.morak.performancetracker.context.Result;
 import com.morak.performancetracker.context.Root;
@@ -16,7 +17,8 @@ public class LoggingDescriptor implements Descriptor {
     private final Logger log = LoggerFactory.getLogger("PERFORMANCE");
 
     @Override
-    public void describe(Root root) {
+    public void describe(Root root, ContextType contextType) {
+        log.info("======================{}=======================", contextType.name());
         int depth = 0;
         for (Context context : root.getContexts()) {
             describeContext(context, depth);

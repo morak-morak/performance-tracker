@@ -6,11 +6,13 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
+import com.morak.performancetracker.ContextType;
 import com.morak.performancetracker.context.Context;
 import com.morak.performancetracker.context.Result;
 import com.morak.performancetracker.context.Root;
 import com.morak.performancetracker.context.Scope;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -44,20 +46,17 @@ class DescriptorTest {
         }
 
         @Test
-        void LogginDescriptor는_로깅으로_출력된다() {
+        void LoggingDescriptor는_로깅으로_출력된다() {
             //given
             Context context = new Context("firstClass",
                     List.of(new Scope("firstMethod", List.of(new Result("firstQuery", 2.0)))));
             //when
-            descriptor.describe(new Root(List.of(context)));
+            descriptor.describe(new Root(List.of(context)), ContextType.METHOD);
             //then
-            List<ILoggingEvent> loggingEvents = logWatcher.list;
-            assertAll(
-                    () -> assertThat(loggingEvents).hasSize(3),
-                    () -> assertThat(loggingEvents.get(0).getMessage()).contains("firstClass"),
-                    () -> assertThat(loggingEvents.get(1).getMessage()).contains("firstMethod"),
-                    () -> assertThat(loggingEvents.get(2).getMessage()).contains("firstQuery")
-            );
+            String logMessages = logWatcher.list.stream()
+                    .map(ILoggingEvent::getMessage)
+                    .collect(Collectors.joining("\n"));
+            assertThat(logMessages).contains("firstClass", "firstMethod", "firstQuery");
         }
     }
 

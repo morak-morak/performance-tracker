@@ -1,5 +1,6 @@
 package com.morak.performancetracker.context;
 
+import com.morak.performancetracker.ContextType;
 import com.morak.performancetracker.description.Descriptor;
 import com.morak.performancetracker.utils.ConditionalOnPropertyContains;
 import java.util.ArrayList;
@@ -42,6 +43,6 @@ public class MethodContextManager implements ContextManager {
 
     @Override
     public void afterAll(Accumulator accumulator) {
-        descriptor.describe(contexts);
+        descriptor.describe(contexts, ContextType.METHOD);
     }
 }

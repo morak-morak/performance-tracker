@@ -1,5 +1,6 @@
 package com.morak.performancetracker.context;
 
+import com.morak.performancetracker.ContextType;
 import com.morak.performancetracker.description.Descriptor;
 import com.morak.performancetracker.utils.ConditionalOnPropertyContains;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class EndpointContextManager implements ContextManager {
 
     @Override
     public void afterAll(Accumulator accumulator) {
-        descriptor.describe(new Root(List.of(new Context("ROOT", this.scopes))));
+        descriptor.describe(new Root(List.of(new Context("ROOT", this.scopes))), ContextType.ENDPOINT);
     }
 
     private Scope summarizePerScope(String scopeName, List<Result> results) {

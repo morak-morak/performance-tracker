@@ -16,12 +16,14 @@ public class PerformanceTrackerSetupExtension implements AfterEachCallback, Afte
             return;
         }
         ApplicationContext applicationContext = getApplicationContext(context);
+        Accumulator accumulator = applicationContext.getBean(Accumulator.class);
         applicationContext.getBeansOfType(ContextManager.class)
                 .values()
                 .forEach(manager -> manager.afterEach(
-                        applicationContext.getBean(Accumulator.class),
-                        context.getRequiredTestClass().getName()
+                        accumulator,
+                        context.getRequiredTestMethod().getName()
                 ));
+        accumulator.clear();
     }
 
     @Override

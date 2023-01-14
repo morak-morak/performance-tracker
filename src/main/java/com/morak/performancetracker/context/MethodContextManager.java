@@ -26,7 +26,6 @@ public class MethodContextManager implements ContextManager {
     public void afterEach(Accumulator accumulator, String testMethodName) {
         Map<String, List<Result>> results = accumulator.getResults();
         scopes.add(new Scope(testMethodName, flatResults(results)));
-        accumulator.clear();
     }
 
     private List<Result> flatResults(Map<String, List<Result>> results) {

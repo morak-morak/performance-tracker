@@ -17,31 +17,29 @@ public class LoggingDescriptor implements Descriptor {
 
     @Override
     public void describe(Root root) {
+        int depth = 0;
         for (Context context : root.getContexts()) {
-            describe(context);
+            describeContext(context, depth);
         }
     }
 
-    private void describe(final Context context) {
+    private void describeContext(Context context, int depth) {
+        describeOnDepth(context.getName(), depth);
         for (Scope scope : context.getScopes()) {
-            if (context.getName() == null) {
-                describeScope(scope, -1);
-                continue;
-            }
-            describeOnDepth(context.getName(), 0);
-            describeScope(scope, 0);
+            describeScope(scope, depth + 1);
         }
     }
 
     private void describeScope(Scope scope, int depth) {
-        describeOnDepth(scope.getName(), depth + 1);
+        describeOnDepth(scope.getName(), depth);
         for (Result result : scope.getSummaries()) {
-            describeOnDepth(result.getResult(), depth + 2);
+            describeOnDepth(result.getResult(), depth + 1);
         }
     }
 
     private void describeOnDepth(String message, int depth) {
-        String prefix = " ".repeat((depth * 4));
+        // todo : prettify prefix like tree (e.g. `brew install tree`)
+        String prefix = " ".repeat(depth * 4);
         log.info(prefix + message);
     }
 }

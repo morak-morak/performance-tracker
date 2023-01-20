@@ -1,5 +1,5 @@
 # Performance Tracker
-Track your application's performance based on Spring.
+This library helps you to track your application's performance based on Spring Framework, and Junit Test Framework. It's especially useful when you don't have any monitoring system, or even so, before you publish on your development environment. 
 
 [한국어 버전](./README_KR.md)
 

@@ -1,13 +1,11 @@
 # Description
-Description is a result measured by PerformanceTracker.
-You can see the result of PerformanceTracker(which is called description) with format you specified.
-we support 2 types of description type at present.
+PerformanceTracker 에 의해 측정된 결과물(Description이라고 부릅니다.)을 지정한 포맷 형태로 볼 수 있습니다. 현재 두 가지의 포맷을 지원합니다. 
 
 - [x] Logging
 - [x] Json
 
 ## Logging
-Logging is the most simple format(so it is default option) on PerformanceTracker. It just logs on `{yourProject}/logs/performance.log` which can be modified by spring properties(see [README](../README.md)). Below is an example of description with logging format
+로깅은 PerformanceTracker에서 가장 간단한(그래서 기본으로 설정되어있는) 포맷입니다. `{yourProject}/logs/performance.log` 에 로그를 남깁니다. (해당 설정은 스프링 프로퍼티로 설정 가능합니다.) 아래는 로깅 포맷의 예시입니다. 
 
 ```log
 2023-01-09 20:35:23 INFO  com.morak.performancetracker.test.{TEST_CLASS}
@@ -18,10 +16,9 @@ Logging is the most simple format(so it is default option) on PerformanceTracker
 ```
 
 ## Json
-Or, you can see it with 'json' format, which might come in handy if you want calculate statistics programmatically.
+또는, Json 포맷으로 볼 수 있습니다. 통계를 계산하고자 할 때 특히 유용할 수 있습니다.
 
 ```json
-
 [
   {
     "contexts": [

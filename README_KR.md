@@ -38,7 +38,7 @@ class MyTest {
 
 프로젝트의 `~/logs/performance.log` 디렉토리에서 결과를 확인할 수 있습니다.
 
-더 다양한 예시는 [이곳](./docs/Monitors.md)을 확인하세요.
+더 다양한 예시는 [이곳](./docs/Monitors_KR.md)을 확인하세요.
 ## 기능
 ### 성능 측정
 PerformanceTracker는 스프링에 등록된 빈을 이용해 여러 기능을 제공합니다.  
@@ -48,13 +48,13 @@ PerformanceTracker는 스프링에 등록된 빈을 이용해 여러 기능을 �
 - [x] 어플리케이션 (using Spring interceptor)
 - [x] API 요청 (using RestTemplateBuilder)
 
-### [Description](./docs/Descriptions.md)
+### [Description](./docs/Descriptions_KR.md)
 PerformanceTracker의 결과물(description)을 지정한 format으로 확인할 수 있습니다.
 
 - [x] logging
 - [x] json
 
-### [Context](./docs/Contexts.md)
+### [Context](./docs/Contexts_KR.md)
 `Context` 는 테스트 측정 결과를 집계하는 방법을 의미합니다.
 
 - [x] Method : 테스트 메소드 별

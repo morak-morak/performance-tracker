@@ -14,8 +14,9 @@ public class ResultComposite implements Result {
 
     @Override
     public void findAndAdd(Result result, TestMetadata testMetadata) {
-        if (this.testMetadata.getClassName().equals(testMetadata.getClassName())) {
+        if (this.testMetadata.equals(testMetadata)) {
             this.subResults.add(result);
+            return ;
         }
         subResults.forEach(subResult -> subResult.findAndAdd(result, testMetadata));
     }
@@ -28,9 +29,5 @@ public class ResultComposite implements Result {
     @Override
     public List<Result> getSubResults() {
         return subResults;
-    }
-
-    public void add(ResultComposite resultComposite) {
-        this.subResults.add(resultComposite);
     }
 }

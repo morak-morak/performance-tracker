@@ -29,7 +29,7 @@ public class EndpointContextManager implements ContextManager {
     private Result summarizePerScope(String scopeName, List<MonitorResult> results) {
         Map<String, DoubleSummaryStatistics> summary = summarize(results);
         List<Result> summaries = toResult(summary);
-        TestMetadata testMetadata = new TestMetadata(scopeName, "");
+        TestMetadata testMetadata = new TestMetadata(scopeName);
         return new ResultComposite(testMetadata, summaries);
     }
 

@@ -1,25 +1,31 @@
 package com.morak.performancetracker.context;
 
+import com.morak.performancetracker.utils.StringUtils;
+
+import java.lang.reflect.Method;
 import java.util.Objects;
 
 public class TestMetadata {
 
-    public static final TestMetadata ROOT = new TestMetadata("ROOT", "ROOT");
+    public static final TestMetadata ROOT = new TestMetadata("ROOT");
 
-    private String className;
-    private String methodName;
+    private String name;
 
-    public TestMetadata(String className, String methodName) {
-        this.className = className;
-        this.methodName = methodName;
+    public TestMetadata(String name) {
+        this.name = name;
     }
 
-    public String getClassName() {
-        return className;
+    public static TestMetadata of(String... names) {
+        StringBuilder builder = new StringBuilder("ROOT");
+        for (String name : names) {
+            builder.append("@")
+                    .append(name);
+        }
+        return new TestMetadata(builder.toString());
     }
 
-    public String getMethodName() {
-        return methodName;
+    public TestMetadata parent() {
+        return new TestMetadata(StringUtils.substringUntil(this.name, '@'));
     }
 
     @Override
@@ -27,19 +33,19 @@ public class TestMetadata {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TestMetadata that = (TestMetadata) o;
-        return Objects.equals(className, that.className) && Objects.equals(methodName, that.methodName);
+        return Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(className, methodName);
+        return Objects.hash(name);
     }
 
     @Override
     public String toString() {
+        String self = StringUtils.substringFrom(this.name, '@');
         return "TestMetadata{" +
-                "className='" + className + '\'' +
-                ", methodName='" + methodName + '\'' +
+                "name='" + self + '\'' +
                 '}';
     }
 }

@@ -21,9 +21,13 @@ public class MethodContextManager implements ContextManager {
 
     @Override
     public void beforeClass(TestMetadata testMetadata) {
-        this.root.add(new ResultComposite(testMetadata, new ArrayList<>()));
+        this.root.findAndAdd(new ResultComposite(testMetadata, new ArrayList<>()), testMetadata.parent());
     }
 
+    @Override
+    public void beforeEach(TestMetadata testMetadata) {
+        this.root.findAndAdd(new ResultComposite(testMetadata, new ArrayList<>()), testMetadata.parent());
+    }
 
     @Override
     public void afterEach(Accumulator accumulator, TestMetadata testMetadata) {

@@ -4,7 +4,6 @@ import com.morak.performancetracker.PerformanceTracker;
 import com.morak.performancetracker.context.Accumulator;
 import com.morak.performancetracker.context.ContextManager;
 import com.morak.performancetracker.context.TestMetadata;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -15,7 +14,7 @@ public class PerformanceTrackerSetupExtension implements BeforeAllCallback, Befo
     public void beforeAll(ExtensionContext context) throws Exception {
         ApplicationContext applicationContext = getApplicationContext(context);
         ContextManager manager = applicationContext.getBean(determineContextManager(context));
-        TestMetadata testMetadata = new TestMetadata(context.getRequiredTestClass().getName(), "");
+        TestMetadata testMetadata = TestMetadata.of(context.getRequiredTestClass().getName());
         manager.beforeClass(testMetadata);
     }
 
@@ -23,7 +22,7 @@ public class PerformanceTrackerSetupExtension implements BeforeAllCallback, Befo
     public void beforeEach(ExtensionContext context) throws Exception {
         ApplicationContext applicationContext = getApplicationContext(context);
         ContextManager manager = applicationContext.getBean(determineContextManager(context));
-        TestMetadata testMetadata = new TestMetadata(context.getRequiredTestClass().getName(), context.getRequiredTestMethod().getName());
+        TestMetadata testMetadata = TestMetadata.of(context.getRequiredTestClass().getName(), context.getRequiredTestMethod().getName());
         manager.beforeEach(testMetadata);
     }
 
@@ -34,7 +33,7 @@ public class PerformanceTrackerSetupExtension implements BeforeAllCallback, Befo
             return;
         }
         ContextManager manager = applicationContext.getBean(determineContextManager(context));
-        TestMetadata testMetadata = new TestMetadata(context.getRequiredTestClass().getName(), context.getRequiredTestMethod().getName());
+        TestMetadata testMetadata = TestMetadata.of(context.getRequiredTestClass().getName(), context.getRequiredTestMethod().getName());
         manager.afterEach(applicationContext.getBean(Accumulator.class), testMetadata);
     }
 
@@ -42,7 +41,7 @@ public class PerformanceTrackerSetupExtension implements BeforeAllCallback, Befo
     public void afterAll(ExtensionContext context) {
         ApplicationContext applicationContext = getApplicationContext(context);
         ContextManager manager = applicationContext.getBean(determineContextManager(context));
-        TestMetadata testMetadata = new TestMetadata(context.getRequiredTestClass().getName(), "");
+        TestMetadata testMetadata = TestMetadata.of(context.getRequiredTestClass().getName());
         manager.afterClass(applicationContext.getBean(Accumulator.class), testMetadata);
     }
 

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class Accumulator {
 
     private final ResultMapper resultMapper;
-    private Map<String, List<Result>> results;
+    private Map<String, List<MonitorResult>> results;
 
     public Accumulator(ResultMapper resultMapper) {
         this.resultMapper = resultMapper;
@@ -24,7 +24,7 @@ public class Accumulator {
         results.get(signature).add(resultMapper.mapMonitor(monitor));
     }
 
-    public Map<String, List<Result>> getResults() {
+    public Map<String, List<MonitorResult>> getResults() {
         return results;
     }
 

@@ -9,24 +9,24 @@ import org.springframework.stereotype.Component;
 @Component
 public class ResultMapper {
 
-    public Result mapMonitor(Monitor monitor) {
-        Result result = mapToResult(monitor);
+    public MonitorResult mapMonitor(Monitor monitor) {
+        MonitorResult result = mapToResult(monitor);
         monitor.clear();
         return result;
     }
 
-    private Result mapToResult(Monitor monitor) {
+    private MonitorResult mapToResult(Monitor monitor) {
         if (monitor instanceof QueryMonitor) {
             QueryMonitor qm = (QueryMonitor) monitor;
-            return new Result(qm.getQuery(), qm.getQueryTime());
+            return new MonitorResult(qm.getQuery(), qm.getQueryTime());
         }
         if (monitor instanceof WebMonitor) {
             WebMonitor wm = (WebMonitor) monitor;
-            return new Result(wm.getMethod() + " " + wm.getUri(), wm.getElapsed());
+            return new MonitorResult(wm.getMethod() + " " + wm.getUri(), wm.getElapsed());
         }
         if (monitor instanceof RestMonitor) {
             RestMonitor rm = (RestMonitor) monitor;
-            return new Result(rm.getUri(), rm.getElapsedTime());
+            return new MonitorResult(rm.getUri(), rm.getElapsedTime());
         }
         throw new IllegalArgumentException("Couldn't find proper monitor");
     }

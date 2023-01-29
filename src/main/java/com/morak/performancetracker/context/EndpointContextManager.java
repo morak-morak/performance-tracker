@@ -18,30 +18,32 @@ public class EndpointContextManager implements ContextManager {
 
     @Override
     public void afterAll(Accumulator accumulator) {
-        List<Scope> scopes = accumulator.getResults().entrySet()
+        List<Result> scopes = accumulator.getResults().entrySet()
                 .stream()
                 .map(it -> summarizePerScope(it.getKey(), it.getValue()))
                 .collect(Collectors.toList());
-        descriptor.describe(new Root(List.of(new Context(scopes))));
+        ResultComposite resultComposite = new ResultComposite(TestMetadata.ROOT, scopes);
+        descriptor.describe(resultComposite);
     }
 
-    private Scope summarizePerScope(String scopeName, List<Result> results) {
+    private Result summarizePerScope(String scopeName, List<MonitorResult> results) {
         Map<String, DoubleSummaryStatistics> summary = summarize(results);
         List<Result> summaries = toResult(summary);
-        return new Scope(scopeName, summaries);
+        TestMetadata testMetadata = new TestMetadata(scopeName, "");
+        return new ResultComposite(testMetadata, summaries);
     }
 
-    private Map<String, DoubleSummaryStatistics> summarize(List<Result> results) {
+    private Map<String, DoubleSummaryStatistics> summarize(List<MonitorResult> results) {
         return results.stream()
                 .collect(Collectors.groupingBy(
-                        Result::getName,
-                        Collectors.summarizingDouble(Result::getElapsed)
+                        MonitorResult::getName,
+                        Collectors.summarizingDouble(MonitorResult::getElapsed)
                 ));
     }
 
     private List<Result> toResult(Map<String, DoubleSummaryStatistics> summary) {
         return summary.entrySet().stream()
-                .map(it -> new Result(it.getKey(), it.getValue().getAverage()))
+                .map(it -> new ResultLeaf(it.getKey(), it.getValue().getAverage()))
                 .collect(Collectors.toList());
     }
 }

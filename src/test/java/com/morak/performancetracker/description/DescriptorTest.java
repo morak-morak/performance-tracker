@@ -1,16 +1,12 @@
 package com.morak.performancetracker.description;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.read.ListAppender;
-import com.morak.performancetracker.context.Context;
 import com.morak.performancetracker.context.Result;
-import com.morak.performancetracker.context.Root;
-import com.morak.performancetracker.context.Scope;
-import java.util.List;
+import com.morak.performancetracker.context.ResultComposite;
+import com.morak.performancetracker.context.ResultLeaf;
+import com.morak.performancetracker.context.TestMetadata;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -18,6 +14,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @SpringBootTest
 class DescriptorTest {
@@ -27,7 +28,7 @@ class DescriptorTest {
 
         @Autowired
         private Descriptor descriptor;
-        
+
         private ListAppender<ILoggingEvent> logWatcher;
 
         @BeforeEach
@@ -46,10 +47,16 @@ class DescriptorTest {
         @Test
         void LogginDescriptor는_로깅으로_출력된다() {
             //given
-            Context context = new Context("firstClass",
-                    List.of(new Scope("firstMethod", List.of(new Result("firstQuery", 2.0)))));
+            Result context = new ResultComposite(
+                    new TestMetadata("firstClass", ""),
+                    List.of(new ResultComposite(
+                                    new TestMetadata("firstMethod", ""), List.of(
+                                    new ResultLeaf("firstQuery", 2.0))
+                            )
+                    )
+            );
             //when
-            descriptor.describe(new Root(List.of(context)));
+            descriptor.describe(context);
             //then
             List<ILoggingEvent> loggingEvents = logWatcher.list;
             assertAll(

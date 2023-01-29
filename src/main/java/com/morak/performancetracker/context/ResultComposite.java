@@ -23,7 +23,7 @@ public class ResultComposite implements Result {
 
     @Override
     public String getResult() {
-        return this.testMetadata.toString();
+        return this.testMetadata.self();
     }
 
     @Override

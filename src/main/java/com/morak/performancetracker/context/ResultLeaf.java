@@ -37,9 +37,7 @@ public class ResultLeaf implements Result {
 
     @Override
     public String toString() {
-        return "ResultFile{" +
-                "name='" + name + '\'' +
-                ", elapsed=" + elapsed +
-                '}';
+        return "name='" + name + '\'' +
+                ", elapsed=" + elapsed;
     }
 }

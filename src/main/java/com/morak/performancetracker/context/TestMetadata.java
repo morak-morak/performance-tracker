@@ -27,6 +27,10 @@ public class TestMetadata {
         return new TestMetadata(StringUtils.substringUntil(this.name, '@'));
     }
 
+    public String self() {
+        return StringUtils.substringFrom(this.name, '@');
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,9 +46,8 @@ public class TestMetadata {
 
     @Override
     public String toString() {
-        String self = StringUtils.substringFrom(this.name, '@');
         return "TestMetadata{" +
-                "name='" + self + '\'' +
+                "name='" + self() + '\'' +
                 '}';
     }
 }

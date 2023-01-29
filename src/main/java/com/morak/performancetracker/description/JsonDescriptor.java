@@ -3,7 +3,7 @@ package com.morak.performancetracker.description;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SequenceWriter;
 import com.morak.performancetracker.configuration.DescriptorProperties;
-import com.morak.performancetracker.context.Root;
+import com.morak.performancetracker.context.Result;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -30,11 +30,10 @@ public class JsonDescriptor implements Descriptor {
     }
 
     @Override
-    public void describe(Root root) {
+    public void describe(Result root) {
         File jsonFile = new File(path + createFileName() + JSON_FORMAT);
-        try (FileWriter fileWriter = new FileWriter(jsonFile, true);
-             SequenceWriter seqWriter = objectMapper.writer().writeValuesAsArray(fileWriter)) {
-            seqWriter.write(root);
+        try (FileWriter fileWriter = new FileWriter(jsonFile, true)) {
+            fileWriter.write(objectMapper.writeValueAsString(root));
         } catch (IOException e) {
             throw new RuntimeException("I/O error writing context");
         }

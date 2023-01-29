@@ -1,36 +1,12 @@
 package com.morak.performancetracker.context;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
-public class Result {
+public interface Result {
 
-    private final String name;
-    private final double elapsed;
+    void findAndAdd(Result result, TestMetadata testMetadata);
 
-    public Result(String name, double elapsed) {
-        this.name = name;
-        this.elapsed = elapsed;
-    }
+    String getResult();
 
-    public String getName() {
-        return name;
-    }
-
-    public double getElapsed() {
-        return elapsed;
-    }
-
-    @JsonIgnore
-    public String getResult() {
-        return toString();
-    }
-
-    @Override
-    public String toString() {
-        return "Result{" +
-                "name='" + name + '\'' +
-                ", elapsed=" + TimeUnit.MILLISECONDS.convert((long) elapsed, TimeUnit.NANOSECONDS) + "ms" +
-                '}';
-    }
+    List<Result> getSubResults();
 }

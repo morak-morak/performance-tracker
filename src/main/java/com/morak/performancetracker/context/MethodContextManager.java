@@ -1,12 +1,13 @@
 package com.morak.performancetracker.context;
 
 import com.morak.performancetracker.description.Descriptor;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Component;
 
 @Component
 public class MethodContextManager implements ContextManager {
@@ -31,9 +32,8 @@ public class MethodContextManager implements ContextManager {
 
     @Override
     public void afterEach(Accumulator accumulator, TestMetadata testMetadata) {
-        Map<String, List<MonitorResult>> results = accumulator.getResults();
-        List<MonitorResult> resultFiles = flatResults(results);
-        for (MonitorResult dto : resultFiles) {
+        Map<String, List<MonitorResult>> monitorResults = accumulator.getResults();
+        for (MonitorResult dto : flatResults(monitorResults)) {
             root.findAndAdd(new ResultLeaf(dto.getName(), dto.getElapsed()), testMetadata);
         }
         accumulator.clear();

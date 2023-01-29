@@ -1,11 +1,12 @@
 package com.morak.performancetracker.context;
 
 import com.morak.performancetracker.description.Descriptor;
+import org.springframework.stereotype.Component;
+
 import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Component;
 
 @Component
 public class EndpointContextManager implements ContextManager {

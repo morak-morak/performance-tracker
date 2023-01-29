@@ -4,8 +4,8 @@ import java.util.List;
 
 public class ResultComposite implements Result {
 
-    private TestMetadata testMetadata;
-    private List<Result> subResults;
+    private final TestMetadata testMetadata;
+    private final List<Result> subResults;
 
     public ResultComposite(TestMetadata testMetadata, List<Result> subResults) {
         this.testMetadata = testMetadata;
@@ -16,7 +16,7 @@ public class ResultComposite implements Result {
     public void findAndAdd(Result result, TestMetadata testMetadata) {
         if (this.testMetadata.equals(testMetadata)) {
             this.subResults.add(result);
-            return ;
+            return;
         }
         subResults.forEach(subResult -> subResult.findAndAdd(result, testMetadata));
     }

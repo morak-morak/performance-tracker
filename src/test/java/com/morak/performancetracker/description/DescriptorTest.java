@@ -48,9 +48,9 @@ class DescriptorTest {
         void LogginDescriptor는_로깅으로_출력된다() {
             //given
             Result context = new ResultComposite(
-                    new TestMetadata("firstClass", ""),
+                    new TestMetadata("firstClass"),
                     List.of(new ResultComposite(
-                                    new TestMetadata("firstMethod", ""), List.of(
+                                    new TestMetadata("firstMethod"), List.of(
                                     new ResultLeaf("firstQuery", 2.0))
                             )
                     )

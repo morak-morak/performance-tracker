@@ -6,8 +6,8 @@ import java.util.List;
 
 public class ResultLeaf implements Result {
 
-    private String name;
-    private double elapsed;
+    private final String name;
+    private final double elapsed;
 
     public ResultLeaf(String name, double elapsed) {
         this.name = name;
@@ -19,12 +19,11 @@ public class ResultLeaf implements Result {
     }
 
     public double getElapsed() {
-        return 0.01F;
+        return elapsed;
     }
 
     @Override
-    public void findAndAdd(Result result, TestMetadata testMetadata) {
-    }
+    public void findAndAdd(Result result, TestMetadata testMetadata) {}
 
     @JsonIgnore
     public String getResult() {

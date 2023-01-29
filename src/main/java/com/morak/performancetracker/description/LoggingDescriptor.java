@@ -1,9 +1,7 @@
 package com.morak.performancetracker.description;
 
-import com.morak.performancetracker.context.Context;
-import com.morak.performancetracker.context.Result;
-import com.morak.performancetracker.context.Root;
-import com.morak.performancetracker.context.Scope;
+import com.morak.performancetracker.context.*;
+import com.morak.performancetracker.utils.ListUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -16,27 +14,17 @@ public class LoggingDescriptor implements Descriptor {
     private final Logger log = LoggerFactory.getLogger("PERFORMANCE");
 
     @Override
-    public void describe(Root root) {
-        for (Context context : root.getContexts()) {
-            describe(context);
-        }
+    public void describe(Result root) {
+        describeInternal(root, 0);
     }
 
-    private void describe(final Context context) {
-        for (Scope scope : context.getScopes()) {
-            if (context.getName() == null) {
-                describeScope(scope, -1);
-                continue;
-            }
-            describeOnDepth(context.getName(), 0);
-            describeScope(scope, 0);
+    private void describeInternal(Result entry, int indent) {
+        describeOnDepth(entry.getResult(), indent);
+        if (ListUtils.isNullOrEmpty(entry.getSubResults())) {
+            return;
         }
-    }
-
-    private void describeScope(Scope scope, int depth) {
-        describeOnDepth(scope.getName(), depth + 1);
-        for (Result result : scope.getSummaries()) {
-            describeOnDepth(result.getResult(), depth + 2);
+        for (Result subResult : entry.getSubResults()) {
+            describeInternal(subResult, indent + 1);
         }
     }
 

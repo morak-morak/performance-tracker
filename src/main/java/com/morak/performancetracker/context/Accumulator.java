@@ -1,17 +1,18 @@
 package com.morak.performancetracker.context;
 
 import com.morak.performancetracker.Monitor;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.stereotype.Component;
 
 @Component
 public class Accumulator {
 
     private final ResultMapper resultMapper;
-    private Map<String, List<Result>> results;
+    private Map<String, List<MonitorResult>> results;
 
     public Accumulator(ResultMapper resultMapper) {
         this.resultMapper = resultMapper;
@@ -24,7 +25,7 @@ public class Accumulator {
         results.get(signature).add(resultMapper.mapMonitor(monitor));
     }
 
-    public Map<String, List<Result>> getResults() {
+    public Map<String, List<MonitorResult>> getResults() {
         return results;
     }
 

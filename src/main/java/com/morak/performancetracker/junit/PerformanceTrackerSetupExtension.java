@@ -3,13 +3,29 @@ package com.morak.performancetracker.junit;
 import com.morak.performancetracker.PerformanceTracker;
 import com.morak.performancetracker.context.Accumulator;
 import com.morak.performancetracker.context.ContextManager;
-import org.junit.jupiter.api.extension.AfterAllCallback;
-import org.junit.jupiter.api.extension.AfterEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
+import com.morak.performancetracker.context.TestMetadata;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.*;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-public class PerformanceTrackerSetupExtension implements AfterEachCallback, AfterAllCallback {
+public class PerformanceTrackerSetupExtension implements BeforeAllCallback, BeforeEachCallback, AfterEachCallback, AfterAllCallback {
+
+    @Override
+    public void beforeAll(ExtensionContext context) throws Exception {
+        ApplicationContext applicationContext = getApplicationContext(context);
+        ContextManager manager = applicationContext.getBean(determineContextManager(context));
+        TestMetadata testMetadata = new TestMetadata(context.getRequiredTestClass().getName(), "");
+        manager.beforeClass(testMetadata);
+    }
+
+    @Override
+    public void beforeEach(ExtensionContext context) throws Exception {
+        ApplicationContext applicationContext = getApplicationContext(context);
+        ContextManager manager = applicationContext.getBean(determineContextManager(context));
+        TestMetadata testMetadata = new TestMetadata(context.getRequiredTestClass().getName(), context.getRequiredTestMethod().getName());
+        manager.beforeEach(testMetadata);
+    }
 
     @Override
     public void afterEach(ExtensionContext context) {
@@ -18,14 +34,16 @@ public class PerformanceTrackerSetupExtension implements AfterEachCallback, Afte
             return;
         }
         ContextManager manager = applicationContext.getBean(determineContextManager(context));
-        manager.afterEach(applicationContext.getBean(Accumulator.class), context.getRequiredTestMethod().getName());
+        TestMetadata testMetadata = new TestMetadata(context.getRequiredTestClass().getName(), context.getRequiredTestMethod().getName());
+        manager.afterEach(applicationContext.getBean(Accumulator.class), testMetadata);
     }
 
     @Override
     public void afterAll(ExtensionContext context) {
         ApplicationContext applicationContext = getApplicationContext(context);
         ContextManager manager = applicationContext.getBean(determineContextManager(context));
-        manager.afterClass(applicationContext.getBean(Accumulator.class), context.getRequiredTestClass().getName());
+        TestMetadata testMetadata = new TestMetadata(context.getRequiredTestClass().getName(), "");
+        manager.afterClass(applicationContext.getBean(Accumulator.class), testMetadata);
     }
 
     private Class<? extends ContextManager> determineContextManager(ExtensionContext context) {

@@ -2,9 +2,13 @@ package com.morak.performancetracker.context;
 
 public interface ContextManager {
 
-    default void afterEach(Accumulator accumulator, String testMethodName) {}
+    default void beforeClass(TestMetadata testMetadata) {}
 
-    default void afterClass(Accumulator accumulator, String testClassName) {}
+    default void beforeEach(TestMetadata testMetadata) {}
+
+    default void afterEach(Accumulator accumulator, TestMetadata testMetadata) {}
+
+    default void afterClass(Accumulator accumulator, TestMetadata testMetadata) {}
 
     void afterAll(Accumulator accumulator);
 }

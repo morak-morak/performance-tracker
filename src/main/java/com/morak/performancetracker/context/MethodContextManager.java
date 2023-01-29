@@ -11,36 +11,38 @@ import org.springframework.stereotype.Component;
 @Component
 public class MethodContextManager implements ContextManager {
 
-    private final Root contexts;
-    private List<Scope> scopes = new ArrayList<>();
+    private final ResultComposite root;
     private final Descriptor descriptor;
 
     public MethodContextManager(Descriptor descriptor) {
-        this.contexts = new Root(new ArrayList<>());
+        this.root = new ResultComposite(TestMetadata.ROOT, new ArrayList<>());
         this.descriptor = descriptor;
     }
 
     @Override
-    public void afterEach(Accumulator accumulator, String testMethodName) {
-        Map<String, List<Result>> results = accumulator.getResults();
-        scopes.add(new Scope(testMethodName, flatResults(results)));
+    public void beforeClass(TestMetadata testMetadata) {
+        this.root.add(new ResultComposite(testMetadata, new ArrayList<>()));
+    }
+
+
+    @Override
+    public void afterEach(Accumulator accumulator, TestMetadata testMetadata) {
+        Map<String, List<MonitorResult>> results = accumulator.getResults();
+        List<MonitorResult> resultFiles = flatResults(results);
+        for (MonitorResult dto : resultFiles) {
+            root.findAndAdd(new ResultLeaf(dto.getName(), dto.getElapsed()), testMetadata);
+        }
         accumulator.clear();
     }
 
-    private List<Result> flatResults(Map<String, List<Result>> results) {
+    private List<MonitorResult> flatResults(Map<String, List<MonitorResult>> results) {
         return results.values().stream()
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void afterClass(Accumulator accumulator, String testClassName) {
-        contexts.add(new Context(testClassName, this.scopes));
-        this.scopes = new ArrayList<>();
-    }
-
-    @Override
     public void afterAll(Accumulator accumulator) {
-        descriptor.describe(contexts);
+        descriptor.describe(root);
     }
 }

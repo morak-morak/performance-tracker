@@ -1,6 +1,8 @@
 package com.morak.performancetracker.context;
 
+import com.morak.performancetracker.ContextType;
 import com.morak.performancetracker.description.Descriptor;
+import com.morak.performancetracker.utils.ConditionalOnPropertyContains;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConditionalOnPropertyContains(value = "com.morak.performance-tracker.context.type", containsValue = "method", matchIfEmpty = true)
 public class MethodContextManager implements ContextManager {
 
     private final Root contexts;
@@ -24,7 +27,6 @@ public class MethodContextManager implements ContextManager {
     public void afterEach(Accumulator accumulator, String testMethodName) {
         Map<String, List<Result>> results = accumulator.getResults();
         scopes.add(new Scope(testMethodName, flatResults(results)));
-        accumulator.clear();
     }
 
     private List<Result> flatResults(Map<String, List<Result>> results) {
@@ -41,6 +43,6 @@ public class MethodContextManager implements ContextManager {
 
     @Override
     public void afterAll(Accumulator accumulator) {
-        descriptor.describe(contexts);
+        descriptor.describe(contexts, ContextType.METHOD);
     }
 }

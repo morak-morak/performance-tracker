@@ -11,25 +11,24 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 class PerformanceTrackerSetupExtension : AfterEachCallback, AfterAllCallback {
     override fun afterEach(context: ExtensionContext) {
-        val applicationContext = getApplicationContext(context)
         if (context.executionException.isPresent) {
             return
         }
-        val manager = applicationContext.getBean(determineContextManager(context))!!
+
+        val applicationContext = getApplicationContext(context)
+        val manager = applicationContext.getBean(determineContextManager(context))
         manager.afterEach(applicationContext.getBean(Accumulator::class.java), context.requiredTestMethod.name)
     }
 
     override fun afterAll(context: ExtensionContext) {
         val applicationContext = getApplicationContext(context)
-        val manager = applicationContext.getBean(determineContextManager(context))!!
+        val manager = applicationContext.getBean(determineContextManager(context))
         manager.afterClass(applicationContext.getBean(Accumulator::class.java), context.requiredTestClass.name)
     }
 
-    private fun determineContextManager(context: ExtensionContext): Class<out ContextManager?>? {
-        val annotation = context.requiredTestClass.getAnnotation(
-            PerformanceTracker::class.java
-        )
-        return annotation.context.contextManagerClass
+    private fun determineContextManager(context: ExtensionContext): Class<out ContextManager> {
+        val annotation = context.requiredTestClass.getAnnotation(PerformanceTracker::class.java)
+        return annotation.context.contextManagerClass.java
     }
 
     private fun getApplicationContext(context: ExtensionContext): ApplicationContext {

@@ -17,10 +17,14 @@ repositories {
 }
 
 dependencies {
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.springframework.boot:spring-boot-starter-web:2.7.6")
     implementation("org.springframework.boot:spring-boot-starter-jdbc:2.7.6")
     implementation("org.springframework.boot:spring-boot-starter-aop:2.7.6")
     implementation("org.springframework.boot:spring-boot-starter-test:2.7.6")
+
+    // logging
+    implementation("io.github.microutils:kotlin-logging:1.7.6")
 
     testRuntimeOnly("com.h2database:h2:1.4.200")
 }

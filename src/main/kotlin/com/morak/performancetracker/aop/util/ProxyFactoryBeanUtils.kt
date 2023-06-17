@@ -4,12 +4,11 @@ import org.springframework.aop.PointcutAdvisor
 import org.springframework.aop.framework.ProxyFactoryBean
 
 object ProxyFactoryBeanUtils {
-    @JvmStatic
-    fun createObject(target: Any?, setProxyTargetClass: Boolean, advisor: PointcutAdvisor?): Any {
+    fun createObject(target: Any, setProxyTargetClass: Boolean, advisor: PointcutAdvisor): Any {
         val proxyFactoryBean = ProxyFactoryBean()
         proxyFactoryBean.setTarget(target)
         proxyFactoryBean.isProxyTargetClass = setProxyTargetClass
         proxyFactoryBean.addAdvisor(advisor)
-        return proxyFactoryBean.getObject()
+        return proxyFactoryBean.getObject() ?: throw IllegalArgumentException("Fails to create proxy")
     }
 }

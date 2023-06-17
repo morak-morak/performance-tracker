@@ -7,47 +7,29 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 import java.io.File
 import java.io.FileWriter
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Component
 @ConditionalOnProperty(value = ["com.morak.performance-tracker.format"], havingValue = "json")
 class JsonDescriptor(
     descriptorProperties: DescriptorProperties,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
 ) : Descriptor {
-    private val path: String?
-    private val file: String?
-
-    init {
-        path = descriptorProperties.path
-        file = descriptorProperties.file
-    }
+    private val path: String = descriptorProperties.path
+    private val file: String = descriptorProperties.file
+    private val today: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_TIME_POSTFIX))
 
     override fun describe(root: Root) {
-        val jsonFile = File(path + createFileName() + JSON_FORMAT)
-        try {
-            FileWriter(jsonFile, true).use { fileWriter ->
-                objectMapper.writer().writeValuesAsArray(fileWriter).use { seqWriter -> seqWriter.write(root) }
-            }
-        } catch (e: IOException) {
-            throw RuntimeException("I/O error writing context")
-        }
+        val jsonFile = File(path + file + today + JSON_FORMAT)
+        runCatching {
+            FileWriter(jsonFile, true)
+                .use { fileWriter -> objectMapper.writer().writeValuesAsArray(fileWriter).use { it.write(root) } }
+        }.onFailure { throw RuntimeException("I/O error writing context") }
     }
-
-    private fun createFileName(): String {
-        return file + nowDate
-    }
-
-    private val nowDate: String
-        private get() {
-            val dateFormat = SimpleDateFormat("-yyyy-MM-dd-HH:mm:ss")
-            val date = Date()
-            return dateFormat.format(date)
-        }
 
     companion object {
         private const val JSON_FORMAT = ".json"
+        private const val DATE_TIME_POSTFIX = "-yyyy-MM-dd-HH:mm:ss"
     }
 }

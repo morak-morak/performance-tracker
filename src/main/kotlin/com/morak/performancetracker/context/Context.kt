@@ -1,16 +1,6 @@
 package com.morak.performancetracker.context
 
-class Context {
-    val name: String?
+class Context(
+    val name: String? = null,
     val scopes: List<Scope>
-
-    constructor(scopes: List<Scope>) {
-        name = null
-        this.scopes = scopes
-    }
-
-    constructor(name: String?, scopes: List<Scope>) {
-        this.name = name
-        this.scopes = scopes
-    }
-}
+)

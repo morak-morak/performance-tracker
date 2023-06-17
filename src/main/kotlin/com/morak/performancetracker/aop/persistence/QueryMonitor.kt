@@ -10,6 +10,7 @@ class QueryMonitor(
 
     var startTime: Long = 0
     var queryTime = 0.0
+
     override fun clear() {
         query = null
         startTime = 0

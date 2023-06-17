@@ -9,10 +9,6 @@ class Result(val name: String, val elapsed: Double) {
     val result: String
         get() = toString()
 
-    override fun toString(): String {
-        return "Result{" +
-            "name='" + name + '\'' +
-            ", elapsed=" + TimeUnit.MILLISECONDS.convert(elapsed.toLong(), TimeUnit.NANOSECONDS) + "ms" +
-            '}'
-    }
+    override fun toString(): String =
+        "Result{name='$name', elapsed=${TimeUnit.MILLISECONDS.convert(elapsed.toLong(), TimeUnit.NANOSECONDS)}ms}"
 }

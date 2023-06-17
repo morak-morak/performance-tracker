@@ -4,7 +4,7 @@ import org.springframework.aop.support.StaticMethodMatcherPointcut
 import java.lang.reflect.Method
 
 class RestPointcut : StaticMethodMatcherPointcut() {
-    override fun matches(method: Method, ignored: Class<*>?): Boolean {
+    override fun matches(method: Method, ignored: Class<*>): Boolean {
         return method.name.contains("execute")
     }
 }

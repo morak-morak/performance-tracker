@@ -9,10 +9,11 @@ import com.morak.performancetracker.context.Root
 import com.morak.performancetracker.context.Scope
 import com.morak.performancetracker.description.JsonDescriptor
 import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.function.Executable
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -22,21 +23,22 @@ import java.util.List
 @SpringBootTest
 internal class DescriptorTest {
     @Nested
-    internal inner class Properties에_format이_없는_경우 {
+    internal inner class `Properties에_format이_없는_경우` {
+
         @Autowired
-        private val descriptor: Descriptor? = null
-        private var logWatcher: ListAppender<ILoggingEvent>? = null
+        private lateinit var descriptor: Descriptor
+        private lateinit var logWatcher: ListAppender<ILoggingEvent>
+
         @BeforeEach
         fun setUp() {
             logWatcher = ListAppender()
             (LoggerFactory.getLogger("PERFORMANCE") as Logger).addAppender(logWatcher)
-            logWatcher!!.start()
+            logWatcher.start()
         }
 
         @Test
         fun LoggingDescriptor로_빈이_생성된다() {
-            Assertions.assertThat(descriptor!!.javaClass)
-                .isEqualTo(LoggingDescriptor::class.java)
+            assertThat(descriptor!!.javaClass).isEqualTo(LoggingDescriptor::class.java)
         }
 
         @Test
@@ -50,11 +52,11 @@ internal class DescriptorTest {
             descriptor!!.describe(Root(List.of(context)))
             //then
             val loggingEvents = logWatcher!!.list
-            org.junit.jupiter.api.Assertions.assertAll(
-                Executable { Assertions.assertThat(loggingEvents).hasSize(3) },
-                Executable { Assertions.assertThat(loggingEvents[0].message).contains("firstClass") },
-                Executable { Assertions.assertThat(loggingEvents[1].message).contains("firstMethod") },
-                Executable { Assertions.assertThat(loggingEvents[2].message).contains("firstQuery") }
+            assertAll(
+                { assertThat(loggingEvents).hasSize(3) },
+                { assertThat(loggingEvents[0].message).contains("firstClass") },
+                { assertThat(loggingEvents[1].message).contains("firstMethod") },
+                { assertThat(loggingEvents[2].message).contains("firstQuery") }
             )
         }
     }
@@ -64,9 +66,10 @@ internal class DescriptorTest {
     internal inner class Properties에_format이_있는_경우 {
         @Autowired
         private val descriptor: Descriptor? = null
+
         @Test
         fun JsonDescriptor로_빈이_생성된다() {
-            Assertions.assertThat(descriptor!!.javaClass)
+            assertThat(descriptor!!.javaClass)
                 .isEqualTo(JsonDescriptor::class.java)
         }
     }

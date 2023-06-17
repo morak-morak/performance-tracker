@@ -2,7 +2,6 @@ package com.morak.performancetracker.aop.persistence
 
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.function.Executable
 
 class QueryMonitorTest {
     @Test
@@ -42,8 +41,8 @@ class QueryMonitorTest {
         monitor.clear()
         // then
         org.junit.jupiter.api.Assertions.assertAll(
-            Executable { Assertions.assertThat(monitor.queryTime).isZero() },
-            Executable { Assertions.assertThat(monitor.startTime).isZero() }
+            { Assertions.assertThat(monitor.queryTime).isZero() },
+            { Assertions.assertThat(monitor.startTime).isZero() }
         )
     }
 }

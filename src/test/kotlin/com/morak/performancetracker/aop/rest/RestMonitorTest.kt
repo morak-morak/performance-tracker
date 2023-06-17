@@ -2,7 +2,6 @@ package com.morak.performancetracker.aop.rest
 
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.function.Executable
 
 class RestMonitorTest {
     @Test
@@ -36,8 +35,8 @@ class RestMonitorTest {
         monitor.clear()
         // then
         org.junit.jupiter.api.Assertions.assertAll(
-            Executable { Assertions.assertThat(monitor.startTime).isZero() },
-            Executable { Assertions.assertThat(monitor.elapsedTime).isZero() }
+            { Assertions.assertThat(monitor.startTime).isZero() },
+            { Assertions.assertThat(monitor.elapsedTime).isZero() }
         )
     }
 }

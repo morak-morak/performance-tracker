@@ -34,7 +34,10 @@ class RestPointcutTest {
         val pointcut = RestPointcut()
         // when
         val isMatch =
-            pointcut.matches(RestTemplate::class.java.getMethod("responseEntityExtractor", Type::class.java), Any::class.java)
+            pointcut.matches(
+                RestTemplate::class.java.getMethod("responseEntityExtractor", Type::class.java),
+                Any::class.java
+            )
         // then
         AssertionsForClassTypes.assertThat(isMatch).isFalse()
     }

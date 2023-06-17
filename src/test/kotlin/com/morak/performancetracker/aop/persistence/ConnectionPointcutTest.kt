@@ -11,7 +11,8 @@ class ConnectionPointcutTest {
         val pointcut = ConnectionPointcut()
 
         // when
-        val result = pointcut.matches(Connection::class.java.getMethod("prepareStatement", String::class.java), Any::class.java)
+        val result =
+            pointcut.matches(Connection::class.java.getMethod("prepareStatement", String::class.java), Any::class.java)
 
         // then
         Assertions.assertThat(result).isTrue()

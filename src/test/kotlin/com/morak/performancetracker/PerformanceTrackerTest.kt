@@ -1,7 +1,8 @@
 package com.morak.performancetracker
 
 import com.morak.performancetracker.configuration.PerformanceConfiguration
-import org.assertj.core.api.AssertionsForClassTypes
+import org.assertj.core.api.AssertionsForClassTypes.assertThatNoException
+import org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.NoSuchBeanDefinitionException
@@ -13,34 +14,29 @@ class PerformanceTrackerTest {
     @Nested
     @JdbcTest
     @PerformanceTracker
-    internal inner class Jdbc_테스트에서_PerformanceTracker_어노테이션이_있는_경우 {
+    inner class Jdbc_테스트에서_PerformanceTracker_어노테이션이_있는_경우 {
         @Autowired
-        private val context: ApplicationContext? = null
+        private lateinit var context: ApplicationContext
 
         @Test
         fun 관련_빈이_등록된다() {
-            AssertionsForClassTypes.assertThatNoException().isThrownBy {
-                context!!.getBean(
-                    PerformanceConfiguration::class.java
-                )
+            assertThatNoException().isThrownBy {
+                context.getBean(PerformanceConfiguration::class.java)
             }
         }
     }
 
     @Nested
     @JdbcTest
-    internal inner class Jdbc_테스트에서_PerformanceTracker_어노테이션이_없는_경우 {
+    inner class Jdbc_테스트에서_PerformanceTracker_어노테이션이_없는_경우 {
         @Autowired
-        private val context: ApplicationContext? = null
+        private lateinit var context: ApplicationContext
 
         @Test
         fun 관련_빈이_등록되지_않는다() {
-            AssertionsForClassTypes.assertThatThrownBy {
-                context!!.getBean(
-                    PerformanceConfiguration::class.java
-                )
-            }
-                .isInstanceOf(NoSuchBeanDefinitionException::class.java)
+            assertThatThrownBy {
+                context.getBean(PerformanceConfiguration::class.java)
+            }.isInstanceOf(NoSuchBeanDefinitionException::class.java)
         }
     }
 }

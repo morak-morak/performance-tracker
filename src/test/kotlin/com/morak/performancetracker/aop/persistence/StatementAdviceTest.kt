@@ -5,11 +5,8 @@ import com.morak.performancetracker.context.ResultMapper
 import org.aopalliance.intercept.MethodInvocation
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.Mockito
-import org.mockito.junit.jupiter.MockitoExtension
 
-@ExtendWith(MockitoExtension::class)
 class StatementAdviceTest {
 
     @Test
@@ -26,6 +23,6 @@ class StatementAdviceTest {
         val result = advice.invoke(methodInvocation)
 
         // then
-        assertThat(accumulator.results[queryMonitor.signature]!!.size).isOne()
+        assertThat(accumulator.results[queryMonitor.signature]?.size).isOne()
     }
 }

@@ -6,14 +6,10 @@ import org.aopalliance.intercept.MethodInvocation
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.junit.jupiter.api.function.Executable
-import org.mockito.BDDMockito.*
+import org.mockito.BDDMockito.given
 import org.mockito.Mockito
-import org.mockito.junit.jupiter.MockitoExtension
 import java.sql.Connection
 
-@ExtendWith(MockitoExtension::class)
 class ConnectionAdviceTest {
 
     @Test
@@ -34,8 +30,8 @@ class ConnectionAdviceTest {
 
         // then
         Assertions.assertAll(
-            Executable { assertThat(result).isNotNull() },
-            Executable { assertThat(queryMonitor.query).isEqualTo("insert into sql") }
+            { assertThat(result).isNotNull() },
+            { assertThat(queryMonitor.query).isEqualTo("insert into sql") }
         )
     }
 }

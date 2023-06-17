@@ -22,7 +22,7 @@ import java.util.List
 @SpringBootTest
 class DescriptorTest {
     @Nested
-    internal inner class `Properties에_format이_없는_경우` {
+    inner class `Properties에_format이_없는_경우` {
 
         @Autowired
         private lateinit var descriptor: Descriptor
@@ -37,7 +37,7 @@ class DescriptorTest {
 
         @Test
         fun LoggingDescriptor로_빈이_생성된다() {
-            assertThat(descriptor!!.javaClass).isEqualTo(LoggingDescriptor::class.java)
+            assertThat(descriptor.javaClass).isEqualTo(LoggingDescriptor::class.java)
         }
 
         @Test
@@ -48,9 +48,9 @@ class DescriptorTest {
                 List.of(Scope("firstMethod", List.of(Result("firstQuery", 2.0))))
             )
             //when
-            descriptor!!.describe(Root(List.of(context)))
+            descriptor.describe(Root(List.of(context)))
             //then
-            val loggingEvents = logWatcher!!.list
+            val loggingEvents = logWatcher.list
             assertAll(
                 { assertThat(loggingEvents).hasSize(3) },
                 { assertThat(loggingEvents[0].message).contains("firstClass") },
@@ -62,14 +62,13 @@ class DescriptorTest {
 
     @Nested
     @TestPropertySource(properties = ["com.morak.performance-tracker.format = json"])
-    internal inner class Properties에_format이_있는_경우 {
+    inner class Properties에_format이_있는_경우 {
         @Autowired
-        private val descriptor: Descriptor? = null
+        private lateinit var descriptor: Descriptor
 
         @Test
         fun JsonDescriptor로_빈이_생성된다() {
-            assertThat(descriptor!!.javaClass)
-                .isEqualTo(JsonDescriptor::class.java)
+            assertThat(descriptor.javaClass).isEqualTo(JsonDescriptor::class.java)
         }
     }
 }

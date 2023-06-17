@@ -40,15 +40,15 @@ class ProxyFactoryBeanUtilsTest {
     internal open class TestCglibObject
 
     class TestAdvisor : PointcutAdvisor {
-        override fun `getPointcut`(): Pointcut {
+        override fun getPointcut(): Pointcut {
             return TestPointcut()
         }
 
-        override fun `getAdvice`(): Advice {
-            return MethodInterceptor { invocation: MethodInvocation? -> Any() }
+        override fun getAdvice(): Advice {
+            return MethodInterceptor { Any() }
         }
 
-        override fun `isPerInstance`(): Boolean {
+        override fun isPerInstance(): Boolean {
             return false
         }
     }

@@ -7,7 +7,6 @@ import com.morak.performancetracker.context.Context
 import com.morak.performancetracker.context.Result
 import com.morak.performancetracker.context.Root
 import com.morak.performancetracker.context.Scope
-import com.morak.performancetracker.description.JsonDescriptor
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.BeforeEach
@@ -28,7 +27,7 @@ class DescriptorTest {
         private lateinit var logWatcher: ListAppender<ILoggingEvent>
 
         @BeforeEach
-        fun `setUp`() {
+        fun setUp() {
             logWatcher = ListAppender()
             (LoggerFactory.getLogger("PERFORMANCE") as Logger).addAppender(logWatcher)
             logWatcher.start()
@@ -43,19 +42,16 @@ class DescriptorTest {
         fun `LogginDescriptor는 로깅으로 출력된다`() {
             //given
             val context = Context(
-                "firstClass",
-                listOf(Scope("firstMethod", listOf(Result("firstQuery", 2.0))))
+                "firstClass", listOf(Scope("firstMethod", listOf(Result("firstQuery", 2.0))))
             )
             //when
             descriptor.describe(Root(listOf(context)))
             //then
             val loggingEvents = logWatcher.list
-            assertAll(
-                { assertThat(loggingEvents).hasSize(3) },
+            assertAll({ assertThat(loggingEvents).hasSize(3) },
                 { assertThat(loggingEvents[0].message).contains("firstClass") },
                 { assertThat(loggingEvents[1].message).contains("firstMethod") },
-                { assertThat(loggingEvents[2].message).contains("firstQuery") }
-            )
+                { assertThat(loggingEvents[2].message).contains("firstQuery") })
         }
     }
 

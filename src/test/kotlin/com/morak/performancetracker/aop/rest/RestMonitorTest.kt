@@ -4,7 +4,7 @@ import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.function.Executable
 
-internal class RestMonitorTest {
+class RestMonitorTest {
     @Test
     fun 시간_측정을_시작한다() {
         // given

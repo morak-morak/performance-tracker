@@ -2,7 +2,7 @@ package com.morak.performancetracker.context
 
 class Root(contexts: List<Context>) {
     private var _contexts = contexts.toMutableList()
-    private val contexts: List<Context>
+    val contexts: List<Context>
         get() = _contexts
 
     fun add(context: Context) {

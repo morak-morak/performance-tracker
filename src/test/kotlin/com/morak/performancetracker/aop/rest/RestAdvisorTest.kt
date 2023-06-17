@@ -5,7 +5,7 @@ import com.morak.performancetracker.context.ResultMapper
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 
-internal class RestAdvisorTest {
+class RestAdvisorTest {
     @Test
     fun advisor를_생성한다() {
         // given

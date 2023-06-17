@@ -13,9 +13,10 @@ import org.springframework.http.HttpMethod
 import javax.servlet.http.HttpServletRequest
 
 @ExtendWith(MockitoExtension::class)
-internal class PerformanceInterceptorTest {
+class PerformanceInterceptorTest {
     @Mock
     private val request: HttpServletRequest? = null
+
     @Test
     fun HTTP요청_시간측정을_시작한다() {
         // given

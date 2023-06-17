@@ -3,7 +3,6 @@ package com.morak.performancetracker.description
 import com.morak.performancetracker.context.Context
 import com.morak.performancetracker.context.Root
 import com.morak.performancetracker.context.Scope
-import mu.KLogging
 import mu.NamedKLogging
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component

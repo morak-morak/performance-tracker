@@ -4,7 +4,8 @@ import org.springframework.aop.PointcutAdvisor
 import org.springframework.aop.framework.ProxyFactoryBean
 
 object ProxyFactoryBeanUtils {
-    fun createObject(target: Any, setProxyTargetClass: Boolean, advisor: PointcutAdvisor): Any {
+    fun createObject(target: Any?, setProxyTargetClass: Boolean, advisor: PointcutAdvisor): Any {
+        requireNotNull(target) { "target cannot be null" }
         val proxyFactoryBean = ProxyFactoryBean()
         proxyFactoryBean.setTarget(target)
         proxyFactoryBean.isProxyTargetClass = setProxyTargetClass

@@ -12,7 +12,7 @@ import org.springframework.aop.support.AopUtils
 import org.springframework.aop.support.StaticMethodMatcherPointcut
 import java.lang.reflect.Method
 
-internal class ProxyFactoryBeanUtilsTest {
+class ProxyFactoryBeanUtilsTest {
     @Test
     fun cglib_proxy_객체를_만들_수_있다() {
         // given
@@ -39,7 +39,7 @@ internal class ProxyFactoryBeanUtilsTest {
 
     internal open class TestCglibObject
 
-    internal class TestAdvisor : PointcutAdvisor {
+    class TestAdvisor : PointcutAdvisor {
         override fun getPointcut(): Pointcut {
             return TestPointcut()
         }
@@ -53,13 +53,13 @@ internal class ProxyFactoryBeanUtilsTest {
         }
     }
 
-    internal class TestPointcut : StaticMethodMatcherPointcut() {
+    class TestPointcut : StaticMethodMatcherPointcut() {
         override fun matches(method: Method, targetClass: Class<*>?): Boolean {
             return false
         }
     }
 
-    internal class TestDynamicObject : TestInterface
+    class TestDynamicObject : TestInterface
 }
 
 internal interface TestInterface

@@ -8,8 +8,7 @@ import com.morak.performancetracker.context.Result
 import com.morak.performancetracker.context.Root
 import com.morak.performancetracker.context.Scope
 import com.morak.performancetracker.description.JsonDescriptor
-import org.assertj.core.api.Assertions
-import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions.assertAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -21,7 +20,7 @@ import org.springframework.test.context.TestPropertySource
 import java.util.List
 
 @SpringBootTest
-internal class DescriptorTest {
+class DescriptorTest {
     @Nested
     internal inner class `Properties에_format이_없는_경우` {
 

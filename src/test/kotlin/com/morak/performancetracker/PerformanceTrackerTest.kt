@@ -16,6 +16,7 @@ class PerformanceTrackerTest {
     internal inner class Jdbc_테스트에서_PerformanceTracker_어노테이션이_있는_경우 {
         @Autowired
         private val context: ApplicationContext? = null
+
         @Test
         fun 관련_빈이_등록된다() {
             AssertionsForClassTypes.assertThatNoException().isThrownBy {
@@ -31,6 +32,7 @@ class PerformanceTrackerTest {
     internal inner class Jdbc_테스트에서_PerformanceTracker_어노테이션이_없는_경우 {
         @Autowired
         private val context: ApplicationContext? = null
+
         @Test
         fun 관련_빈이_등록되지_않는다() {
             AssertionsForClassTypes.assertThatThrownBy {

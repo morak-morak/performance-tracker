@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component
 @Aspect
 class QueryMonitorAop(private val queryMonitor: QueryMonitor, private val accumulator: Accumulator) {
     @Around("execution(* javax.sql.DataSource.getConnection())")
-    @Throws(Throwable::class)
     fun datasource(proceedingJoinPoint: ProceedingJoinPoint): Any? {
         val returnValue = proceedingJoinPoint.proceed()
         val advisor = ConnectionAdvisor(

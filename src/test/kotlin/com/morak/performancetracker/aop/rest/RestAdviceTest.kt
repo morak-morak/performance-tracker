@@ -15,11 +15,11 @@ import org.mockito.Mock
 import org.mockito.junit.jupiter.MockitoExtension
 
 @ExtendWith(MockitoExtension::class)
-internal class RestAdviceTest {
+class RestAdviceTest {
     @Mock
     private val methodInvocation: MethodInvocation? = null
+
     @Test
-    @Throws(Throwable::class)
     fun REST_요청_시간을_측정한다() {
         // given
         BDDMockito.given(methodInvocation!!.arguments).willReturn(arrayOf<Any>("https://example.com"))

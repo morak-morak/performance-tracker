@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.web.client.RestTemplateBuilder
 
 @SpringBootTest
-internal class RestMonitorAopTest @Autowired constructor(private val builder: RestTemplateBuilder) {
+class RestMonitorAopTest @Autowired constructor(private val builder: RestTemplateBuilder) {
     @Test
     fun 빌더로_RestTemplate_생성시_프록시를_반환한다() {
         // given

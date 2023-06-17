@@ -9,9 +9,8 @@ import org.springframework.web.client.RestTemplate
 import java.lang.reflect.Type
 import java.net.URI
 
-internal class RestPointcutTest {
+class RestPointcutTest {
     @Test
-    @Throws(NoSuchMethodException::class)
     fun 메소드_이름이_일치하면_true를_반환한다() {
         // given
         val pointcut = RestPointcut()
@@ -23,20 +22,19 @@ internal class RestPointcutTest {
                 HttpMethod::class.java,
                 RequestCallback::class.java,
                 ResponseExtractor::class.java
-            ), null
+            ), Any::class.java
         )
         // then
         AssertionsForClassTypes.assertThat(isMatch).isTrue()
     }
 
     @Test
-    @Throws(NoSuchMethodException::class)
     fun 메소드_이름이_일치하지_않으면_false를_반환한다() {
         // given
         val pointcut = RestPointcut()
         // when
         val isMatch =
-            pointcut.matches(RestTemplate::class.java.getMethod("responseEntityExtractor", Type::class.java), null)
+            pointcut.matches(RestTemplate::class.java.getMethod("responseEntityExtractor", Type::class.java), Any::class.java)
         // then
         AssertionsForClassTypes.assertThat(isMatch).isFalse()
     }

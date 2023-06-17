@@ -11,9 +11,10 @@ import org.springframework.http.HttpMethod
 import javax.servlet.http.HttpServletRequest
 
 @ExtendWith(MockitoExtension::class)
-internal class WebMonitorTest {
+class WebMonitorTest {
     @Mock
     private val request: HttpServletRequest? = null
+
     @Test
     fun 웹요청_시간측정을_시작한다() {
         // given

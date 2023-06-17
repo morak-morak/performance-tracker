@@ -3,7 +3,6 @@ package com.morak.performancetracker.aop.util
 import com.morak.performancetracker.aop.util.ProxyFactoryBeanUtils.createObject
 import org.aopalliance.aop.Advice
 import org.aopalliance.intercept.MethodInterceptor
-import org.aopalliance.intercept.MethodInvocation
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.aop.Pointcut

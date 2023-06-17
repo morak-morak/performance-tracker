@@ -22,7 +22,7 @@ class PerformanceInterceptor(private val accumulator: Accumulator, private val w
         request: HttpServletRequest,
         response: HttpServletResponse?,
         handler: Any?,
-        @Nullable modelAndView: ModelAndView?
+        @Nullable modelAndView: ModelAndView?,
     ) {
         if (isPreflight(request) || webMonitor.uri == null) {
             return

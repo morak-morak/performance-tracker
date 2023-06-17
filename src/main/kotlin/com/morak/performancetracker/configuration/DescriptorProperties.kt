@@ -7,5 +7,5 @@ import org.springframework.boot.context.properties.ConstructorBinding
 @ConfigurationProperties(prefix = "com.morak.performance-tracker.logs")
 data class DescriptorProperties(
     val path: String = "./logs/",
-    val file: String = "performance"
+    val file: String = "performance",
 )

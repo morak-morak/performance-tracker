@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class QueryMonitor(
-    var query: String? = null
+    var query: String? = null,
 ) : Monitor {
 
     var startTime: Long = 0

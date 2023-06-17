@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class RestMonitorTest {
     @Test
-    fun 시간_측정을_시작한다() {
+    fun `시간 측정을 시작한다`() {
         // given
         val monitor = RestMonitor()
         // when
@@ -15,7 +15,7 @@ class RestMonitorTest {
     }
 
     @Test
-    fun 시간_측정을_종료한다() {
+    fun `시간 측정을 종료한다`() {
         // given
         val monitor = RestMonitor()
         monitor.start("https://example.com")
@@ -26,7 +26,7 @@ class RestMonitorTest {
     }
 
     @Test
-    fun 모니터를_초기화한다() {
+    fun `모니터를 초기화한다`() {
         // given
         val monitor = RestMonitor()
         monitor.start("https://example.com")

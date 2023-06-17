@@ -13,7 +13,7 @@ import java.sql.Connection
 class ConnectionAdviceTest {
 
     @Test
-    fun proxy된_객체가_반환되고_monitor에_query를_세팅한다() {
+    fun `proxy된 객체가 반환되고 monitor에 query를 세팅한다`() {
         // given
         val connection = Mockito.mock(Connection::class.java)
         val methodInvocation = Mockito.mock(MethodInvocation::class.java)

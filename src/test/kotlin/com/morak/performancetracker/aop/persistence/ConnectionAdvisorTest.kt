@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 
 class ConnectionAdvisorTest {
     @Test
-    fun connection_advisor를_생성한다() {
+    fun `connection advisor를 생성한다`() {
         // given
         val pointcut = ConnectionPointcut()
         val advice = ConnectionAdvice(

@@ -10,7 +10,7 @@ import org.mockito.Mockito
 class StatementAdviceTest {
 
     @Test
-    fun accumulator에_result가_쌓인다() {
+    fun `accumulator에 result가 쌓인다`() {
         // given
         val methodInvocation = Mockito.mock(MethodInvocation::class.java)
 

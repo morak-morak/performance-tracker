@@ -14,7 +14,7 @@ import org.mockito.Mockito
 class RestAdviceTest {
 
     @Test
-    fun REST_요청_시간을_측정한다() {
+    fun `REST 요청 시간을 측정한다`() {
         // given
         val methodInvocation = Mockito.mock(MethodInvocation::class.java)
         given(methodInvocation.arguments).willReturn(arrayOf<Any>("https://example.com"))

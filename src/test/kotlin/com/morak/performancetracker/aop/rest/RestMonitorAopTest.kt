@@ -10,7 +10,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder
 @SpringBootTest
 class RestMonitorAopTest @Autowired constructor(private val builder: RestTemplateBuilder) {
     @Test
-    fun 빌더로_RestTemplate_생성시_프록시를_반환한다() {
+    fun `빌더로 RestTemplate 생성시 프록시를 반환한다`() {
         // given
         val restTemplate = builder.build()
         // when

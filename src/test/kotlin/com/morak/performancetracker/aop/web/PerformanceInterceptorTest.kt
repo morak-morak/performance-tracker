@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest
 
 class PerformanceInterceptorTest {
     @Test
-    fun HTTP요청_시간측정을_시작한다() {
+    fun `HTTP요청 시간측정을 시작한다`() {
         // given
         val request = Mockito.mock(HttpServletRequest::class.java)
         given(request.method).willReturn(HttpMethod.GET.name)
@@ -28,7 +28,7 @@ class PerformanceInterceptorTest {
     }
 
     @Test
-    fun HTTP요청이_OPTIONS면_시간측정을_시작하지_않는다() {
+    fun `HTTP요청이 OPTIONS면 시간측정을 시작하지 않는다`() {
         // given
         val request = Mockito.mock(HttpServletRequest::class.java)
         given(request.method).willReturn(HttpMethod.OPTIONS.name)
@@ -42,7 +42,7 @@ class PerformanceInterceptorTest {
     }
 
     @Test
-    fun HTTP요청_시간측정을_종료한다() {
+    fun `HTTP요청 시간측정을 종료한다`() {
         // given
         val request = Mockito.mock(HttpServletRequest::class.java)
         given(request.method).willReturn(HttpMethod.GET.name)
@@ -60,7 +60,7 @@ class PerformanceInterceptorTest {
     }
 
     @Test
-    fun HTTP요청이_OPTIONS면_시간측정을_종료하지_않는다() {
+    fun `HTTP요청이 OPTIONS면 시간측정을 종료하지 않는다`() {
         // given
         val request = Mockito.mock(HttpServletRequest::class.java)
         given(request.method).willReturn(HttpMethod.OPTIONS.name)

@@ -13,7 +13,7 @@ import org.springframework.test.context.jdbc.Sql
 @Sql("classpath:schema.sql")
 class DatabaseInitializationTest(private val queryMonitor: QueryMonitor) {
     @Test
-    fun SQL파일에_의한_쿼리는_측정하지_않는다() {
+    fun `SQL파일에 의한 쿼리는 측정하지 않는다`() {
         assertThat(queryMonitor.query).isNull()
     }
 }

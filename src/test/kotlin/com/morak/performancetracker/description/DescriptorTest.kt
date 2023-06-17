@@ -22,26 +22,26 @@ import java.util.List
 @SpringBootTest
 class DescriptorTest {
     @Nested
-    inner class `Properties에_format이_없는_경우` {
+    inner class `Properties에 format이 없는 경우` {
 
         @Autowired
         private lateinit var descriptor: Descriptor
         private lateinit var logWatcher: ListAppender<ILoggingEvent>
 
         @BeforeEach
-        fun setUp() {
+        fun `setUp`() {
             logWatcher = ListAppender()
             (LoggerFactory.getLogger("PERFORMANCE") as Logger).addAppender(logWatcher)
             logWatcher.start()
         }
 
         @Test
-        fun LoggingDescriptor로_빈이_생성된다() {
+        fun `LoggingDescriptor로 빈이 생성된다`() {
             assertThat(descriptor.javaClass).isEqualTo(LoggingDescriptor::class.java)
         }
 
         @Test
-        fun LogginDescriptor는_로깅으로_출력된다() {
+        fun `LogginDescriptor는 로깅으로 출력된다`() {
             //given
             val context = Context(
                 "firstClass",
@@ -62,12 +62,12 @@ class DescriptorTest {
 
     @Nested
     @TestPropertySource(properties = ["com.morak.performance-tracker.format = json"])
-    inner class Properties에_format이_있는_경우 {
+    inner class `Properties에 format이 있는 경우` {
         @Autowired
         private lateinit var descriptor: Descriptor
 
         @Test
-        fun JsonDescriptor로_빈이_생성된다() {
+        fun `JsonDescriptor로 빈이 생성된다`() {
             assertThat(descriptor.javaClass).isEqualTo(JsonDescriptor::class.java)
         }
     }

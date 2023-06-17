@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 
 class QueryMonitorTest {
     @Test
-    fun 쿼리시간_측정을_시작한다() {
+    fun `쿼리시간 측정을 시작한다`() {
         // given
         val monitor = QueryMonitor()
         // when
@@ -15,7 +15,7 @@ class QueryMonitorTest {
     }
 
     @Test
-    fun 쿼리시간_측정을_종료한다() {
+    fun `쿼리시간 측정을 종료한다`() {
         // given
         val monitor = QueryMonitor()
         monitor.start()
@@ -26,7 +26,7 @@ class QueryMonitorTest {
     }
 
     @Test
-    fun 쿼리시간_측정종료시_시작시간이_0이상이어야_한다() {
+    fun `쿼리시간 측정종료시 시작시간이 0이상이어야 한다`() {
         // given
         val monitor = QueryMonitor()
         // when & then
@@ -34,7 +34,7 @@ class QueryMonitorTest {
     }
 
     @Test
-    fun 모니터를_초기화한다() {
+    fun `모니터를 초기화한다`() {
         // given
         val monitor = QueryMonitor()
         // when

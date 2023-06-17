@@ -14,12 +14,12 @@ class PerformanceTrackerTest {
     @Nested
     @JdbcTest
     @PerformanceTracker
-    inner class Jdbc_테스트에서_PerformanceTracker_어노테이션이_있는_경우 {
+    inner class `Jdbc 테스트에서 PerformanceTracker 어노테이션이 있는 경우` {
         @Autowired
         private lateinit var context: ApplicationContext
 
         @Test
-        fun 관련_빈이_등록된다() {
+        fun `관련 빈이 등록된다`() {
             assertThatNoException().isThrownBy {
                 context.getBean(PerformanceConfiguration::class.java)
             }
@@ -28,12 +28,12 @@ class PerformanceTrackerTest {
 
     @Nested
     @JdbcTest
-    inner class Jdbc_테스트에서_PerformanceTracker_어노테이션이_없는_경우 {
+    inner class `Jdbc 테스트에서 PerformanceTracker 어노테이션이 없는 경우` {
         @Autowired
         private lateinit var context: ApplicationContext
 
         @Test
-        fun 관련_빈이_등록되지_않는다() {
+        fun `관련 빈이 등록되지 않는다`() {
             assertThatThrownBy {
                 context.getBean(PerformanceConfiguration::class.java)
             }.isInstanceOf(NoSuchBeanDefinitionException::class.java)

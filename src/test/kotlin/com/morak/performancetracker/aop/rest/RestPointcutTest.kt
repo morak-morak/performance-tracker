@@ -11,7 +11,7 @@ import java.net.URI
 
 class RestPointcutTest {
     @Test
-    fun 메소드_이름이_일치하면_true를_반환한다() {
+    fun `메소드 이름이 일치하면 true를 반환한다`() {
         // given
         val pointcut = RestPointcut()
         // when
@@ -29,7 +29,7 @@ class RestPointcutTest {
     }
 
     @Test
-    fun 메소드_이름이_일치하지_않으면_false를_반환한다() {
+    fun `메소드 이름이 일치하지 않으면 false를 반환한다`() {
         // given
         val pointcut = RestPointcut()
         // when

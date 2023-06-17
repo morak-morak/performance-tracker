@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 
 class StatementAdvisorTest {
     @Test
-    fun statement_advisor를_생성한다() {
+    fun `statement advisor를 생성한다`() {
         // given
         val pointcut = StatementPointcut()
         val advice = StatementAdvice(QueryMonitor(), Accumulator(ResultMapper()))

@@ -11,7 +11,7 @@ import javax.sql.DataSource
 @SpringBootTest
 class QueryMonitorAopTest @Autowired constructor(private val dataSource: DataSource) {
     @Test
-    fun 커넥션을_프록시로_만든다() {
+    fun `커넥션을 프록시로 만든다`() {
         // given
         val proxyConnection = dataSource.connection
         // when

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 
 class RestAdvisorTest {
     @Test
-    fun advisor를_생성한다() {
+    fun `advisor를 생성한다`() {
         // given
         val pointcut = RestPointcut()
         val advice = RestAdvice(RestMonitor(), Accumulator(ResultMapper()))

@@ -14,7 +14,7 @@ import java.lang.reflect.Method
 
 class ProxyFactoryBeanUtilsTest {
     @Test
-    fun cglib_proxy_객체를_만들_수_있다() {
+    fun `cglib proxy 객체를 만들 수 있다`() {
         // given
         val testObject = TestCglibObject()
 
@@ -26,7 +26,7 @@ class ProxyFactoryBeanUtilsTest {
     }
 
     @Test
-    fun jdk_dynamic_proxy_객체를_만들_수_있다() {
+    fun `jdk dynamic proxy 객체를 만들 수 있다`() {
         // given
         val testObject = TestDynamicObject()
 
@@ -40,15 +40,15 @@ class ProxyFactoryBeanUtilsTest {
     internal open class TestCglibObject
 
     class TestAdvisor : PointcutAdvisor {
-        override fun getPointcut(): Pointcut {
+        override fun `getPointcut`(): Pointcut {
             return TestPointcut()
         }
 
-        override fun getAdvice(): Advice {
+        override fun `getAdvice`(): Advice {
             return MethodInterceptor { invocation: MethodInvocation? -> Any() }
         }
 
-        override fun isPerInstance(): Boolean {
+        override fun `isPerInstance`(): Boolean {
             return false
         }
     }

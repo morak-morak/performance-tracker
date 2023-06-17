@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
-import java.util.List
 
 @SpringBootTest
 class DescriptorTest {
@@ -45,10 +44,10 @@ class DescriptorTest {
             //given
             val context = Context(
                 "firstClass",
-                List.of(Scope("firstMethod", List.of(Result("firstQuery", 2.0))))
+                listOf(Scope("firstMethod", listOf(Result("firstQuery", 2.0))))
             )
             //when
-            descriptor.describe(Root(List.of(context)))
+            descriptor.describe(Root(listOf(context)))
             //then
             val loggingEvents = logWatcher.list
             assertAll(

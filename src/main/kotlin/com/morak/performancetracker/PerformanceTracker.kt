@@ -8,10 +8,6 @@ import org.springframework.context.annotation.Import
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS)
-@ExtendWith(
-    PerformanceTrackerSetupExtension::class, PerformanceTrackerAllTestsExtension::class
-)
-@Import(
-    PerformanceConfiguration::class
-)
+@ExtendWith(PerformanceTrackerSetupExtension::class, PerformanceTrackerAllTestsExtension::class)
+@Import(PerformanceConfiguration::class)
 annotation class PerformanceTracker(val context: ContextType = ContextType.ENDPOINT)

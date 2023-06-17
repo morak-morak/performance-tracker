@@ -37,7 +37,8 @@ internal class ProxyFactoryBeanUtilsTest {
         Assertions.assertThat(AopUtils.isJdkDynamicProxy(result)).isTrue()
     }
 
-    internal class TestCglibObject
+    internal open class TestCglibObject
+
     internal class TestAdvisor : PointcutAdvisor {
         override fun getPointcut(): Pointcut {
             return TestPointcut()

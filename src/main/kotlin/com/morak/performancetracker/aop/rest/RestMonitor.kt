@@ -5,14 +5,12 @@ import org.springframework.stereotype.Component
 
 @Component
 class RestMonitor : Monitor {
-    private var _uri: String? = null
-    val uri: String
-        get() = uri!!
+    var uri: String? = null
     var startTime: Long = 0
     var elapsedTime: Long = 0
 
     fun start(uri: String?) {
-        this._uri = uri
+        this.uri = uri
         startTime = System.nanoTime()
     }
 
@@ -21,7 +19,7 @@ class RestMonitor : Monitor {
     }
 
     override fun clear() {
-        _uri = null
+        uri = null
         startTime = 0
         elapsedTime = 0
     }

@@ -15,18 +15,11 @@ class ResultMapper {
     }
 
     private fun mapToResult(monitor: Monitor): Result {
-        if (monitor is QueryMonitor) {
-            val qm = monitor
-            return Result(qm.query, qm.queryTime)
+        return when (monitor) {
+            is QueryMonitor -> Result(monitor.query!!, monitor.queryTime)
+            is WebMonitor -> Result(monitor.method + " " + monitor.uri, monitor.elapsed.toDouble())
+            is RestMonitor -> Result(monitor.uri!!, monitor.elapsedTime.toDouble())
+            else -> throw IllegalArgumentException("Couldn't find proper monitor")
         }
-        if (monitor is WebMonitor) {
-            val wm = monitor
-            return Result(wm.method + " " + wm.uri, wm.elapsed.toDouble())
-        }
-        if (monitor is RestMonitor) {
-            val rm = monitor
-            return Result(rm.uri, rm.elapsedTime.toDouble())
-        }
-        throw IllegalArgumentException("Couldn't find proper monitor")
     }
 }

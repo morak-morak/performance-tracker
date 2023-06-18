@@ -4,7 +4,6 @@ import com.morak.performancetracker.description.Descriptor
 import com.morak.performancetracker.utils.average
 import org.springframework.stereotype.Component
 
-
 @Component
 class EndpointContextManager(private val descriptor: Descriptor) : ContextManager {
     override fun afterAll(accumulator: Accumulator) {

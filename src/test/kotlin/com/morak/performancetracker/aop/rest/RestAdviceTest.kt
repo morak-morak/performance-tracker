@@ -1,6 +1,5 @@
 package com.morak.performancetracker.aop.rest
 
-
 import com.morak.performancetracker.context.Accumulator
 import com.morak.performancetracker.context.ResultMapper
 import org.aopalliance.intercept.MethodInvocation

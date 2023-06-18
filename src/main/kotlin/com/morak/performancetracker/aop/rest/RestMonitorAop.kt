@@ -1,7 +1,7 @@
 package com.morak.performancetracker.aop.rest
 
 import com.morak.performancetracker.aop.util.ProxyFactoryBeanUtils
-import com.morak.performancetracker.context.*
+import com.morak.performancetracker.context.Accumulator
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect

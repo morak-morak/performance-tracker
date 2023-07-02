@@ -1,9 +1,12 @@
 package com.morak.performancetracker.context
 
+import com.morak.performancetracker.ContextType
 import com.morak.performancetracker.description.Descriptor
+import com.morak.performancetracker.utils.ConditionalOnPropertyContains
 import org.springframework.stereotype.Component
 
 @Component
+@ConditionalOnPropertyContains(value = "com.morak.performance-tracker.context.type", containsValue = "method", matchIfEmpty = true)
 class MethodContextManager(private val descriptor: Descriptor) : ContextManager {
     private val contexts: Root = Root(ArrayList())
     private var scopes: MutableList<Scope> = ArrayList()
@@ -24,6 +27,6 @@ class MethodContextManager(private val descriptor: Descriptor) : ContextManager 
     }
 
     override fun afterAll(accumulator: Accumulator) {
-        descriptor.describe(contexts)
+        descriptor.describe(contexts, ContextType.METHOD)
     }
 }

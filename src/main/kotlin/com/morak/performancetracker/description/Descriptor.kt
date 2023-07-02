@@ -1,7 +1,8 @@
 package com.morak.performancetracker.description
 
+import com.morak.performancetracker.ContextType
 import com.morak.performancetracker.context.Root
 
 interface Descriptor {
-    fun describe(root: Root)
+    fun describe(root: Root, contextType: ContextType)
 }

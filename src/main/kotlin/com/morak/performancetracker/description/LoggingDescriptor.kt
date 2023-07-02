@@ -1,5 +1,6 @@
 package com.morak.performancetracker.description
 
+import com.morak.performancetracker.ContextType
 import com.morak.performancetracker.context.Context
 import com.morak.performancetracker.context.Root
 import com.morak.performancetracker.context.Scope
@@ -7,35 +8,38 @@ import mu.NamedKLogging
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 
+
 @Component
 @ConditionalOnProperty(value = ["com.morak.performance-tracker.format"], havingValue = "log", matchIfMissing = true)
 class LoggingDescriptor : Descriptor {
     companion object : NamedKLogging("PERFORMANCE")
 
-    override fun describe(root: Root) {
-        root.contexts.forEach { describe(it) }
+    override fun describe(root: Root, contextType: ContextType) {
+        logger.info("======================{}=======================", contextType.name)
+        val depth = 0
+        for (context in root.contexts) {
+            describeContext(context, depth)
+        }
     }
 
-    private fun describe(context: Context) {
-        context.scopes.forEach { scope ->
-            if (context.name == null) {
-                describeScope(scope, -1)
-                return@forEach
-            }
-            describeOnDepth(context.name, 0)
-            describeScope(scope, 0)
+    private fun describeContext(context: Context, depth: Int) {
+        describeOnDepth(context.name, depth)
+        for (scope in context.scopes) {
+            describeScope(scope, depth + 1)
         }
     }
 
     private fun describeScope(scope: Scope, depth: Int) {
-        describeOnDepth(scope.name, depth + 1)
-        scope.summaries.forEach { result ->
-            describeOnDepth(result.result, depth + 2)
+        describeOnDepth(scope.name, depth)
+        for (result in scope.summaries) {
+            describeOnDepth(result.result, depth + 1)
         }
     }
 
-    private fun describeOnDepth(message: String?, depth: Int) {
+    private fun describeOnDepth(message: String, depth: Int) {
+        // todo : prettify prefix like tree (e.g. `brew install tree`)
         val prefix = " ".repeat(depth * 4)
         logger.info(prefix + message)
     }
 }
+

@@ -3,6 +3,7 @@ package com.morak.performancetracker.description
 import ch.qos.logback.classic.Logger
 import ch.qos.logback.classic.spi.ILoggingEvent
 import ch.qos.logback.core.read.ListAppender
+import com.morak.performancetracker.ContextType
 import com.morak.performancetracker.context.Context
 import com.morak.performancetracker.context.Result
 import com.morak.performancetracker.context.Root
@@ -16,6 +17,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.TestPropertySource
+
 
 @SpringBootTest
 class DescriptorTest {
@@ -45,13 +47,16 @@ class DescriptorTest {
                 "firstClass", listOf(Scope("firstMethod", listOf(Result("firstQuery", 2.0))))
             )
             //when
-            descriptor.describe(Root(listOf(context)))
+            descriptor.describe(Root(listOf(context)), ContextType.METHOD)
+
             //then
             val loggingEvents = logWatcher.list
-            assertAll({ assertThat(loggingEvents).hasSize(3) },
-                { assertThat(loggingEvents[0].message).contains("firstClass") },
-                { assertThat(loggingEvents[1].message).contains("firstMethod") },
-                { assertThat(loggingEvents[2].message).contains("firstQuery") })
+            assertAll(
+                { assertThat(loggingEvents).hasSize(4) },
+                { assertThat(loggingEvents[1].message).contains("firstClass") },
+                { assertThat(loggingEvents[2].message).contains("firstMethod") },
+                { assertThat(loggingEvents[3].message).contains("firstQuery") }
+            )
         }
     }
 

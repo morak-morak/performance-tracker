@@ -5,14 +5,13 @@ import org.springframework.stereotype.Component
 
 @Component
 class Accumulator(private val resultMapper: ResultMapper) {
-    private var _results: MutableMap<String, MutableList<Result>> = mutableMapOf()
-    val results: Map<String, List<Result>>
+    private var _results: MutableMap<String, MutableList<MonitorResult>> = mutableMapOf()
+    val results: Map<String, List<MonitorResult>>
         get() = _results
 
     fun add(monitor: Monitor) {
-        val signature = monitor.signature
-        _results.computeIfAbsent(signature) { _: String? -> ArrayList() }
-        _results[signature]!!.add(resultMapper.mapMonitor(monitor))
+        val list = _results.getOrPut(monitor.signature) { mutableListOf() }
+        list.add(resultMapper.mapMonitor(monitor))
     }
 
     fun clear() {

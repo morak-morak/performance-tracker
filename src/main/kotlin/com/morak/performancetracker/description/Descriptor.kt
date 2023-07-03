@@ -1,7 +1,7 @@
 package com.morak.performancetracker.description
 
-import com.morak.performancetracker.context.Root
+import com.morak.performancetracker.context.Result
 
 interface Descriptor {
-    fun describe(root: Root)
+    fun describe(root: Result)
 }

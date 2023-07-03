@@ -16,8 +16,8 @@ class PerformanceTrackerSetupExtension : BeforeAllCallback, BeforeEachCallback, 
         val testMetadata = TestMetadata.of(context.requiredTestClass.name)
         applicationContext.getBeansOfType(ContextManager::class.java)
             .values
-            .forEach { manager: ContextManager ->
-                manager.beforeClass(
+            .forEach { it: ContextManager ->
+                it.beforeClass(
                     testMetadata
                 )
             }
@@ -28,11 +28,11 @@ class PerformanceTrackerSetupExtension : BeforeAllCallback, BeforeEachCallback, 
         val testMetadata = TestMetadata.of(context.requiredTestClass.name, context.requiredTestMethod.name)
         applicationContext.getBeansOfType(ContextManager::class.java)
             .values
-            .forEach(Consumer { manager: ContextManager ->
-                manager.beforeEach(
+            .forEach { it: ContextManager ->
+                it.beforeEach(
                     testMetadata
                 )
-            })
+            }
     }
 
     override fun afterEach(context: ExtensionContext) {
@@ -44,12 +44,12 @@ class PerformanceTrackerSetupExtension : BeforeAllCallback, BeforeEachCallback, 
 
         applicationContext.getBeansOfType(ContextManager::class.java)
             .values
-            .forEach(Consumer { manager: ContextManager ->
-                manager.afterEach(
+            .forEach { it: ContextManager ->
+                it.afterEach(
                     accumulator,
                     testMetadata
                 )
-            })
+            }
         accumulator.clear()
     }
 
@@ -58,8 +58,8 @@ class PerformanceTrackerSetupExtension : BeforeAllCallback, BeforeEachCallback, 
         val testMetadata = TestMetadata.of(context.requiredTestClass.name)
         applicationContext.getBeansOfType(ContextManager::class.java)
             .values
-            .forEach { manager: ContextManager ->
-                manager.afterClass(
+            .forEach { it: ContextManager ->
+                it.afterClass(
                     applicationContext.getBean(Accumulator::class.java),
                     testMetadata
                 )

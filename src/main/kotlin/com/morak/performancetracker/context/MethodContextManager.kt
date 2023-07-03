@@ -6,7 +6,11 @@ import com.morak.performancetracker.utils.ConditionalOnPropertyContains
 import org.springframework.stereotype.Component
 
 @Component
-@ConditionalOnPropertyContains(value = "com.morak.performance-tracker.context.type", containsValue = "method", matchIfEmpty = true)
+@ConditionalOnPropertyContains(
+    value = "com.morak.performance-tracker.context.type",
+    containsValue = "method",
+    matchIfEmpty = true
+)
 class MethodContextManager(private val descriptor: Descriptor) : ContextManager {
     private val root: ResultComposite = ResultComposite(TestMetadata.ROOT, mutableListOf());
 
@@ -19,8 +23,11 @@ class MethodContextManager(private val descriptor: Descriptor) : ContextManager 
     }
 
     override fun afterEach(accumulator: Accumulator, testMetadata: TestMetadata) {
-        for (dto in flatResults(accumulator.results)) {
-            root.findAndAdd(ResultLeaf(dto.name, dto.elapsed), testMetadata)
+        flatResults(accumulator.results).forEach { it: MonitorResult ->
+            root.findAndAdd(
+                ResultLeaf(it.name, it.elapsed),
+                testMetadata
+            )
         }
         accumulator.clear()
     }

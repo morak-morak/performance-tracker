@@ -5,7 +5,7 @@ import java.util.function.Consumer
 
 class ResultComposite(
     private val testMetadata: TestMetadata,
-    private val _subResults: MutableList<Result>
+    private val _subResults: MutableList<Result> = mutableListOf()
 ) : Result {
 
     override val result: String
@@ -20,12 +20,11 @@ class ResultComposite(
             return
         }
 
-        subResults.forEach(Consumer { subResult: Result ->
-            subResult.findAndAdd(
+        subResults.forEach { it: Result ->
+            it.findAndAdd(
                 result,
                 testMetadata
             )
-        })
+        }
     }
-
 }

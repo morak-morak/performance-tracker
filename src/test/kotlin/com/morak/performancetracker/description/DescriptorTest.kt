@@ -44,9 +44,9 @@ class DescriptorTest {
             //given
             val context = ResultComposite(
                 TestMetadata("firstClass"),
-                mutableListOf(
+                listOf(
                     ResultComposite(
-                        TestMetadata("firstMethod"), mutableListOf(
+                        TestMetadata("firstMethod"), listOf(
                             ResultLeaf("firstQuery", 2.0)
                         )
                     )

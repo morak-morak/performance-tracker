@@ -15,14 +15,17 @@ import org.springframework.stereotype.Component
 )
 class EndpointContextManager(
     private val descriptor: Descriptor,
-    private val results: MutableList<Result>
+    results: List<Result>
 ) : ContextManager {
+    private val _results: MutableList<Result> = results.toMutableList()
+    val results: List<Result>
+        get() = _results
 
     override fun afterEach(accumulator: Accumulator, testMetadata: TestMetadata) {
         val scopes = accumulator.results.entries
-            .map { (key, value) -> summarizePerScope(key, value) }
-            .toMutableList()
-        results.addAll(scopes)
+            .map { summarizePerScope(it.key, it.value) }
+            .toList()
+        _results.addAll(scopes)
     }
 
     override fun afterAll(accumulator: Accumulator) {
@@ -36,10 +39,9 @@ class EndpointContextManager(
         return ResultComposite(testMetadata, summaries);
     }
 
-    private fun summarize(results: List<MonitorResult>): MutableList<Result> {
+    private fun summarize(results: List<MonitorResult>): List<Result> {
         return results.groupBy { it.name }
-            .map { (key, value) -> key to value.average { it.elapsed } }
-            .map { pair -> ResultLeaf(pair.first, pair.second) }
-            .toMutableList()
+            .map { (key, value) -> ResultLeaf(key, value.average { it.elapsed }) }
+            .toList()
     }
 }

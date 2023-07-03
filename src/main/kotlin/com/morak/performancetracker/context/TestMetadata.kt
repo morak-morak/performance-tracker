@@ -33,14 +33,14 @@ class TestMetadata(private val name: String) {
 
 
     companion object {
-        val ROOT = TestMetadata("ROOT")
+        private const val ROOT_NAME = "ROOT"
+        private const val NAME_DELIMITER = "@"
+
+        val ROOT = TestMetadata(ROOT_NAME)
+
         fun of(vararg names: String): TestMetadata {
-            val builder = StringBuilder("ROOT")
-            for (name in names) {
-                builder.append("@")
-                    .append(name)
-            }
-            return TestMetadata(builder.toString())
+            val name = ROOT_NAME.plus(NAME_DELIMITER).plus(names.reduce { a, b -> a.plus(NAME_DELIMITER).plus(b) })
+            return TestMetadata(name)
         }
     }
 }

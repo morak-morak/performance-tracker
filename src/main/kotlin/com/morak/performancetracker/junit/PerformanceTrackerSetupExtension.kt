@@ -6,7 +6,6 @@ import com.morak.performancetracker.context.TestMetadata
 import org.junit.jupiter.api.extension.*
 import org.springframework.context.ApplicationContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
-import java.util.function.Consumer
 
 
 class PerformanceTrackerSetupExtension : BeforeAllCallback, BeforeEachCallback, AfterEachCallback, AfterAllCallback {
@@ -16,7 +15,7 @@ class PerformanceTrackerSetupExtension : BeforeAllCallback, BeforeEachCallback, 
         val testMetadata = TestMetadata.of(context.requiredTestClass.name)
         applicationContext.getBeansOfType(ContextManager::class.java)
             .values
-            .forEach { it: ContextManager ->
+            .forEach {
                 it.beforeClass(
                     testMetadata
                 )
@@ -28,7 +27,7 @@ class PerformanceTrackerSetupExtension : BeforeAllCallback, BeforeEachCallback, 
         val testMetadata = TestMetadata.of(context.requiredTestClass.name, context.requiredTestMethod.name)
         applicationContext.getBeansOfType(ContextManager::class.java)
             .values
-            .forEach { it: ContextManager ->
+            .forEach {
                 it.beforeEach(
                     testMetadata
                 )
@@ -44,7 +43,7 @@ class PerformanceTrackerSetupExtension : BeforeAllCallback, BeforeEachCallback, 
 
         applicationContext.getBeansOfType(ContextManager::class.java)
             .values
-            .forEach { it: ContextManager ->
+            .forEach {
                 it.afterEach(
                     accumulator,
                     testMetadata
@@ -58,7 +57,7 @@ class PerformanceTrackerSetupExtension : BeforeAllCallback, BeforeEachCallback, 
         val testMetadata = TestMetadata.of(context.requiredTestClass.name)
         applicationContext.getBeansOfType(ContextManager::class.java)
             .values
-            .forEach { it: ContextManager ->
+            .forEach {
                 it.afterClass(
                     applicationContext.getBean(Accumulator::class.java),
                     testMetadata

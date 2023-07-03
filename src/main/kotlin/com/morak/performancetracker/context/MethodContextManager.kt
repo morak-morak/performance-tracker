@@ -12,18 +12,18 @@ import org.springframework.stereotype.Component
     matchIfEmpty = true
 )
 class MethodContextManager(private val descriptor: Descriptor) : ContextManager {
-    private val root: ResultComposite = ResultComposite(TestMetadata.ROOT, mutableListOf());
+    private val root: ResultComposite = ResultComposite(TestMetadata.ROOT);
 
     override fun beforeClass(testMetadata: TestMetadata) {
-        this.root.findAndAdd(ResultComposite(testMetadata, mutableListOf()), testMetadata.parent())
+        this.root.findAndAdd(ResultComposite(testMetadata), testMetadata.parent())
     }
 
     override fun beforeEach(testMetadata: TestMetadata) {
-        this.root.findAndAdd(ResultComposite(testMetadata, mutableListOf()), testMetadata.parent())
+        this.root.findAndAdd(ResultComposite(testMetadata), testMetadata.parent())
     }
 
     override fun afterEach(accumulator: Accumulator, testMetadata: TestMetadata) {
-        flatResults(accumulator.results).forEach { it: MonitorResult ->
+        flatResults(accumulator.results).forEach {
             root.findAndAdd(
                 ResultLeaf(it.name, it.elapsed),
                 testMetadata

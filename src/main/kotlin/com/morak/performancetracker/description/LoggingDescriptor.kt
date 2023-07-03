@@ -19,7 +19,7 @@ class LoggingDescriptor : Descriptor {
 
     private fun describeInternal(entry: Result, indent: Int) {
         describeOnDepth(entry.result, indent)
-        entry.subResults.forEach { subResult -> describeInternal(subResult, indent + 1) }
+        entry.subResults.forEach { describeInternal(it, indent + 1) }
     }
 
     private fun describeOnDepth(message: String, depth: Int) {

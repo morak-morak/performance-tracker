@@ -4,13 +4,11 @@ import com.morak.performancetracker.utils.substringFrom
 import com.morak.performancetracker.utils.substringUntil
 
 class TestMetadata(private val name: String) {
-    fun parent(): TestMetadata {
-        return TestMetadata(name.substringUntil('@'))
-    }
+    val parent: TestMetadata
+        get() = TestMetadata(name.substringUntil('@'))
 
-    fun self(): String {
-        return name.substringFrom('@')
-    }
+    val self: String
+        get() = name.substringFrom('@')
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -27,7 +25,7 @@ class TestMetadata(private val name: String) {
 
     override fun toString(): String {
         return "TestMetadata{" +
-                "name='" + self() + '\'' +
+                "name='" + self + '\'' +
                 '}'
     }
 
@@ -39,7 +37,7 @@ class TestMetadata(private val name: String) {
         val ROOT = TestMetadata(ROOT_NAME)
 
         fun of(vararg names: String): TestMetadata {
-            val name = ROOT_NAME.plus(NAME_DELIMITER).plus(names.reduce { a, b -> a.plus(NAME_DELIMITER).plus(b) })
+            val name = ROOT_NAME + NAME_DELIMITER + names.reduce { acc, cur -> acc + NAME_DELIMITER + cur }
             return TestMetadata(name)
         }
     }

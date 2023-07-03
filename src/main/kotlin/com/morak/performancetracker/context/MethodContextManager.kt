@@ -15,11 +15,11 @@ class MethodContextManager(private val descriptor: Descriptor) : ContextManager 
     private val root: ResultComposite = ResultComposite(TestMetadata.ROOT);
 
     override fun beforeClass(testMetadata: TestMetadata) {
-        this.root.findAndAdd(ResultComposite(testMetadata), testMetadata.parent())
+        this.root.findAndAdd(ResultComposite(testMetadata), testMetadata.parent)
     }
 
     override fun beforeEach(testMetadata: TestMetadata) {
-        this.root.findAndAdd(ResultComposite(testMetadata), testMetadata.parent())
+        this.root.findAndAdd(ResultComposite(testMetadata), testMetadata.parent)
     }
 
     override fun afterEach(accumulator: Accumulator, testMetadata: TestMetadata) {

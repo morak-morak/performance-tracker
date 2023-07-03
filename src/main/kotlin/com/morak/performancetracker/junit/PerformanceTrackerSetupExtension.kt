@@ -3,13 +3,27 @@ package com.morak.performancetracker.junit
 import com.morak.performancetracker.PerformanceTracker
 import com.morak.performancetracker.context.Accumulator
 import com.morak.performancetracker.context.ContextManager
-import org.junit.jupiter.api.extension.AfterAllCallback
-import org.junit.jupiter.api.extension.AfterEachCallback
-import org.junit.jupiter.api.extension.ExtensionContext
+import com.morak.performancetracker.context.TestMetadata
+import org.junit.jupiter.api.extension.*
 import org.springframework.context.ApplicationContext
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
-class PerformanceTrackerSetupExtension : AfterEachCallback, AfterAllCallback {
+class PerformanceTrackerSetupExtension : BeforeAllCallback, BeforeEachCallback, AfterEachCallback, AfterAllCallback {
+
+    override fun beforeAll(context: ExtensionContext) {
+        val applicationContext = getApplicationContext(context)
+        val manager = applicationContext.getBean(determineContextManager(context))
+        val testMetadata = TestMetadata.of(context.requiredTestClass.name)
+        manager.beforeClass(testMetadata)
+    }
+
+    override fun beforeEach(context: ExtensionContext) {
+        val applicationContext = getApplicationContext(context)
+        val manager = applicationContext.getBean(determineContextManager(context))
+        val testMetadata = TestMetadata.of(context.requiredTestClass.name, context.requiredTestMethod.name)
+        manager.beforeEach(testMetadata)
+    }
+
     override fun afterEach(context: ExtensionContext) {
         if (context.executionException.isPresent) {
             return
@@ -17,13 +31,15 @@ class PerformanceTrackerSetupExtension : AfterEachCallback, AfterAllCallback {
 
         val applicationContext = getApplicationContext(context)
         val manager = applicationContext.getBean(determineContextManager(context))
-        manager.afterEach(applicationContext.getBean(Accumulator::class.java), context.requiredTestMethod.name)
+        val testMetadata = TestMetadata.of(context.requiredTestClass.name, context.requiredTestMethod.name)
+        manager.afterEach(applicationContext.getBean(Accumulator::class.java), testMetadata)
     }
 
     override fun afterAll(context: ExtensionContext) {
         val applicationContext = getApplicationContext(context)
         val manager = applicationContext.getBean(determineContextManager(context))
-        manager.afterClass(applicationContext.getBean(Accumulator::class.java), context.requiredTestClass.name)
+        val testMetadata = TestMetadata.of(context.requiredTestClass.name)
+        manager.afterClass(applicationContext.getBean(Accumulator::class.java), testMetadata)
     }
 
     private fun determineContextManager(context: ExtensionContext): Class<out ContextManager> {

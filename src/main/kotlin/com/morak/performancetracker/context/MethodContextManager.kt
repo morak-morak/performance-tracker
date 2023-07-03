@@ -5,25 +5,28 @@ import org.springframework.stereotype.Component
 
 @Component
 class MethodContextManager(private val descriptor: Descriptor) : ContextManager {
-    private val contexts: Root = Root(ArrayList())
-    private var scopes: MutableList<Scope> = ArrayList()
+    private val root: ResultComposite = ResultComposite(TestMetadata.ROOT, mutableListOf());
 
-    override fun afterEach(accumulator: Accumulator, testMethodName: String) {
-        val results = accumulator.results
-        scopes.add(Scope(testMethodName, flatResults(results)))
+    override fun beforeClass(testMetadata: TestMetadata) {
+        this.root.findAndAdd(ResultComposite(testMetadata, mutableListOf()), testMetadata.parent())
+    }
+
+    override fun beforeEach(testMetadata: TestMetadata) {
+        this.root.findAndAdd(ResultComposite(testMetadata, mutableListOf()), testMetadata.parent())
+    }
+
+    override fun afterEach(accumulator: Accumulator, testMetadata: TestMetadata) {
+        for (dto in flatResults(accumulator.results)) {
+            root.findAndAdd(ResultLeaf(dto.name, dto.elapsed), testMetadata)
+        }
         accumulator.clear()
     }
 
-    private fun flatResults(results: Map<String, List<Result>>): List<Result> {
+    private fun flatResults(results: Map<String, List<MonitorResult>>): List<MonitorResult> {
         return results.values.flatten()
     }
 
-    override fun afterClass(accumulator: Accumulator, testClassName: String) {
-        contexts.add(Context(testClassName, scopes))
-        scopes = ArrayList()
-    }
-
     override fun afterAll(accumulator: Accumulator) {
-        descriptor.describe(contexts)
+        descriptor.describe(root)
     }
 }

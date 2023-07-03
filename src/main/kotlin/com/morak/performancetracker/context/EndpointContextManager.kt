@@ -9,24 +9,28 @@ class EndpointContextManager(private val descriptor: Descriptor) : ContextManage
     override fun afterAll(accumulator: Accumulator) {
         val scopes = accumulator.results.entries
             .map { (key, value) -> summarizePerScope(key, value) }
-        descriptor.describe(Root(listOf(Context(scopes = scopes))))
+            .toMutableList()
+        val resultComposite = ResultComposite(TestMetadata.ROOT, scopes)
+        descriptor.describe(resultComposite)
     }
 
-    private fun summarizePerScope(scopeName: String, results: List<Result>): Scope {
+    private fun summarizePerScope(scopeName: String, results: List<MonitorResult>): Result {
         val summary = summarize(results)
         val summaries = toResult(summary)
-        return Scope(scopeName, summaries)
+        val testMetadata = TestMetadata(scopeName)
+        return ResultComposite(testMetadata, summaries);
     }
 
-    private fun summarize(results: List<Result>): Map<String, Double> {
+    private fun summarize(results: List<MonitorResult>): Map<String, Double> {
         return results.groupBy { it.name }
             .map { (key, value) -> key to value.average { it.elapsed } }
             .toMap()
     }
 
-    private fun toResult(summary: Map<String, Double>): List<Result> {
-        return summary.map { (key, value) ->
-            Result(key, value)
+    private fun toResult(summary: Map<String, Double>): MutableList<Result> {
+        return summary.map() { (key, value) ->
+            ResultLeaf(key, value)
         }
+            .toMutableList()
     }
 }

@@ -1,6 +1,7 @@
 package com.morak.performancetracker.description
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.morak.performancetracker.ContextType
 import com.morak.performancetracker.configuration.DescriptorProperties
 import com.morak.performancetracker.context.Result
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -9,6 +10,7 @@ import java.io.File
 import java.io.FileWriter
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+
 
 @Component
 @ConditionalOnProperty(value = ["com.morak.performance-tracker.format"], havingValue = "json")
@@ -20,8 +22,8 @@ class JsonDescriptor(
     private val file: String = descriptorProperties.file
     private val today: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_TIME_POSTFIX))
 
-    override fun describe(root: Result) {
-        val jsonFile = File(path + file + today + JSON_FORMAT)
+    override fun describe(root: Result, contextType: ContextType) {
+        val jsonFile = File(path + file + contextType.name.lowercase() + today + JSON_FORMAT)
         runCatching {
             FileWriter(jsonFile, true)
                 .use { fileWriter -> fileWriter.write(objectMapper.writeValueAsString(root)) }

@@ -18,11 +18,6 @@ class ResultComposite(
             return
         }
 
-        subResults.forEach {
-            it.findAndAdd(
-                result,
-                testMetadata
-            )
-        }
+        subResults.forEach { it.findAndAdd(result, testMetadata) }
     }
 }

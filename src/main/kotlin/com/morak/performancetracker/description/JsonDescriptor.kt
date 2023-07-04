@@ -24,10 +24,8 @@ class JsonDescriptor(
 
     override fun describe(root: Result, contextType: ContextType) {
         val jsonFile = File(path + file + contextType.name.lowercase() + today + JSON_FORMAT)
-        runCatching {
-            FileWriter(jsonFile, true)
-                .use { it.write(objectMapper.writeValueAsString(root)) }
-        }.onFailure { throw RuntimeException("I/O error writing context") }
+        runCatching { FileWriter(jsonFile, true).use { it.write(objectMapper.writeValueAsString(root)) } }
+            .onFailure { throw RuntimeException("I/O error writing context") }
     }
 
     companion object {

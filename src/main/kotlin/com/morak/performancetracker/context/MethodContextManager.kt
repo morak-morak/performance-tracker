@@ -23,17 +23,10 @@ class MethodContextManager(private val descriptor: Descriptor) : ContextManager 
     }
 
     override fun afterEach(accumulator: Accumulator, testMetadata: TestMetadata) {
-        flatResults(accumulator.results).forEach {
-            root.findAndAdd(
-                ResultLeaf(it.name, it.elapsed),
-                testMetadata
-            )
-        }
+        accumulator.results.values
+            .flatten()
+            .forEach { root.findAndAdd(ResultLeaf(it.name, it.elapsed), testMetadata) }
         accumulator.clear()
-    }
-
-    private fun flatResults(results: Map<String, List<MonitorResult>>): List<MonitorResult> {
-        return results.values.flatten()
     }
 
     override fun afterAll(accumulator: Accumulator) {

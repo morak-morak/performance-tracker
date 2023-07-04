@@ -15,11 +15,7 @@ class PerformanceTrackerSetupExtension : BeforeAllCallback, BeforeEachCallback, 
         val testMetadata = TestMetadata.of(context.requiredTestClass.name)
         applicationContext.getBeansOfType(ContextManager::class.java)
             .values
-            .forEach {
-                it.beforeClass(
-                    testMetadata
-                )
-            }
+            .forEach { it.beforeClass(testMetadata) }
     }
 
     override fun beforeEach(context: ExtensionContext) {
@@ -27,28 +23,17 @@ class PerformanceTrackerSetupExtension : BeforeAllCallback, BeforeEachCallback, 
         val testMetadata = TestMetadata.of(context.requiredTestClass.name, context.requiredTestMethod.name)
         applicationContext.getBeansOfType(ContextManager::class.java)
             .values
-            .forEach {
-                it.beforeEach(
-                    testMetadata
-                )
-            }
+            .forEach { it.beforeEach(testMetadata) }
     }
 
     override fun afterEach(context: ExtensionContext) {
         val applicationContext = getApplicationContext(context)
-        val accumulator = applicationContext.getBean(
-            Accumulator::class.java
-        )
+        val accumulator = applicationContext.getBean(Accumulator::class.java)
         val testMetadata = TestMetadata.of(context.requiredTestClass.name, context.requiredTestMethod.name)
 
         applicationContext.getBeansOfType(ContextManager::class.java)
             .values
-            .forEach {
-                it.afterEach(
-                    accumulator,
-                    testMetadata
-                )
-            }
+            .forEach { it.afterEach(accumulator, testMetadata) }
         accumulator.clear()
     }
 
@@ -57,12 +42,7 @@ class PerformanceTrackerSetupExtension : BeforeAllCallback, BeforeEachCallback, 
         val testMetadata = TestMetadata.of(context.requiredTestClass.name)
         applicationContext.getBeansOfType(ContextManager::class.java)
             .values
-            .forEach {
-                it.afterClass(
-                    applicationContext.getBean(Accumulator::class.java),
-                    testMetadata
-                )
-            }
+            .forEach { it.afterClass(applicationContext.getBean(Accumulator::class.java), testMetadata) }
     }
 
     private fun getApplicationContext(context: ExtensionContext): ApplicationContext {

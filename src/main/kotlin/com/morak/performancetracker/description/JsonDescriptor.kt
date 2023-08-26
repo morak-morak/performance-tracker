@@ -3,7 +3,7 @@ package com.morak.performancetracker.description
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.morak.performancetracker.ContextType
 import com.morak.performancetracker.configuration.DescriptorProperties
-import com.morak.performancetracker.context.Root
+import com.morak.performancetracker.context.Result
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.stereotype.Component
 import java.io.File
@@ -22,12 +22,10 @@ class JsonDescriptor(
     private val file: String = descriptorProperties.file
     private val today: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern(DATE_TIME_POSTFIX))
 
-    override fun describe(root: Root, contextType: ContextType) {
+    override fun describe(root: Result, contextType: ContextType) {
         val jsonFile = File(path + file + contextType.name.lowercase() + today + JSON_FORMAT)
-        runCatching {
-            FileWriter(jsonFile, true)
-                .use { fileWriter -> objectMapper.writer().writeValuesAsArray(fileWriter).use { it.write(root) } }
-        }.onFailure { throw RuntimeException("I/O error writing context") }
+        runCatching { FileWriter(jsonFile, true).use { it.write(objectMapper.writeValueAsString(root)) } }
+            .onFailure { throw RuntimeException("I/O error writing context") }
     }
 
     companion object {

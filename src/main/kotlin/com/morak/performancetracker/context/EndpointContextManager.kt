@@ -8,36 +8,40 @@ import org.springframework.stereotype.Component
 
 
 @Component
-@ConditionalOnPropertyContains(value = "com.morak.performance-tracker.context.type", containsValue = "endpoint", matchIfEmpty = true)
+@ConditionalOnPropertyContains(
+    value = "com.morak.performance-tracker.context.type",
+    containsValue = "endpoint",
+    matchIfEmpty = true
+)
 class EndpointContextManager(
     private val descriptor: Descriptor,
-    private val scopes: MutableList<Scope>,
+    results: List<Result>
 ) : ContextManager {
-    override fun afterAll(accumulator: Accumulator) {
-        descriptor.describe(Root(listOf(Context("ROOT", scopes))), ContextType.ENDPOINT)
-    }
+    private val _results: MutableList<Result> = results.toMutableList()
+    val results: List<Result>
+        get() = _results
 
-    override fun afterEach(accumulator: Accumulator, testMethodName: String) {
+    override fun afterEach(accumulator: Accumulator, testMetadata: TestMetadata) {
         val scopes = accumulator.results.entries
-            .map { (key, value) -> summarizePerScope(key, value) }
-        this.scopes.addAll(scopes)
+            .map { summarizePerScope(it.key, it.value) }
+            .toList()
+        _results.addAll(scopes)
     }
 
-    private fun summarizePerScope(scopeName: String, results: List<Result>): Scope {
-        val summary = summarize(results)
-        val summaries = toResult(summary)
-        return Scope(scopeName, summaries)
+    override fun afterAll(accumulator: Accumulator) {
+        val resultComposite = ResultComposite(TestMetadata.ROOT, results)
+        descriptor.describe(resultComposite, ContextType.ENDPOINT)
     }
 
-    private fun summarize(results: List<Result>): Map<String, Double> {
+    private fun summarizePerScope(scopeName: String, results: List<MonitorResult>): Result {
+        val summaries = summarize(results)
+        val testMetadata = TestMetadata(scopeName)
+        return ResultComposite(testMetadata, summaries);
+    }
+
+    private fun summarize(results: List<MonitorResult>): List<Result> {
         return results.groupBy { it.name }
-            .map { (key, value) -> key to value.average { it.elapsed } }
-            .toMap()
-    }
-
-    private fun toResult(summary: Map<String, Double>): List<Result> {
-        return summary.map { (key, value) ->
-            Result(key, value)
-        }
+            .map { (key, value) -> ResultLeaf(key, value.average { it.elapsed }) }
+            .toList()
     }
 }

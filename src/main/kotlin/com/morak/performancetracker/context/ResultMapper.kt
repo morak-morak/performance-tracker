@@ -8,17 +8,18 @@ import org.springframework.stereotype.Component
 
 @Component
 class ResultMapper {
-    fun mapMonitor(monitor: Monitor): Result {
+    fun mapMonitor(monitor: Monitor): MonitorResult {
         val result = mapToResult(monitor)
         monitor.clear()
         return result
     }
 
-    private fun mapToResult(monitor: Monitor): Result {
+    private fun mapToResult(monitor: Monitor): MonitorResult {
         return when (monitor) {
-            is QueryMonitor -> Result(monitor.query!!, monitor.queryTime)
-            is WebMonitor -> Result(monitor.method + " " + monitor.uri, monitor.elapsed.toDouble())
-            is RestMonitor -> Result(monitor.uri!!, monitor.elapsedTime.toDouble())
+            // todo: remove "!!"
+            is QueryMonitor -> MonitorResult(monitor.query!!, monitor.queryTime)
+            is WebMonitor -> MonitorResult(monitor.method + " " + monitor.uri, monitor.elapsed.toDouble())
+            is RestMonitor -> MonitorResult(monitor.uri!!, monitor.elapsedTime.toDouble())
             else -> throw IllegalArgumentException("Couldn't find proper monitor")
         }
     }

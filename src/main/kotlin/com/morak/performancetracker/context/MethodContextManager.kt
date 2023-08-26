@@ -6,27 +6,30 @@ import com.morak.performancetracker.utils.ConditionalOnPropertyContains
 import org.springframework.stereotype.Component
 
 @Component
-@ConditionalOnPropertyContains(value = "com.morak.performance-tracker.context.type", containsValue = "method", matchIfEmpty = true)
+@ConditionalOnPropertyContains(
+    value = "com.morak.performance-tracker.context.type",
+    containsValue = "method",
+    matchIfEmpty = true
+)
 class MethodContextManager(private val descriptor: Descriptor) : ContextManager {
-    private val contexts: Root = Root(ArrayList())
-    private var scopes: MutableList<Scope> = ArrayList()
+    private val root: ResultComposite = ResultComposite(TestMetadata.ROOT);
 
-    override fun afterEach(accumulator: Accumulator, testMethodName: String) {
-        val results = accumulator.results
-        scopes.add(Scope(testMethodName, flatResults(results)))
+    override fun beforeClass(testMetadata: TestMetadata) {
+        this.root.findAndAdd(ResultComposite(testMetadata), testMetadata.parent)
+    }
+
+    override fun beforeEach(testMetadata: TestMetadata) {
+        this.root.findAndAdd(ResultComposite(testMetadata), testMetadata.parent)
+    }
+
+    override fun afterEach(accumulator: Accumulator, testMetadata: TestMetadata) {
+        accumulator.results.values
+            .flatten()
+            .forEach { root.findAndAdd(ResultLeaf(it.name, it.elapsed), testMetadata) }
         accumulator.clear()
     }
 
-    private fun flatResults(results: Map<String, List<Result>>): List<Result> {
-        return results.values.flatten()
-    }
-
-    override fun afterClass(accumulator: Accumulator, testClassName: String) {
-        contexts.add(Context(testClassName, scopes))
-        scopes = ArrayList()
-    }
-
     override fun afterAll(accumulator: Accumulator) {
-        descriptor.describe(contexts, ContextType.METHOD)
+        descriptor.describe(root, ContextType.METHOD)
     }
 }
